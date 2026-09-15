@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://metalearnhub.github.io/dijae-cv-landing/sitemap.xml
