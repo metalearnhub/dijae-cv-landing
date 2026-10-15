@@ -89,10 +89,14 @@ h2{font-size:21px;line-height:1.25;font-weight:800}
 .vtabs button{flex:1;border:0;background:transparent;border-radius:8px;padding:7px 8px;font-size:13px;font-weight:700;cursor:pointer;color:#555;font-family:inherit}
 .vtabs button.on{background:var(--teal);color:#fff}
 .media canvas{width:100%;border-radius:10px;border:1px solid var(--line);display:block;background:#f3ece0;aspect-ratio:4/5}
-.fbtn{display:none;position:relative}
+.icon-btn.fbtn{display:none;position:relative}
 .fbtn.active:after{content:"";position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:50%;background:#c2410c}
 .more{display:contents}
 .chip{order:1}.search{order:2}.sel{order:3}.fbtn{order:4}.seg{order:5}
+.status.part{background:#fff4e0;color:#8a5a00;display:inline-flex;align-items:center;gap:6px}
+.pbar{display:inline-block;width:26px;height:6px;border-radius:3px;background:#f1d9b0;overflow:hidden}
+.pbar i{display:block;height:100%;background:var(--green)}
+.ttabs{max-width:320px}
 .empty{text-align:center;color:var(--muted);padding:60px 0}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:#1a1a1a;color:#fff;padding:11px 18px;border-radius:10px;font-size:14px;font-weight:600;opacity:0;transition:.2s;pointer-events:none;z-index:50}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -119,7 +123,7 @@ h2{font-size:21px;line-height:1.25;font-weight:800}
 .icon-btn{width:34px;height:34px}
 .bar{padding:0 0 8px;gap:6px;flex-wrap:wrap}
 .search{order:1;min-width:0;flex:1 1 0;padding:7px 12px;font-size:14px}
-.fbtn{display:inline-flex;order:2}.seg{order:3}
+.icon-btn.fbtn{display:inline-flex;order:2}.seg{order:3}
 .more{display:none;order:4;width:100%;flex-wrap:wrap;gap:6px;padding-top:2px}
 .bar.open .more{display:flex}
 .more .chip{padding:6px 12px;font-size:12.5px}
@@ -185,7 +189,7 @@ var DATA="https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/a
 var POSTS=[];
 
 function dlabel(d){try{return new Date(d+"T09:00:00+08:00").toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"});}catch(e){return d;}}
-var KEY="cb_verified_v2", MEKEY="cb_me_v1", VKEY="cb_view_v1", rec={}, filter="all", query="", me="", preview={}, view="list", sortBy="date", pillarF="", openRows={}, variant={}, artCache={};
+var KEY="cb_verified_v2", MEKEY="cb_me_v1", VKEY="cb_view_v1", rec={}, filter="all", query="", me="", preview={}, view="list", sortBy="date", pillarF="", openRows={}, variant={}, artCache={}, textVar={};
 try{var sv=JSON.parse(localStorage.getItem(VKEY)||"{}");if(sv.view)view=sv.view;if(sv.sort)sortBy=sv.sort;}catch(e){}
 function saveView(){try{localStorage.setItem(VKEY,JSON.stringify({view:view,sort:sortBy}));}catch(e){}}
 try{rec=JSON.parse(localStorage.getItem(KEY)||"{}")||{};}catch(e){rec={};}
@@ -212,12 +216,12 @@ function parseLinkedIn(raw){
   return{id:id,type:type,ms:ms,author:a?a[1].toLowerCase():null,link:"https://www.linkedin.com/feed/update/urn:li:"+type+":"+id+"/"};
 }
 
-function verify(p,raw){
+function verify(p,raw,slot){
   var r=parseLinkedIn(raw);if(r.err)return r;
   var now=Date.now(),added=new Date(p.added+"T00:00:00+08:00").getTime();
   if(r.ms<Date.UTC(2015,0,1)||r.ms>now+10*60000)return{err:"This ID doesn't decode to a real post date. Re-copy the link."};
   if(r.ms<added)return{err:"That post was published on "+fmt(r.ms)+", before this content was added to the bank. It's probably a different post."};
-  for(var k in rec){if(k!==p.id&&rec[k]&&rec[k].postId===r.id){var o=POSTS.filter(function(x){return x.id===k;})[0];return{err:"This link is already verified for "+(o?"post #"+String(POSTS.indexOf(o)+1).padStart(2,"0"):"another post")+". Each post needs its own link."};}}
+  for(var k in rec){if(k!==slot&&rec[k]&&rec[k].postId===r.id){var base=k.split("#")[0],o=POSTS.filter(function(x){return x.id===base;})[0];return{err:"This link is already verified for "+(o?"post #"+String(POSTS.indexOf(o)+1).padStart(2,"0")+(k.indexOf("#2")>0?" version 2":" version 1"):"another post")+". Each version needs its own link."};}}
   var mine=(me||"").trim().toLowerCase().replace(/^.*linkedin\.com\/in\//,"").replace(/\/.*$/,"");
   if(mine&&r.author&&r.author!==mine)return{err:"This post is from linkedin.com/in/"+r.author+", not your profile ("+mine+")."};
   var checks=["Real LinkedIn post link","Published "+fmt(r.ms)+", after this content was added"];
@@ -242,16 +246,16 @@ function downloadImage(url,name,btn){
 }
 
 function verifyBlock(p,i){
-  var v=rec[p.id];
+  var cv=curV(p),key=slotKey(p,cv),v=rec[key],vl=vers(p)>1?" (version "+cv+")":"";
   if(v&&v.postId){
-    return '<div class="verify ok"><div class="vmsg good">✓ Verified posted on LinkedIn<ul>'+v.checks.map(function(c){return"<li>"+esc(c)+"</li>";}).join("")+'</ul></div>'+
+    return '<div class="verify ok"><div class="vmsg good">✓ Verified posted on LinkedIn'+vl+'<ul>'+v.checks.map(function(c){return"<li>"+esc(c)+"</li>";}).join("")+'</ul></div>'+
       '<div class="btns"><a class="btn ghost sm" href="'+esc(v.link)+'" target="_blank" rel="noopener">Open post ↗</a>'+
-      '<button class="btn ghost sm" data-a="preview" data-i="'+i+'">'+(preview[p.id]?"Hide preview":"Show post preview")+'</button>'+
+      '<button class="btn ghost sm" data-a="preview" data-i="'+i+'">'+(preview[key]?"Hide preview":"Show post preview")+'</button>'+
       '<button class="btn ghost sm" data-a="undo" data-i="'+i+'">Remove verification</button></div>'+
-      (preview[p.id]?'<iframe class="embed" src="https://www.linkedin.com/embed/feed/update/urn:li:'+esc(v.type)+':'+esc(v.postId)+'" title="LinkedIn post preview" loading="lazy" allowfullscreen></iframe><div class="vmsg" style="color:#666;font-size:12.5px">If the preview stays blank, LinkedIn is blocking the embed. Use Open post instead.</div>':'')+
+      (preview[key]?'<iframe class="embed" src="https://www.linkedin.com/embed/feed/update/urn:li:'+esc(v.type)+':'+esc(v.postId)+'" title="LinkedIn post preview" loading="lazy" allowfullscreen></iframe><div class="vmsg" style="color:#666;font-size:12.5px">If the preview stays blank, LinkedIn is blocking the embed. Use Open post instead.</div>':'')+
       '</div>';
   }
-  return '<div class="verify"><div class="label">Verify it\'s posted</div><div class="vrow"><input id="u_'+p.id+'" type="url" inputmode="url" placeholder="Paste the LinkedIn post link" autocomplete="off">'+
+  return '<div class="verify"><div class="label">Verify it\'s posted'+vl+'</div><div class="vrow"><input id="u_'+p.id+'" type="url" inputmode="url" placeholder="Paste the LinkedIn post link" autocomplete="off">'+
     '<button class="btn primary" data-a="verify" data-i="'+i+'">Verify</button></div><div class="vmsg" id="m_'+p.id+'"></div></div>';
 }
 
@@ -277,7 +281,18 @@ function composeArt(p){
   return artCache[p.id];
 }
 function drawCanvases(){POSTS.forEach(function(p){if(variant[p.id]!=="b")return;var el=document.getElementById("cv_"+p.id);if(!el)return;composeArt(p).then(function(c){el.getContext("2d").drawImage(c,0,0);}).catch(function(){var ctx=el.getContext("2d");ctx.fillStyle="#666";ctx.font="28px sans-serif";ctx.fillText("Couldn't load the illustration.",60,600);});});}
-function isV(p){return !!(rec[p.id]&&rec[p.id].postId);}
+function vers(p){return p.post2?2:1;}
+function slotKey(p,v){return v===2?p.id+"#2":p.id;}
+function isSlot(p,v){var r=rec[slotKey(p,v)];return !!(r&&r.postId);}
+function vcount(p){var n=0;for(var v=1;v<=vers(p);v++)if(isSlot(p,v))n++;return n;}
+function isV(p){return vcount(p)>0;}
+function curV(p){return (textVar[p.id]===2&&p.post2)?2:1;}
+function curText(p){return curV(p)===2?p.post2:p.post;}
+function curComment(p){return curV(p)===2&&p.comment2?p.comment2:p.comment;}
+function statusBadge(p,short){var n=vcount(p),t=vers(p);
+  if(!n)return '';
+  if(n>=t)return '<span class="status done">✓ '+(t>1?(short?n+' of '+t:'Both versions posted'):'Posted')+'</span>';
+  return '<span class="status part" title="'+n+' of '+t+' versions posted"><span class="pbar"><i style="width:'+Math.round(n/t*100)+'%"></i></span>'+n+' of '+t+(short?'':' posted')+'</span>';}
 function cardHTML(p,i,nextId){
   var isP=isV(p);
   return '<article class="card">'+
@@ -286,13 +301,14 @@ function cardHTML(p,i,nextId){
       '<button class="btn primary full" data-a="dl" data-i="'+i+'">⬇ Download '+(variant[p.id]==="b"?'creative':'diagram')+' image</button>'+
       '<button class="btn ghost full" data-a="alt" data-i="'+i+'">Copy alt text</button></div>'+
       '<div class="content"><div class="meta"><span class="num">#'+String(i+1).padStart(2,"0")+'</span><span class="tag">'+esc(p.pillar)+'</span><span class="num">'+esc(dlabel(p.date))+'</span>'+(p.id===nextId?'<span class="next">Next up</span>':'')+
-      '<span class="status'+(isP?' done':'')+'">'+(isP?'✓ Verified · '+esc(new Date(rec[p.id].postedAt).toLocaleDateString(undefined,{month:"short",day:"numeric"})):'Ready')+'</span></div>'+
+      (isP?statusBadge(p):'<span class="status">Ready</span>')+'</div>'+
       '<h2>'+esc(p.title)+'</h2>'+
-      '<div class="label">Post <small>'+p.post.length+' characters</small></div>'+
-      '<div class="text">'+esc(p.post)+'</div>'+
-      (p.comment?'<div class="label">First comment</div><div class="text small">'+esc(p.comment)+'</div>':'')+
-      '<div class="btns"><button class="btn primary" data-a="post" data-i="'+i+'">Copy post</button>'+
-      (p.comment?'<button class="btn ghost" data-a="comment" data-i="'+i+'">Copy first comment</button>':'')+'</div>'+
+      (p.post2?'<div class="vtabs ttabs">'+[1,2].map(function(n){return '<button class="'+(curV(p)===n?'on':'')+'" data-a="t'+n+'" data-i="'+i+'">Version '+n+(isSlot(p,n)?' ✓':'')+'</button>';}).join('')+'</div>':'')+
+      '<div class="label">Post'+(p.post2?' · version '+curV(p):'')+' <small>'+curText(p).length+' characters</small></div>'+
+      '<div class="text">'+esc(curText(p))+'</div>'+
+      (curComment(p)?'<div class="label">First comment</div><div class="text small">'+esc(curComment(p))+'</div>':'')+
+      '<div class="btns"><button class="btn primary" data-a="post" data-i="'+i+'">Copy post'+(p.post2?' (version '+curV(p)+')':'')+'</button>'+
+      (curComment(p)?'<button class="btn ghost" data-a="comment" data-i="'+i+'">Copy first comment</button>':'')+'</div>'+
       (p.blog?'<div class="blog">Related blog post: <a href="'+esc(p.blog.url)+'" target="_blank" rel="noopener">'+esc(p.blog.title)+' ↗</a></div>':'')+
       verifyBlock(p,i)+'</div></article>';
 }
@@ -304,7 +320,7 @@ function rowHTML(p,i,nextId){
     '<span class="num hide-m">'+esc(dlabel(p.date))+'</span>'+
     '<span class="hide-m"><span class="tag">'+esc(p.pillar)+'</span></span>'+
     '<span style="min-width:0"><span class="ltitle">'+esc(p.title)+'</span><span class="lsub">#'+String(i+1).padStart(2,"0")+' · '+esc(dlabel(p.date))+' · '+esc(p.pillar)+'</span></span>'+
-    '<span>'+(isP?'<span class="status done">✓ Verified</span>':(p.id===nextId?'<span class="next">Next up</span>':'<span class="status">Ready</span>'))+'</span>'+
+    '<span>'+(isP?statusBadge(p,true):(p.id===nextId?'<span class="next">Next up</span>':'<span class="status">Ready</span>'))+'</span>'+
     '<span class="lq"><button class="ib" data-a="post" data-i="'+i+'" title="Copy post" aria-label="Copy post">⧉</button><button class="ib hide-m" data-a="dl" data-i="'+i+'" title="Download image" aria-label="Download image">⬇</button></span>'+
     '<span class="chev">▶</span></div>'+
     (open?'<div class="lbody">'+cardHTML(p,i,nextId)+'</div>':'')+'</div>';
@@ -332,7 +348,7 @@ function render(){
   document.getElementById("stats").innerHTML="<b>"+POSTS.length+"</b> posts · <b>"+done+"</b> verified";
   document.getElementById("vList").classList.toggle("on",view==="list");document.getElementById("vCards").classList.toggle("on",view!=="list");
   document.getElementById("sort").value=sortBy;
-  var s2=document.getElementById("stats2");if(s2)s2.innerHTML="<b>"+done+"</b> of <b>"+POSTS.length+"</b> posts verified on LinkedIn";
+  var s2=document.getElementById("stats2");if(s2){var used=0,tot=0;POSTS.forEach(function(p){used+=vcount(p);tot+=vers(p);});s2.innerHTML="<b>"+done+"</b> of <b>"+POSTS.length+"</b> posts verified<br><b>"+used+"</b> of <b>"+tot+"</b> versions used, <b>"+(tot-used)+"</b> left to post or recycle";}
   document.getElementById("fbtn").classList.toggle("active",filter!=="all"||!!pillarF||sortBy!=="date");
   drawCanvases();
 }
@@ -341,8 +357,10 @@ function fillPillars(){var sel=document.getElementById("pillar"),seen={};POSTS.f
 document.getElementById("grid").addEventListener("click",function(e){
   var b=e.target.closest("[data-a]");if(!b||b.tagName==="A")return;var p=POSTS[+b.dataset.i],a=b.dataset.a;
   if(b.classList.contains("ib")||b.closest(".lq"))e.stopPropagation();
-  if(a==="post")copyText(p.post,b,"Post");
-  else if(a==="comment")copyText(p.comment,b,"First comment");
+  if(a==="post")copyText(curText(p),b,p.post2?"Version "+curV(p):"Post");
+  else if(a==="comment")copyText(curComment(p),b,"First comment");
+  else if(a==="t1"){textVar[p.id]=1;render();}
+  else if(a==="t2"){textVar[p.id]=2;render();}
   else if(a==="alt")copyText(variant[p.id]==="b"&&p.artAlt?p.artAlt:p.alt,b,"Alt text");
   else if(a==="dl"){
     if(variant[p.id]==="b"&&p.art&&!b.classList.contains("ib")){var o=b.innerHTML;b.innerHTML="Preparing…";composeArt(p).then(function(c){c.toBlob(function(bl){var u=URL.createObjectURL(bl),l=document.createElement("a");l.href=u;l.download=p.artFile||"creative.png";document.body.appendChild(l);l.click();l.remove();setTimeout(function(){URL.revokeObjectURL(u);},4000);b.innerHTML=o;toast("Creative image downloaded");},"image/png");}).catch(function(){b.innerHTML=o;toast("Couldn't prepare the creative image");});}
@@ -350,12 +368,12 @@ document.getElementById("grid").addEventListener("click",function(e){
   else if(a==="va"){variant[p.id]="a";render();}
   else if(a==="vb"){variant[p.id]="b";render();}
   else if(a==="verify"){
-    var inp=document.getElementById("u_"+p.id),msg=document.getElementById("m_"+p.id),r=verify(p,inp.value);
+    var inp=document.getElementById("u_"+p.id),msg=document.getElementById("m_"+p.id),r=verify(p,inp.value,slotKey(p,curV(p)));
     if(r.err){msg.className="vmsg err";msg.textContent=r.err;return;}
-    rec[p.id]=r.rec;save();render();toast("Verified");
+    rec[slotKey(p,curV(p))]=r.rec;save();render();toast(p.post2?"Version "+curV(p)+" verified":"Verified");
   }
-  else if(a==="undo"){delete rec[p.id];delete preview[p.id];save();render();}
-  else if(a==="preview"){preview[p.id]=!preview[p.id];render();}
+  else if(a==="undo"){var k=slotKey(p,curV(p));delete rec[k];delete preview[k];save();render();}
+  else if(a==="preview"){var k2=slotKey(p,curV(p));preview[k2]=!preview[k2];render();}
   else if(a==="row"){openRows[p.id]=!openRows[p.id];render();}
 });
 document.getElementById("grid").addEventListener("keydown",function(e){

@@ -19,7 +19,8 @@
    "art": "https://paymegpt.com/objects/generated-images/814/1792057264537-f9db1a92e5cb26eb.png",
    "artTitle": "An AI agent is software.\nShip it like software.",
    "artAlt": "Illustration of a friendly robot on an assembly line passing through version, test and launch gates, with a rewind arrow back to the start.",
-   "artFile": "01-development-creative.png"
+   "artFile": "01-development-creative.png",
+   "post2": "Your AI agent changed last week. Can you say exactly what changed?\n\nIf the answer is no, you have a demo, not a system.\n\nProduction AI needs the same habits as any other software:\n\n1. Every prompt and tool change is versioned\n2. Every change is tested before customers see it\n3. Every release can be rolled back in one step\n\nIt sounds basic. It's also where many agent problems start: a quiet edit nobody tracked.\n\nAbout two in ten respondents in McKinsey's 2026 State of AI survey say their organization has reached the scaling phase with AI agents. Scaling without version control is how small mistakes become big ones.\n\nWhat's your rollback plan if your agent misbehaves tomorrow?\n\n#AIAgents #SoftwareEngineering #Automation"
   },
   {
    "id": "p02",
@@ -39,7 +40,8 @@
    "art": "https://paymegpt.com/objects/generated-images/814/1792057337047-91a24b1174549111.png",
    "artTitle": "Change one thing.\nThen measure.",
    "artAlt": "Illustration of a robot turning one highlighted dial while speed, cost and accuracy gauges respond.",
-   "artFile": "02-optimization-creative.png"
+   "artFile": "02-optimization-creative.png",
+   "post2": "\"We improved the bot\" isn't a result. \"Replies got faster and cost per conversation went down\" is.\n\nWhen an AI agent gets better, someone should be able to say which change caused it.\n\nThat only happens if you change one thing at a time:\n\n→ Same test set before and after\n→ One variable per release: the model, the prompt or a tool\n→ Cost, speed and accuracy recorded every time\n\nChange three things at once and you'll never know what worked, or what to undo.\n\nWhat was the last change you made to your AI, and how did you measure it?\n\n#AIAgents #ContinuousImprovement #Automation"
   },
   {
    "id": "p03",
@@ -59,7 +61,8 @@
    "art": "https://paymegpt.com/objects/generated-images/814/1792057349673-516864ef5a625487.png",
    "artTitle": "If an agent acted,\nyou should see why.",
    "artAlt": "Illustration of a magnifying glass revealing the gears inside a transparent robot, with a trail of log cards behind it.",
-   "artFile": "03-audit-creative.png"
+   "artFile": "03-audit-creative.png",
+   "post2": "\"The AI did something weird\" is not an incident report.\n\nWhen an agent touches customers, money or data, you need a trail you can read:\n\n✓ What it was asked\n✓ Which tools it called\n✓ What it said or did\n✓ Who approved it\n✓ When it happened\n\nWithout that trail, every investigation starts with guessing. With it, most questions take minutes.\n\nNIST's AI Risk Management Framework groups this work under Measure and Manage, two of its four functions alongside Govern and Map.\n\nIf your agent made a mistake yesterday, how long would it take to find out why?\n\n#AIGovernance #Compliance #AIAgents"
   },
   {
    "id": "p04",
@@ -76,7 +79,8 @@
    "art": "https://paymegpt.com/objects/generated-images/814/1792057362548-07501345b7d3f448.png",
    "artTitle": "People judge.\nModels learn.",
    "artAlt": "Illustration of a hand placing a checkmark on one of two answer cards on a scale while a robot takes notes.",
-   "artFile": "04-ai-training-creative.png"
+   "artFile": "04-ai-training-creative.png",
+   "post2": "Bigger isn't always better. Better feedback often is.\n\nIn OpenAI's 2022 InstructGPT study, people preferred answers from a 1.3-billion-parameter model trained with human feedback over answers from the 175-billion-parameter GPT-3.\n\nThat's a model with about 100 times fewer parameters winning on what people actually wanted.\n\nThe idea builds on a 2017 paper by Christiano et al., which trained agents on human preferences with feedback on less than 1% of their interactions.\n\nThe quiet lesson for every business using AI: the quality of human judgment shapes the quality of the output.\n\nWho in your team decides what a good answer looks like?\n\n#AI #MachineLearning #HumanInTheLoop"
   },
   {
    "id": "p05",
@@ -96,7 +100,8 @@
    "art": "https://paymegpt.com/objects/generated-images/814/1792057375811-10761fc43b55bb21.png",
    "artTitle": "The first reply wins\nmore deals.",
    "artAlt": "Illustration of a message paper plane breaking the finish line ahead of slower chat bubbles, with a stopwatch.",
-   "artFile": "05-speed-creative.png"
+   "artFile": "05-speed-creative.png",
+   "post2": "Your next customer is messaging three businesses right now. The first to answer usually gets the conversation.\n\nThat's why reply speed matters more than a perfect script. Harvard Business Review's research on online sales leads found most companies don't respond nearly fast enough.\n\nA simple test for this week:\n\n1. Send your own business an inquiry at 9 PM\n2. Time the first reply\n3. Count the follow-ups you receive over the next three days\n\nIf the answers are \"next morning\" and \"none,\" you've found your biggest leak.\n\nWhat did your test show?\n\n#LeadGeneration #CustomerExperience #SalesAutomation"
   },
   {
    "id": "p06",
@@ -116,7 +121,8 @@
    "art": "https://paymegpt.com/objects/generated-images/814/1792057392280-eb03e04922ad82bc.png",
    "artTitle": "Cost per resolved\nconversation.",
    "artAlt": "Illustration of a coin dropping into a chat bubble that becomes a checkmark, beside a balanced scale.",
-   "artFile": "06-cost-creative.png"
+   "artFile": "06-cost-creative.png",
+   "post2": "A chatbot that costs little and resolves nothing is the most expensive tool you own.\n\nPrice per month is the wrong question. Value per conversation is the right one.\n\nBefore you judge any AI agent, write down five numbers from the month before launch:\n\n1. Time to first reply\n2. Share of conversations resolved without a person\n3. Conversion rate\n4. Cost per conversation\n5. How often a handoff reaches a person with the full context\n\nThen compare the month after. That's your ROI, not a vendor's estimate.\n\nWhich of these numbers do you already have today?\n\n#AIAgents #ROI #BusinessAutomation"
   },
   {
    "id": "p07",
@@ -136,7 +142,8 @@
    "art": "https://paymegpt.com/objects/generated-images/814/1792057407401-2501e060dec8e9c8.png",
    "artTitle": "Customers don't hate AI.\nThey hate being trapped.",
    "artAlt": "Illustration of a robot handing a glowing chat bubble to a smiling support agent at an open door.",
-   "artFile": "07-handoff-creative.png"
+   "artFile": "07-handoff-creative.png",
+   "post2": "The fastest way to make customers hate your AI: make it impossible to reach a person.\n\nIn a Gartner survey of 5,728 customers, 64% said they'd prefer companies didn't use AI for customer service. Their top concern was that it would get harder to reach a person.\n\nA simple rule set to start with:\n\n→ \"Talk to a person\" works on the first request, every time\n→ Complaints, refunds and large orders go to a person automatically\n→ The person sees the full conversation, so the customer never repeats themselves\n\nGood AI handles the routine. Good handoffs protect the relationship.\n\nCan a customer reach a person in your business in one step?\n\n#CustomerService #CustomerExperience #AIAgents"
   },
   {
    "id": "p08",
@@ -156,7 +163,8 @@
    "art": "https://paymegpt.com/objects/generated-images/814/1792057421292-865448d25a07b944.png",
    "artTitle": "Brief your AI agent\nlike a new hire.",
    "artAlt": "Illustration of a robot on its first day at work reading an onboarding binder at a tidy desk.",
-   "artFile": "08-instructions-creative.png"
+   "artFile": "08-instructions-creative.png",
+   "post2": "Your AI isn't confused. It was never briefed.\n\nEvery rule you leave out, the AI fills in with a guess. That's where wrong prices, made-up policies and awkward replies come from.\n\nBefore you blame the model, check the instruction:\n\n→ Does it say who the AI serves, and who it doesn't?\n→ Does it list what it may promise, and what it must never say?\n→ Does it name the sources of truth for prices and policies?\n→ Does it say exactly when to hand the conversation to a person?\n\nIf a new hire couldn't work from it on day one, neither can your AI.\n\nWhat's missing from your AI's instructions right now?\n\n#AIAgents #PromptEngineering #CustomerService"
   },
   {
    "id": "p09",
@@ -176,7 +184,8 @@
    "art": "https://paymegpt.com/objects/generated-images/814/1792057434308-b5606e429fb8dfd5.png",
    "artTitle": "A chatbot answers.\nAn agent acts.",
    "artAlt": "Illustration of a robot plugging one connector into a hub linked to a calendar, folder, database and contact card.",
-   "artFile": "09-mcp-creative.png"
+   "artFile": "09-mcp-creative.png",
+   "post2": "Connecting AI to your business tools used to mean a custom build for every system. That's changing.\n\nThe Model Context Protocol (MCP) is an open standard for connecting AI assistants to the systems where your data lives. Anthropic introduced it in November 2024. In December 2025 it was donated to the Agentic AI Foundation under the Linux Foundation, co-founded by Anthropic, Block and OpenAI.\n\nWhat that means in practice:\n\n→ Fewer one-off integrations\n→ One common way for agents to reach your CRM, calendar and files\n→ New responsibility: every connection is a permission to manage\n\nMy advice: start read-only, log every action and add write access one tool at a time.\n\nWhich tool would you trust an AI agent to write to first?\n\n#MCP #AIIntegration #AIAgents"
   },
   {
    "id": "p10",
@@ -196,7 +205,8 @@
    "art": "https://paymegpt.com/objects/generated-images/814/1792057446318-36df13c9c62dad99.png",
    "artTitle": "AI runs a broken\nprocess faster.",
    "artAlt": "Illustration of tangled pipes straightened into one clean line, with a robot waiting to attach a motor.",
-   "artFile": "10-process-creative.png"
+   "artFile": "10-process-creative.png",
+   "post2": "The tools come last.\n\nWhen a business asks for an AI chatbot, I start with the process. Who replies today? Where do leads wait? What happens after 6 PM?\n\nThe answers usually show the real problem isn't missing AI. It's a broken handoff, a missing follow-up, or no single place where leads live.\n\nMcKinsey's 2026 State of AI survey points the same way: nearly three-quarters of AI high performers redesign workflows around AI, compared with about one in four of everyone else.\n\nFix the flow. Then automate it. Then add AI where it earns its place.\n\nWhich step in your process would you redesign first?\n\n#AIStrategy #ProcessImprovement #Automation"
   },
   {
    "id": "p11",
@@ -216,7 +226,8 @@
    "art": "https://paymegpt.com/objects/generated-images/814/1792057459701-ce1c7600e869696b.png",
    "artTitle": "Your chatbot speaks\nfor your business.",
    "artAlt": "Illustration of a chat bubble balanced on scales of justice against a company building with a checkmark shield.",
-   "artFile": "11-accountability-creative.png"
+   "artFile": "11-accountability-creative.png",
+   "post2": "\"The chatbot said it\" is not a defense.\n\nIn Moffatt v. Air Canada (February 2024), a Canadian tribunal held the airline responsible for wrong fare information its website chatbot gave a customer. The argument that the chatbot was responsible for its own actions didn't hold.\n\nThree practical rules follow for any business:\n\n→ Your AI answers only from approved sources: prices, policies, terms\n→ Anything uncertain goes to a person, not a guess\n→ Every change to the AI is tested before it goes live\n\nYour chatbot is part of your website, and your website is your word.\n\nWho reviews what your AI tells customers?\n\n#AIGovernance #RiskManagement #CustomerService"
   },
   {
    "id": "p12",
@@ -236,7 +247,8 @@
    "art": "https://paymegpt.com/objects/generated-images/814/1792057471010-98baa4053178044e.png",
    "artTitle": "Sell the outcome,\nnot the hours.",
    "artAlt": "Illustration of a scale where a growth chart outweighs an hourglass, next to steps with a flag on top.",
-   "artFile": "12-pricing-creative.png"
+   "artFile": "12-pricing-creative.png",
+   "post2": "If you charge by the hour for automation, you get paid less every time you get better.\n\nClients don't want hours. They want answered inquiries, booked calls and time back.\n\nA simple shift:\n\n1. Find the cost of the problem first: missed leads, slow replies, manual hours\n2. Price against that value, not your time\n3. Offer three levels, so the client chooses the scope, not whether to buy\n4. Add monthly optimization, because AI systems need tuning\n\nMy rule: never quote on the first call. Understand the problem and the numbers first, then send a written proposal tied to them.\n\nWhat's stopping you from moving away from hourly pricing?\n\n#Freelancing #Pricing #AIAutomation"
   },
   {
    "id": "p13",
@@ -256,7 +268,8 @@
    "art": "https://paymegpt.com/objects/generated-images/814/1792057485702-96bd4745a7288c1f.png",
    "artTitle": "Get clients without\nliving on social media.",
    "artAlt": "Illustration of a lighthouse guiding small boats to a dock with a calendar sign.",
-   "artFile": "13-clients-creative.png"
+   "artFile": "13-clients-creative.png",
+   "post2": "Posting every day isn't a client strategy. It's a full-time job.\n\nFor consultants, coaches and freelancers, a calmer path works: content that gets found in search, a clear first step, instant replies, easy booking and patient follow-up.\n\nWhere AI fits:\n\n→ Answering every inquiry within a minute, day or night\n→ Following up until each person decides\n→ Keeping your calendar and CRM in sync\n\nWhere it doesn't: knowing who you help and why it matters. That part is yours.\n\nAn hour a day is enough when the system remembers for you.\n\nHow do most of your clients find you today?\n\n#Consulting #Coaching #ClientAcquisition"
   },
   {
    "id": "p14",
@@ -276,7 +289,8 @@
    "art": "https://paymegpt.com/objects/generated-images/814/1792057499841-f3e41b0a26878e7c.png",
    "artTitle": "Assist first.\nAutomate second.",
    "artAlt": "Illustration of a person driving while a robot co-pilot points at a map.",
-   "artFile": "14-assist-creative.png"
+   "artFile": "14-assist-creative.png",
+   "post2": "The best first AI project isn't full automation. It's a better assistant for your team.\n\nLet the AI draft replies, flag buying intent and suggest next steps. Let your people approve, edit or take over.\n\nYou get three things fast:\n\n→ Consistent answers across your whole team\n→ A clear view of where the AI is reliable\n→ Evidence for what's safe to automate fully\n\nThen automate the parts that have earned it, not the parts that sounded easy in a demo.\n\nIs your team using AI as an assistant yet, or still deciding?\n\n#AIAgents #HumanInTheLoop #FutureOfWork"
   }
  ]
 }
