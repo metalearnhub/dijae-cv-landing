@@ -130,6 +130,7 @@ h2{font-size:21px;line-height:1.25;font-weight:800}
 .more .sel{flex:1 1 40%;max-width:none;min-width:0}
 main{padding:12px 0 40px}
 .card{grid-template-columns:1fr}.media img{max-width:360px;margin:0 auto}}
+.syncb{font-size:12px;padding:3px 9px;border-radius:999px;white-space:nowrap}.syncb.on{background:#e8f4f1;color:#00594a}.syncb.off{background:#fff4ec;color:#9a3412}@media(max-width:640px){.syncb{font-size:11px;white-space:normal}}
 </style>
 </head>
 <body>
@@ -137,7 +138,7 @@ main{padding:12px 0 40px}
   <div class="wrap">
     <div class="top">
       <div class="brand">DIJAE DADULA <span>· CONTENT BANK</span></div>
-      <div class="right"><div class="stats" id="stats"></div><button class="icon-btn" id="openSettings" aria-label="Settings" title="Settings"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button></div>
+      <div class="right"><div class="stats" id="stats"></div><span class="syncb off" id="syncb">Connecting…</span><button class="icon-btn" id="openSettings" aria-label="Settings" title="Settings"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button></div>
     </div>
     <div class="bar" id="bar">
       <div class="more">
@@ -177,7 +178,7 @@ main{padding:12px 0 40px}
       </ol>
     </div>
     <div class="sec"><h4>About verification</h4>
-      <div class="note">Verify checks that the link is a real LinkedIn post, reads its publish time from the post ID, confirms it's from your profile and isn't reused on another card. It can't read the post's text, so use Show post preview to confirm. Verifications are saved in this browser only.</div>
+      <div class="note">Verify checks that the link is a real LinkedIn post, reads its publish time from the post ID, confirms it's from your profile and isn't reused on another card. It can't read the post's text, so use Show post preview to confirm. Verifications and your profile ID sync across every device and browser you open the content bank on.</div>
     </div>
   </div>
 </aside>
@@ -196,6 +197,20 @@ try{rec=JSON.parse(localStorage.getItem(KEY)||"{}")||{};}catch(e){rec={};}
 var DEFAULT_ME="dijaedadula";me=DEFAULT_ME;
 try{me=localStorage.getItem(MEKEY)||DEFAULT_ME;}catch(e){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(rec));}catch(e){}}
+/* ---- Cross-device sync: verifications and profile live in Supabase (edge function content-bank). The key is injected by the PayMeGPT shell behind the passcode gate. ---- */
+var SYNC="https://qbubwemdvwflxvxwesrl.supabase.co/functions/v1/content-bank",SKEY=window.CB_SYNC_KEY||"",syncOk=false,syncBusy=0;
+try{if(SKEY)localStorage.setItem("cb_sync_key",SKEY);else SKEY=localStorage.getItem("cb_sync_key")||"";}catch(e){}
+function api(body){if(!SKEY)return Promise.reject("nokey");syncBusy++;return fetch(SYNC,{method:"POST",headers:{"content-type":"application/json","x-cb-key":SKEY},body:JSON.stringify(body)}).then(function(r){if(!r.ok)throw r.status;return r.json();}).then(function(d){syncBusy--;syncOk=true;syncBadge();return d;},function(e){syncBusy--;syncOk=false;syncBadge();throw e;});}
+function applyRemote(d){if(!d||!d.rec)return;var a=JSON.stringify(rec);rec=d.rec;save();if(d.me&&d.me!==me){me=d.me;try{localStorage.setItem(MEKEY,me);}catch(e){}var mi=document.getElementById("me");if(mi&&document.activeElement!==mi)mi.value=me;}if(JSON.stringify(rec)!==a&&POSTS.length)render();}
+function syncBadge(){var b=document.getElementById("syncb");if(!b)return;if(!SKEY){b.textContent="Sync off: saved in this browser only";b.className="syncb off";return;}b.textContent=syncOk?"Synced across your devices":"Offline: changes saved here, will sync when back online";b.className="syncb "+(syncOk?"on":"off");}
+var firstPull=true;
+function pull(){if(!SKEY){syncBadge();return;}var p=firstPull&&Object.keys(rec).length?api({action:"merge",rec:rec}):api({action:"get"});firstPull=false;p.then(applyRemote).catch(function(){});}
+function pushSet(k){api({action:"set",slot:k,value:rec[k]}).then(applyRemote).catch(function(){});}
+function pushDel(k){api({action:"del",slot:k}).then(applyRemote).catch(function(){});}
+setInterval(function(){if(!document.hidden&&!syncBusy)pull();},20000);
+document.addEventListener("visibilitychange",function(){if(!document.hidden)pull();});
+window.addEventListener("focus",pull);
+window.addEventListener("storage",function(e){if(e.key===KEY){try{rec=JSON.parse(e.newValue||"{}")||{};}catch(x){}if(POSTS.length)render();}});
 function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
 function toast(m){var t=document.getElementById("toast");t.textContent=m;t.classList.add("show");clearTimeout(t._h);t._h=setTimeout(function(){t.classList.remove("show");},2000);}
 function fmt(ms){return new Date(ms).toLocaleString(undefined,{year:"numeric",month:"short",day:"numeric",hour:"numeric",minute:"2-digit"});}
@@ -370,9 +385,9 @@ document.getElementById("grid").addEventListener("click",function(e){
   else if(a==="verify"){
     var inp=document.getElementById("u_"+p.id),msg=document.getElementById("m_"+p.id),r=verify(p,inp.value,slotKey(p,curV(p)));
     if(r.err){msg.className="vmsg err";msg.textContent=r.err;return;}
-    rec[slotKey(p,curV(p))]=r.rec;save();render();toast(p.post2?"Version "+curV(p)+" verified":"Verified");
+    var sk=slotKey(p,curV(p));rec[sk]=r.rec;save();pushSet(sk);render();toast(p.post2?"Version "+curV(p)+" verified":"Verified");
   }
-  else if(a==="undo"){var k=slotKey(p,curV(p));delete rec[k];delete preview[k];save();render();}
+  else if(a==="undo"){var k=slotKey(p,curV(p));delete rec[k];delete preview[k];save();pushDel(k);render();}
   else if(a==="preview"){var k2=slotKey(p,curV(p));preview[k2]=!preview[k2];render();}
   else if(a==="row"){openRows[p.id]=!openRows[p.id];render();}
 });
@@ -390,14 +405,14 @@ document.getElementById("pillar").addEventListener("change",function(e){pillarF=
 document.getElementById("vList").addEventListener("click",function(){view="list";saveView();render();});
 document.getElementById("vCards").addEventListener("click",function(){view="cards";saveView();render();});
 var meIn=document.getElementById("me");meIn.value=me;
-meIn.addEventListener("change",function(){me=meIn.value.trim();try{localStorage.setItem(MEKEY,me);}catch(e){}toast(me?"Profile saved":"Profile cleared");});
+meIn.addEventListener("change",function(){me=meIn.value.trim();try{localStorage.setItem(MEKEY,me);}catch(e){}api({action:"me",me:me}).catch(function(){});toast(me?"Profile saved":"Profile cleared");});
 function openS(o){document.getElementById("drawer").classList.toggle("open",o);document.getElementById("scrim").classList.toggle("open",o);document.getElementById("drawer").setAttribute("aria-hidden",o?"false":"true");if(o)setTimeout(function(){document.getElementById("me").focus();},250);}
 document.getElementById("openSettings").addEventListener("click",function(){openS(true);});
 document.getElementById("closeSettings").addEventListener("click",function(){openS(false);});
 document.getElementById("scrim").addEventListener("click",function(){openS(false);});
 document.addEventListener("keydown",function(e){if(e.key==="Escape")openS(false);});
 document.getElementById("grid").innerHTML='<div class="empty">Loading posts…</div>';
-fetch(DATA+"?t="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(d){POSTS=(d.posts||[]).slice().sort(function(a,b){return a.date<b.date?-1:a.date>b.date?1:0;});fillPillars();render();}).catch(function(){document.getElementById("grid").innerHTML='<div class="empty">Couldn\'t load posts. Check your connection and reload.</div>';});
+fetch(DATA+"?t="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(d){POSTS=(d.posts||[]).slice().sort(function(a,b){return a.date<b.date?-1:a.date>b.date?1:0;});fillPillars();render();pull();}).catch(function(){document.getElementById("grid").innerHTML='<div class="empty">Couldn\'t load posts. Check your connection and reload.</div>';});
 </script>
 </body>
 </html>
