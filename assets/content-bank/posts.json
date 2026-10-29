@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-15",
+ "updated": "2026-10-29",
  "posts": [
   {
    "id": "p01",
@@ -291,6 +291,73 @@
    "artAlt": "Illustration of a person driving while a robot co-pilot points at a map.",
    "artFile": "14-assist-creative.png",
    "post2": "The best first AI project isn't full automation. It's a better assistant for your team.\n\nLet the AI draft replies, flag buying intent and suggest next steps. Let your people approve, edit or take over.\n\nYou get three things fast:\n\n→ Consistent answers across your whole team\n→ A clear view of where the AI is reliable\n→ Evidence for what's safe to automate fully\n\nThen automate the parts that have earned it, not the parts that sounded easy in a demo.\n\nIs your team using AI as an assistant yet, or still deciding?\n\n#AIAgents #HumanInTheLoop #FutureOfWork"
+  }
+ ],
+ "facebook": [
+  {
+   "slug": "what-is-an-ai-agent",
+   "blogTitle": "What Is an AI Agent? A Plain-English Guide",
+   "blogUrl": "https://www.dijaedadula.com/what-is-an-ai-agent",
+   "message": "A chatbot answers. An agent acts.\n\nMost businesses don't need more AI tools. They need clarity on which work to hand to an agent, and which still needs a person.\n\nThe plain-English guide:\nhttps://www.dijaedadula.com/what-is-an-ai-agent",
+   "image": "https://statics.pancake.vn/web-media-264/26/c1/ec/32/3a2e9da5c1cdab96feb409df417990caadf3a08a4598ebb7c919698f.png",
+   "when": "2026-10-15T14:10:00+08:00",
+   "fbUrl": "https://www.facebook.com/1579937777474981/posts/1782018600600230"
+  },
+  {
+   "slug": "botcake-ai-pancake-setup-guide",
+   "blogTitle": "Botcake AI + Pancake Setup Guide",
+   "blogUrl": "https://www.dijaedadula.com/botcake-ai-pancake-setup-guide",
+   "message": "Learn how to set up Botcake AI in 2026, step by step (posted manually with the YouTube walkthrough).",
+   "image": "",
+   "when": "2026-10-15T12:06:00+08:00",
+   "fbUrl": "https://www.facebook.com/1579937777474981/posts/1781927573942666"
+  },
+  {
+   "slug": "turn-skills-into-ai-income",
+   "blogTitle": "How to Turn Your Skills Into Repeatable Digital Income With AI",
+   "blogUrl": "https://www.dijaedadula.com/turn-skills-into-ai-income",
+   "message": "Your hours have a ceiling. Your expertise doesn't.\n\nPeople don't buy skills, they buy outcomes. Package what you know into offers you build once and deliver many times.\n\nHow to start:\nhttps://www.dijaedadula.com/turn-skills-into-ai-income",
+   "image": "https://statics.pancake.vn/web-media-264/90/07/a4/02/3de0cea512d13d7e4599d6b6ab3915409d11d95de9aae99ee5722a5a.png",
+   "when": "2026-10-19T09:00:00+08:00",
+   "fbUrl": "https://www.facebook.com/1579937777474981/posts/1786423296826427"
+  },
+  {
+   "slug": "dont-automate-chaos",
+   "blogTitle": "Don't Automate Chaos: The 8-Step Method",
+   "blogUrl": "https://www.dijaedadula.com/dont-automate-chaos",
+   "message": "The tools come last.\n\nMost automation fails because it speeds up a broken process. Before building any AI system, map the work, fix the gaps, then automate what is already working.\n\nThe 8-step method: https://www.dijaedadula.com/dont-automate-chaos",
+   "image": "https://statics.pancake.vn/web-media-264/21/ef/e1/34/c3bf0283c9420369724b76d3977db19cfe5f491409582472b550c0c9.png",
+   "when": "2026-10-26T09:00:00+08:00",
+   "fbUrl": "https://www.facebook.com/1579937777474981/posts/1794413596027397"
+  },
+  {
+   "slug": "data-privacy-act-chatbots-philippines",
+   "blogTitle": "Philippine Data Privacy Act for Chatbots",
+   "blogUrl": "https://www.dijaedadula.com/data-privacy-act-chatbots-philippines",
+   "message": "Every field you collect is a field you have to protect.\n\nUnder the Philippine Data Privacy Act, chatbot leads are personal information. Ask only what the next step needs, and keep marketing consent separate.\n\nThe practical guide:\nhttps://www.dijaedadula.com/data-privacy-act-chatbots-philippines",
+   "image": "https://paymegpt.com/objects/generated-images/814/1793242747703-b3abdd4c8b25f862.png",
+   "alt": "Creative: Ask only for what the next step needs, with a smartphone chat form, a shield and a padlock.",
+   "when": "2026-10-29T11:05:00+08:00",
+   "fbUrl": "https://www.facebook.com/1579937777474981/posts/1798584785610278"
+  },
+  {
+   "slug": "automate-lead-follow-up",
+   "blogTitle": "How to Automate Lead Follow-Up With AI",
+   "blogUrl": "https://www.dijaedadula.com/automate-lead-follow-up",
+   "message": "The first reply wins more deals than the best reply.\n\nMost leads ask two or three businesses at once. Reply in minutes, keep following up until they decide, and hand real buyers to a person.\n\nThe follow-up system:\nhttps://www.dijaedadula.com/automate-lead-follow-up",
+   "image": "https://paymegpt.com/objects/generated-images/814/1793242865449-faf2b87fd707d02a.png",
+   "alt": "Creative: The first reply wins more deals, with a paper plane breaking a finish line ahead of slower chat bubbles.",
+   "when": "2026-10-29T18:00:00+08:00",
+   "fbUrl": ""
+  },
+  {
+   "slug": "ai-chatbot-for-small-business",
+   "blogTitle": "AI Chatbot for Small Business",
+   "blogUrl": "https://www.dijaedadula.com/ai-chatbot-for-small-business",
+   "message": "Your inbox is your storefront.\n\nAn AI chatbot earns its place when it answers the repeat questions and hands real buyers to a person. Choose it for the channel your customers already use.\n\nThe plain-English guide:\nhttps://www.dijaedadula.com/ai-chatbot-for-small-business",
+   "image": "https://statics.pancake.vn/web-media-264/bc/dc/6f/a2/87a0748a87c3960e4adb53def549ff7f5b86e2542574b37b47b74157.png",
+   "when": "2026-11-02T09:00:00+08:00",
+   "fbUrl": ""
   }
  ]
 }

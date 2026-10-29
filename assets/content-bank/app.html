@@ -131,6 +131,11 @@ h2{font-size:21px;line-height:1.25;font-weight:800}
 main{padding:12px 0 40px}
 .card{grid-template-columns:1fr}.media img{max-width:360px;margin:0 auto}}
 .syncb{font-size:12px;padding:3px 9px;border-radius:999px;white-space:nowrap}.syncb.on{background:#e8f4f1;color:#00594a}.syncb.off{background:#fff4ec;color:#9a3412}@media(max-width:640px){.syncb{font-size:11px;white-space:normal}}
+.chan{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}.chan button{border:0;background:#fff;padding:7px 12px;font:700 13px Inter,Arial,sans-serif;color:#555;cursor:pointer}.chan button.on{background:var(--teal);color:#fff}
+.fbc{display:grid;grid-template-columns:260px 1fr;gap:18px;border:1px solid var(--line);border-radius:14px;padding:16px;background:#fff;margin-bottom:14px}.fbc img{width:100%;border-radius:10px;border:1px solid var(--line);display:block}
+.fbc h2{font-size:17px;margin:4px 0 8px}.fbst{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:3px 9px;background:#e8f4f1;color:#00594a}.fbst.sch{background:#fff4ec;color:#9a3412}
+.fbl{font-size:13.5px;margin-top:8px}.fbl a{color:var(--teal);font-weight:700}
+@media(max-width:820px){.fbc{grid-template-columns:1fr}.fbc img{max-width:360px;margin:0 auto}}
 </style>
 </head>
 <body>
@@ -138,7 +143,7 @@ main{padding:12px 0 40px}
   <div class="wrap">
     <div class="top">
       <div class="brand">DIJAE DADULA <span>· CONTENT BANK</span></div>
-      <div class="right"><div class="stats" id="stats"></div><span class="syncb off" id="syncb">Connecting…</span><button class="icon-btn" id="openSettings" aria-label="Settings" title="Settings"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button></div>
+      <div class="right"><div class="chan" role="group" aria-label="Channel"><button id="chLi" class="on">LinkedIn</button><button id="chFb">Facebook</button></div><div class="stats" id="stats"></div><span class="syncb off" id="syncb">Connecting…</span><button class="icon-btn" id="openSettings" aria-label="Settings" title="Settings"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button></div>
     </div>
     <div class="bar" id="bar">
       <div class="more">
@@ -187,7 +192,7 @@ main{padding:12px 0 40px}
 <script>
 /* Posts live in posts.json on GitHub. To add posts, edit that file and push. No page update needed. */
 var DATA="https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/assets/content-bank/posts.json";
-var POSTS=[];
+var POSTS=[],FB=[],chan="li";try{chan=localStorage.getItem("cb_chan_v1")||"li";}catch(e){}
 
 function dlabel(d){try{return new Date(d+"T09:00:00+08:00").toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"});}catch(e){return d;}}
 var KEY="cb_verified_v2", MEKEY="cb_me_v1", VKEY="cb_view_v1", rec={}, filter="all", query="", me="", preview={}, view="list", sortBy="date", pillarF="", openRows={}, variant={}, artCache={}, textVar={};
@@ -324,7 +329,7 @@ function cardHTML(p,i,nextId){
       (curComment(p)?'<div class="label">First comment</div><div class="text small">'+esc(curComment(p))+'</div>':'')+
       '<div class="btns"><button class="btn primary" data-a="post" data-i="'+i+'">Copy post'+(p.post2?' (version '+curV(p)+')':'')+'</button>'+
       (curComment(p)?'<button class="btn ghost" data-a="comment" data-i="'+i+'">Copy first comment</button>':'')+'</div>'+
-      (p.blog?'<div class="blog">Related blog post: <a href="'+esc(p.blog.url)+'" target="_blank" rel="noopener">'+esc(p.blog.title)+' ↗</a></div>':'')+
+      (p.blog?'<div class="blog">Related blog post: <a href="'+esc(p.blog.url)+'" target="_blank" rel="noopener">'+esc(p.blog.title)+' ↗</a>'+(fbFor(p.blog.url)?' · <a href="'+esc(fbFor(p.blog.url).fbUrl)+'" target="_blank" rel="noopener">Also on Facebook ↗</a>':'')+'</div>':'')+
       verifyBlock(p,i)+'</div></article>';
 }
 function rowHTML(p,i,nextId){
@@ -340,7 +345,22 @@ function rowHTML(p,i,nextId){
     '<span class="chev">▶</span></div>'+
     (open?'<div class="lbody">'+cardHTML(p,i,nextId)+'</div>':'')+'</div>';
 }
+function fbFor(url){for(var i=0;i<FB.length;i++){if(FB[i].blogUrl===url&&FB[i].fbUrl)return FB[i];}return null;}
+function renderFB(){
+  var grid=document.getElementById("grid"),q=query.toLowerCase(),live=0;
+  var list=FB.filter(function(f){if(f.fbUrl)live++;return !q||(f.message+f.blogTitle).toLowerCase().indexOf(q)>=0;}).slice().sort(function(a,b){var A=a.when||"",B=b.when||"";return A<B?1:A>B?-1:0;});
+  grid.className="list";
+  grid.innerHTML=list.length?list.map(function(f){var i=FB.indexOf(f);return '<article class="fbc">'+(f.image?'<img src="'+esc(f.image)+'" alt="'+esc(f.alt||f.blogTitle)+'" loading="lazy">':'<div></div>')+
+    '<div><span class="'+(f.fbUrl?'fbst':'fbst sch')+'">'+(f.fbUrl?'Posted '+esc(dlabel((f.when||"").slice(0,10))):'Scheduled '+esc(f.when?fmt(Date.parse(f.when)):''))+'</span>'+
+    '<h2>'+esc(f.blogTitle)+'</h2><div class="text">'+esc(f.message)+'</div>'+
+    '<div class="btns"><button class="btn primary" data-a="fbcopy" data-i="'+i+'">Copy post</button>'+(f.image?'<button class="btn ghost" data-a="fbimg" data-i="'+i+'">Download image</button>':'')+'</div>'+
+    '<div class="fbl">'+(f.fbUrl?'<a href="'+esc(f.fbUrl)+'" target="_blank" rel="noopener">View on Facebook ↗</a> · ':'')+'<a href="'+esc(f.blogUrl)+'" target="_blank" rel="noopener">Blog post ↗</a></div></div></article>';}).join(""):'<div class="empty">No Facebook posts yet.</div>';
+  document.getElementById("stats").innerHTML="<b>"+FB.length+"</b> Facebook posts · <b>"+live+"</b> live";
+}
 function render(){
+  document.getElementById("chLi").classList.toggle("on",chan==="li");document.getElementById("chFb").classList.toggle("on",chan==="fb");
+  document.getElementById("bar").style.display="";
+  if(chan==="fb"){renderFB();return;}
   var grid=document.getElementById("grid"),q=query.toLowerCase(),done=0;
   POSTS.forEach(function(p){if(isV(p))done++;});
   var nextId=null;for(var j=0;j<POSTS.length;j++){if(!isV(POSTS[j])){nextId=POSTS[j].id;break;}}
@@ -370,7 +390,7 @@ function render(){
 function fillPillars(){var sel=document.getElementById("pillar"),seen={};POSTS.forEach(function(p){if(!seen[p.pillar]){seen[p.pillar]=1;var o=document.createElement("option");o.value=o.textContent=p.pillar;sel.appendChild(o);}});}
 
 document.getElementById("grid").addEventListener("click",function(e){
-  var b=e.target.closest("[data-a]");if(!b||b.tagName==="A")return;var p=POSTS[+b.dataset.i],a=b.dataset.a;
+  var b=e.target.closest("[data-a]");if(!b||b.tagName==="A")return;var p=POSTS[+b.dataset.i],a=b.dataset.a;if(a.indexOf("fb")===0)return;
   if(b.classList.contains("ib")||b.closest(".lq"))e.stopPropagation();
   if(a==="post")copyText(curText(p),b,p.post2?"Version "+curV(p):"Post");
   else if(a==="comment")copyText(curComment(p),b,"First comment");
@@ -398,6 +418,9 @@ document.getElementById("bar").addEventListener("click",function(e){
   var c=e.target.closest(".chip");if(!c)return;filter=c.dataset.f;
   document.querySelectorAll(".chip").forEach(function(x){x.classList.toggle("on",x===c);});render();
 });
+document.getElementById("chLi").addEventListener("click",function(){chan="li";try{localStorage.setItem("cb_chan_v1",chan);}catch(e){}render();});
+document.getElementById("chFb").addEventListener("click",function(){chan="fb";try{localStorage.setItem("cb_chan_v1",chan);}catch(e){}render();});
+document.getElementById("grid").addEventListener("click",function(e){var b=e.target.closest("[data-a^=fb]");if(!b)return;var f=FB[+b.dataset.i];if(!f)return;if(b.dataset.a==="fbcopy")copyText(f.message,b,"Post");else if(b.dataset.a==="fbimg")downloadImage(f.image,(f.slug||"facebook")+"-creative.png",b);});
 document.getElementById("fbtn").addEventListener("click",function(){document.getElementById("bar").classList.toggle("open");});
 document.getElementById("q").addEventListener("input",function(e){query=e.target.value;render();});
 document.getElementById("sort").addEventListener("change",function(e){sortBy=e.target.value;saveView();render();});
@@ -412,7 +435,7 @@ document.getElementById("closeSettings").addEventListener("click",function(){ope
 document.getElementById("scrim").addEventListener("click",function(){openS(false);});
 document.addEventListener("keydown",function(e){if(e.key==="Escape")openS(false);});
 document.getElementById("grid").innerHTML='<div class="empty">Loading posts…</div>';
-fetch(DATA+"?t="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(d){POSTS=(d.posts||[]).slice().sort(function(a,b){return a.date<b.date?-1:a.date>b.date?1:0;});fillPillars();render();pull();}).catch(function(){document.getElementById("grid").innerHTML='<div class="empty">Couldn\'t load posts. Check your connection and reload.</div>';});
+fetch(DATA+"?t="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(d){FB=d.facebook||[];POSTS=(d.posts||[]).slice().sort(function(a,b){return a.date<b.date?-1:a.date>b.date?1:0;});fillPillars();render();pull();}).catch(function(){document.getElementById("grid").innerHTML='<div class="empty">Couldn\'t load posts. Check your connection and reload.</div>';});
 </script>
 </body>
 </html>
