@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-01",
+ "updated": "2026-11-02",
  "posts": [
   {
    "id": "p01",
@@ -357,7 +357,7 @@
    "message": "Your inbox is your storefront.\n\nAn AI chatbot earns its place when it answers the repeat questions and hands real buyers to a person. Choose it for the channel your customers already use.\n\nThe plain-English guide:\nhttps://www.dijaedadula.com/ai-chatbot-for-small-business",
    "image": "https://statics.pancake.vn/web-media-264/bc/dc/6f/a2/87a0748a87c3960e4adb53def549ff7f5b86e2542574b37b47b74157.png",
    "when": "2026-11-02T09:00:00+08:00",
-   "fbUrl": ""
+   "fbUrl": "https://www.facebook.com/1579937777474981/posts/1803555285113228"
   },
   {
    "slug": "get-more-clients-with-ai",
@@ -388,6 +388,16 @@
    "alt": "Illustration of chat bubbles pouring into a funnel, with a few star-marked contact cards coming out to a smiling salesperson at a shop counter, under the headline Every message answered. Real buyers first.",
    "when": "2026-11-01T08:45:00+08:00",
    "fbUrl": "https://www.facebook.com/1579937777474981/posts/1802326348569455"
+  },
+  {
+   "slug": "pancake-vs-botcake-vs-manychat",
+   "blogTitle": "Pancake vs Botcake vs ManyChat: Which One Fits Your Business?",
+   "blogUrl": "https://www.dijaedadula.com/pancake-vs-botcake-vs-manychat",
+   "message": "Pick the tool for the job, not the hype.\n\nPancake runs the team inbox. Botcake automates Messenger. ManyChat is strongest on Instagram. Choose the one that fits where your customers already talk.\n\nThe plain-English comparison:\nhttps://www.dijaedadula.com/pancake-vs-botcake-vs-manychat",
+   "image": "https://paymegpt.com/objects/generated-images/814/1793579291911-a8de58a58fefddf3.png",
+   "alt": "Illustration of three app cards, a team inbox, a chat bubble with a gear and a camera app with hearts, with a hand choosing one, under the headline Pick the tool for the job, not the hype.",
+   "when": "2026-11-02T18:00:00+08:00",
+   "fbUrl": ""
   }
  ]
 }
