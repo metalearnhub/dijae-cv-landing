@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-02",
+ "updated": "2026-11-03",
  "posts": [
   {
    "id": "p01",
@@ -397,7 +397,17 @@
    "image": "https://paymegpt.com/objects/generated-images/814/1793579291911-a8de58a58fefddf3.png",
    "alt": "Illustration of three app cards, a team inbox, a chat bubble with a gear and a camera app with hearts, with a hand choosing one, under the headline Pick the tool for the job, not the hype.",
    "when": "2026-11-02T18:00:00+08:00",
-   "fbUrl": ""
+   "fbUrl": "https://www.facebook.com/1579937777474981/posts/1803974588404631"
+  },
+  {
+   "slug": "how-to-test-an-ai-chatbot",
+   "blogTitle": "How to Test an AI Chatbot Before It Talks to Your Customers",
+   "blogUrl": "https://www.dijaedadula.com/how-to-test-an-ai-chatbot",
+   "message": "Find the failures before your customers do.\n\nA chatbot that answers fast but wrong costs more than no chatbot. Test it with real questions, tricky cases and an upset customer before it goes live.\n\nThe testing method:\nhttps://www.dijaedadula.com/how-to-test-an-ai-chatbot",
+   "image": "https://paymegpt.com/objects/generated-images/814/1793666092565-ec29eb3053993c66.png",
+   "alt": "Illustration of a chat window with a magnifying glass over a message marked with a warning sign and a checklist beside it, under the headline Find the failures before your customers do.",
+   "when": "2026-11-03T08:44:00+08:00",
+   "fbUrl": "https://www.facebook.com/1579937777474981/posts/1804762258325864"
   }
  ]
 }
