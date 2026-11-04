@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-03",
+ "updated": "2026-11-04",
  "posts": [
   {
    "id": "p01",
@@ -408,6 +408,16 @@
    "alt": "Illustration of a chat window with a magnifying glass over a message marked with a warning sign and a checklist beside it, under the headline Find the failures before your customers do.",
    "when": "2026-11-03T08:44:00+08:00",
    "fbUrl": "https://www.facebook.com/1579937777474981/posts/1804762258325864"
+  },
+  {
+   "slug": "what-is-mcp",
+   "blogTitle": "What Is MCP (Model Context Protocol)? A Plain-English Guide for Business Owners",
+   "blogUrl": "https://www.dijaedadula.com/what-is-mcp",
+   "message": "Your AI is only as useful as what it can reach.\n\nMCP is the open standard that lets AI assistants connect to your CRM, calendar and business tools, with permissions you control. Here is what it means for your business.\n\nThe plain-English guide:\nhttps://www.dijaedadula.com/what-is-mcp",
+   "image": "https://paymegpt.com/objects/generated-images/814/1793752326413-0981dfb7fe7d15aa.png",
+   "alt": "Illustration of a friendly AI chip connected by cables to a calendar, a contact card, a chat bubble and a spreadsheet, with a padlock on one cable, under the headline Your AI is only as useful as what it can reach.",
+   "when": "2026-11-04T08:52:00+08:00",
+   "fbUrl": "https://www.facebook.com/1579937777474981/posts/1805991984869558"
   }
  ]
 }
