@@ -194,7 +194,11 @@
    "artAlt": "Illustration of a robot plugging one connector into a hub linked to a calendar, folder, database and contact card.",
    "artFile": "09-mcp-creative.png",
    "post2": "Connecting AI to your business tools used to mean a custom build for every system. That's changing.\n\nThe Model Context Protocol (MCP) is an open standard for connecting AI assistants to the systems where your data lives. Anthropic introduced it in November 2024. In December 2025 it was donated to the Agentic AI Foundation under the Linux Foundation, co-founded by Anthropic, Block and OpenAI.\n\nWhat that means in practice:\n\n→ Fewer one-off integrations\n→ One common way for agents to reach your CRM, calendar and files\n→ New responsibility: every connection is a permission to manage\n\nMy advice: start read-only, log every action and add write access one tool at a time.\n\nWhich tool would you trust an AI agent to write to first?\n\n#MCP #AIIntegration #AIAgents",
-   "theme": "light"
+   "theme": "light",
+   "image3": "https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/assets/content-bank/09-mcp-dark.png",
+   "file3": "09-mcp-dark.png",
+   "art2": "https://paymegpt.com/objects/generated-images/814/1794355925124-81dd4e8c2dac8398.png",
+   "art2File": "09-mcp-dark-creative.png"
   },
   {
    "id": "p10",
@@ -216,7 +220,11 @@
    "artAlt": "Illustration of tangled pipes straightened into one clean line, with a robot waiting to attach a motor.",
    "artFile": "10-process-creative.png",
    "post2": "The tools come last.\n\nWhen a business asks for an AI chatbot, I start with the process. Who replies today? Where do leads wait? What happens after 6 PM?\n\nThe answers usually show the real problem isn't missing AI. It's a broken handoff, a missing follow-up, or no single place where leads live.\n\nMcKinsey's 2026 State of AI survey points the same way: nearly three-quarters of AI high performers redesign workflows around AI, compared with about one in four of everyone else.\n\nFix the flow. Then automate it. Then add AI where it earns its place.\n\nWhich step in your process would you redesign first?\n\n#AIStrategy #ProcessImprovement #Automation",
-   "theme": "light"
+   "theme": "light",
+   "image3": "https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/assets/content-bank/10-process-dark.png",
+   "file3": "10-process-dark.png",
+   "art2": "https://paymegpt.com/objects/generated-images/814/1794355933804-f5bf242213199152.png",
+   "art2File": "10-process-dark-creative.png"
   },
   {
    "id": "p11",
@@ -238,7 +246,11 @@
    "artAlt": "Illustration of a chat bubble balanced on scales of justice against a company building with a checkmark shield.",
    "artFile": "11-accountability-creative.png",
    "post2": "\"The chatbot said it\" is not a defense.\n\nIn Moffatt v. Air Canada (February 2024), a Canadian tribunal held the airline responsible for wrong fare information its website chatbot gave a customer. The argument that the chatbot was responsible for its own actions didn't hold.\n\nThree practical rules follow for any business:\n\n→ Your AI answers only from approved sources: prices, policies, terms\n→ Anything uncertain goes to a person, not a guess\n→ Every change to the AI is tested before it goes live\n\nYour chatbot is part of your website, and your website is your word.\n\nWho reviews what your AI tells customers?\n\n#AIGovernance #RiskManagement #CustomerService",
-   "theme": "light"
+   "theme": "light",
+   "image3": "https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/assets/content-bank/11-accountability-dark.png",
+   "file3": "11-accountability-dark.png",
+   "art2": "https://paymegpt.com/objects/generated-images/814/1794355942134-33c0bd6122ba0e77.png",
+   "art2File": "11-accountability-dark-creative.png"
   },
   {
    "id": "p12",
@@ -260,7 +272,11 @@
    "artAlt": "Illustration of a scale where a growth chart outweighs an hourglass, next to steps with a flag on top.",
    "artFile": "12-pricing-creative.png",
    "post2": "If you charge by the hour for automation, you get paid less every time you get better.\n\nClients don't want hours. They want answered inquiries, booked calls and time back.\n\nA simple shift:\n\n1. Find the cost of the problem first: missed leads, slow replies, manual hours\n2. Price against that value, not your time\n3. Offer three levels, so the client chooses the scope, not whether to buy\n4. Add monthly optimization, because AI systems need tuning\n\nMy rule: never quote on the first call. Understand the problem and the numbers first, then send a written proposal tied to them.\n\nWhat's stopping you from moving away from hourly pricing?\n\n#Freelancing #Pricing #AIAutomation",
-   "theme": "light"
+   "theme": "light",
+   "image3": "https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/assets/content-bank/12-pricing-dark.png",
+   "file3": "12-pricing-dark.png",
+   "art2": "https://paymegpt.com/objects/generated-images/814/1794355959574-a7a56a119bd4f090.png",
+   "art2File": "12-pricing-dark-creative.png"
   },
   {
    "id": "p13",
@@ -282,7 +298,11 @@
    "artAlt": "Illustration of a lighthouse guiding small boats to a dock with a calendar sign.",
    "artFile": "13-clients-creative.png",
    "post2": "Posting every day isn't a client strategy. It's a full-time job.\n\nFor consultants, coaches and freelancers, a calmer path works: content that gets found in search, a clear first step, instant replies, easy booking and patient follow-up.\n\nWhere AI fits:\n\n→ Answering every inquiry within a minute, day or night\n→ Following up until each person decides\n→ Keeping your calendar and CRM in sync\n\nWhere it doesn't: knowing who you help and why it matters. That part is yours.\n\nAn hour a day is enough when the system remembers for you.\n\nHow do most of your clients find you today?\n\n#Consulting #Coaching #ClientAcquisition",
-   "theme": "light"
+   "theme": "light",
+   "image3": "https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/assets/content-bank/13-clients-dark.png",
+   "file3": "13-clients-dark.png",
+   "art2": "https://paymegpt.com/objects/generated-images/814/1794355968165-3c27523b8c8ca490.png",
+   "art2File": "13-clients-dark-creative.png"
   },
   {
    "id": "p14",
@@ -304,7 +324,11 @@
    "artAlt": "Illustration of a person driving while a robot co-pilot points at a map.",
    "artFile": "14-assist-creative.png",
    "post2": "The best first AI project isn't full automation. It's a better assistant for your team.\n\nLet the AI draft replies, flag buying intent and suggest next steps. Let your people approve, edit or take over.\n\nYou get three things fast:\n\n→ Consistent answers across your whole team\n→ A clear view of where the AI is reliable\n→ Evidence for what's safe to automate fully\n\nThen automate the parts that have earned it, not the parts that sounded easy in a demo.\n\nIs your team using AI as an assistant yet, or still deciding?\n\n#AIAgents #HumanInTheLoop #FutureOfWork",
-   "theme": "light"
+   "theme": "light",
+   "image3": "https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/assets/content-bank/14-assist-dark.png",
+   "file3": "14-assist-dark.png",
+   "art2": "https://paymegpt.com/objects/generated-images/814/1794355978787-46df4207ab27b672.png",
+   "art2File": "14-assist-dark-creative.png"
   }
  ],
  "facebook": [

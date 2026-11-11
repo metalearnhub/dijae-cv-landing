@@ -88,6 +88,7 @@ h2{font-size:21px;line-height:1.25;font-weight:800}
 .vtabs{display:flex;background:#fff;border:1px solid var(--line);border-radius:10px;padding:3px;gap:3px}
 .vtabs button{flex:1;border:0;background:transparent;border-radius:8px;padding:7px 8px;font-size:13px;font-weight:700;cursor:pointer;color:#555;font-family:inherit}
 .vtabs button.on{background:var(--teal);color:#fff}
+.vtabs.v4{flex-wrap:wrap}.vtabs.v4 button{flex:1 1 45%;font-size:12.5px;padding:7px 4px}
 .media canvas{width:100%;border-radius:10px;border:1px solid var(--line);display:block;background:#f3ece0;aspect-ratio:4/5}
 .icon-btn.fbtn{display:none;position:relative}
 .fbtn.active:after{content:"";position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:50%;background:#c2410c}
@@ -281,7 +282,8 @@ function verifyBlock(p,i){
 
 function loadImg(src){return new Promise(function(res,rej){var im=new Image();im.onload=function(){res(im);};im.onerror=rej;im.src=src;});}
 function wrapLines(ctx,text,maxW){var out=[];text.split("\n").forEach(function(par){var w=par.split(" "),line="";w.forEach(function(word){var t=line?line+" "+word:word;if(ctx.measureText(t).width>maxW&&line){out.push(line);line=word;}else line=t;});out.push(line);});return out;}
-function composeArt(p){
+function composeArt(p,dark){
+  if(dark)p=Object.assign({},p,{id:p.id+"_d",art:p.art2,theme:"dark"});
   if(artCache[p.id])return artCache[p.id];
   artCache[p.id]=Promise.all([loadImg(p.art),document.fonts?document.fonts.load((p.theme!=="light"?'900':'800')+' 64px Inter').catch(function(){}):null]).then(function(r){
     var im=r[0],c=document.createElement("canvas");c.width=1080;c.height=1350;var x=c.getContext("2d");
@@ -306,7 +308,10 @@ function composeArt(p){
   artCache[p.id].catch(function(){delete artCache[p.id];});
   return artCache[p.id];
 }
-function drawCanvases(){POSTS.forEach(function(p){if(variant[p.id]!=="b")return;var el=document.getElementById("cv_"+p.id);if(!el)return;composeArt(p).then(function(c){el.getContext("2d").drawImage(c,0,0);}).catch(function(){var ctx=el.getContext("2d");ctx.fillStyle="#666";ctx.font="28px sans-serif";ctx.fillText("Couldn't load the illustration.",60,600);});});}
+function drawCanvases(){POSTS.forEach(function(p){var vv=variant[p.id];if(vv!=="b"&&vv!=="d")return;var el=document.getElementById("cv_"+p.id);if(!el)return;composeArt(p,vv==="d").then(function(c){el.getContext("2d").drawImage(c,0,0);}).catch(function(){var ctx=el.getContext("2d");ctx.fillStyle="#666";ctx.font="28px sans-serif";ctx.fillText("Couldn't load the illustration.",60,600);});});}
+function curV3(p){var v=variant[p.id]||"a";if(v==="b"&&!p.art)v="a";if(v==="c"&&!p.image3)v="a";if(v==="d"&&!p.art2)v="a";return v;}
+function isCreative(p){var v=curV3(p);return v==="b"||v==="d";}
+function vtabsHtml(p,i){var t=[["a","Diagram",1],["b","Creative",p.art],["c","Dark diagram",p.image3],["d","Dark creative",p.art2]].filter(function(x){return x[2];});if(t.length<2)return "";var c=curV3(p);return '<div class="vtabs'+(t.length>2?' v4':'')+'">'+t.map(function(x){return '<button class="'+(c===x[0]?'on':'')+'" data-a="v'+x[0]+'" data-i="'+i+'">'+x[1]+'</button>';}).join("")+'</div>';}
 function vers(p){return p.post2?2:1;}
 function slotKey(p,v){return v===2?p.id+"#2":p.id;}
 function isSlot(p,v){var r=rec[slotKey(p,v)];return !!(r&&r.postId);}
@@ -322,9 +327,9 @@ function statusBadge(p,short){var n=vcount(p),t=vers(p);
 function cardHTML(p,i,nextId){
   var isP=isV(p);
   return '<article class="card">'+
-      '<div class="media">'+(p.art?'<div class="vtabs"><button class="'+(variant[p.id]!=="b"?'on':'')+'" data-a="va" data-i="'+i+'">Diagram</button><button class="'+(variant[p.id]==="b"?'on':'')+'" data-a="vb" data-i="'+i+'">Creative</button></div>':'')+
-      (variant[p.id]==="b"&&p.art?'<canvas width="1080" height="1350" id="cv_'+p.id+'" aria-label="'+esc(p.artAlt||p.alt)+'"></canvas>':'<img src="'+esc(p.image)+'" alt="'+esc(p.alt)+'" loading="lazy">')+
-      '<button class="btn primary full" data-a="dl" data-i="'+i+'">⬇ Download '+(variant[p.id]==="b"?'creative':'diagram')+' image</button>'+
+      '<div class="media">'+vtabsHtml(p,i)+
+      (isCreative(p)?'<canvas width="1080" height="1350" id="cv_'+p.id+'" aria-label="'+esc(p.artAlt||p.alt)+'"></canvas>':'<img src="'+esc(curV3(p)==="c"?p.image3:p.image)+'" alt="'+esc(p.alt)+'" loading="lazy">')+
+      '<button class="btn primary full" data-a="dl" data-i="'+i+'">⬇ Download '+({a:'diagram',b:'creative',c:'dark diagram',d:'dark creative'})[curV3(p)]+' image</button>'+
       '<button class="btn ghost full" data-a="alt" data-i="'+i+'">Copy alt text</button></div>'+
       '<div class="content"><div class="meta"><span class="num">#'+String(i+1).padStart(2,"0")+'</span><span class="tag">'+esc(p.pillar)+'</span><span class="num">'+esc(dlabel(p.date))+'</span>'+(p.id===nextId?'<span class="next">Next up</span>':'')+
       (isP?statusBadge(p):'<span class="status">Ready</span>')+'</div>'+
@@ -402,12 +407,15 @@ document.getElementById("grid").addEventListener("click",function(e){
   else if(a==="comment")copyText(curComment(p),b,"First comment");
   else if(a==="t1"){textVar[p.id]=1;render();}
   else if(a==="t2"){textVar[p.id]=2;render();}
-  else if(a==="alt")copyText(variant[p.id]==="b"&&p.artAlt?p.artAlt:p.alt,b,"Alt text");
+  else if(a==="alt")copyText(isCreative(p)&&p.artAlt?p.artAlt:p.alt,b,"Alt text");
   else if(a==="dl"){
-    if(variant[p.id]==="b"&&p.art&&!b.classList.contains("ib")){var o=b.innerHTML;b.innerHTML="Preparing…";composeArt(p).then(function(c){c.toBlob(function(bl){var u=URL.createObjectURL(bl),l=document.createElement("a");l.href=u;l.download=p.artFile||"creative.png";document.body.appendChild(l);l.click();l.remove();setTimeout(function(){URL.revokeObjectURL(u);},4000);b.innerHTML=o;toast("Creative image downloaded");},"image/png");}).catch(function(){b.innerHTML=o;toast("Couldn't prepare the creative image");});}
+    var cv=curV3(p);if(isCreative(p)&&!b.classList.contains("ib")){var o=b.innerHTML;b.innerHTML="Preparing…";composeArt(p,cv==="d").then(function(c){c.toBlob(function(bl){var u=URL.createObjectURL(bl),l=document.createElement("a");l.href=u;l.download=(cv==="d"?p.art2File:p.artFile)||"creative.png";document.body.appendChild(l);l.click();l.remove();setTimeout(function(){URL.revokeObjectURL(u);},4000);b.innerHTML=o;toast("Creative image downloaded");},"image/png");}).catch(function(){b.innerHTML=o;toast("Couldn't prepare the creative image");});}
+    else if(cv==="c"&&!b.classList.contains("ib"))downloadImage(p.image3,p.file3,b);
     else downloadImage(p.image,p.file,b);}
   else if(a==="va"){variant[p.id]="a";render();}
   else if(a==="vb"){variant[p.id]="b";render();}
+  else if(a==="vc"){variant[p.id]="c";render();}
+  else if(a==="vd"){variant[p.id]="d";render();}
   else if(a==="verify"){
     var inp=document.getElementById("u_"+p.id),msg=document.getElementById("m_"+p.id),r=verify(p,inp.value,slotKey(p,curV(p)));
     if(r.err){msg.className="vmsg err";msg.textContent=r.err;return;}
