@@ -488,5 +488,6 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")openS(false)
 document.getElementById("grid").innerHTML='<div class="empty">Loading posts…</div>';
 fetch(DATA+"?t="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(d){FB=d.facebook||[];POSTS=(d.posts||[]).slice().sort(function(a,b){return a.date<b.date?-1:a.date>b.date?1:0;});fillPillars();render();pull();}).catch(function(){document.getElementById("grid").innerHTML='<div class="empty">Couldn\'t load posts. Check your connection and reload.</div>';});
 </script>
+<script>/* visit counter for Dijae's CRM apps gallery: no cookies, no IP stored */(function(){try{var u='https://qbubwemdvwflxvxwesrl.supabase.co/functions/v1/hit',b=JSON.stringify({a:'content-bank',p:location.pathname,r:document.referrer});if(navigator.sendBeacon)navigator.sendBeacon(u,b);else fetch(u,{method:'POST',body:b,keepalive:true});}catch(e){}})();</script>
 </body>
 </html>

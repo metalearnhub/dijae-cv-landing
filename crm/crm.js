@@ -17,9 +17,9 @@ function fmtDT(s) { if (!s) return ''; var d = new Date(s); return d.toLocaleStr
 function num(n) { return (n || 0).toLocaleString('en-US'); }
 var tt; function toast(m) { var t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(tt); tt = setTimeout(function () { t.classList.remove('on'); }, 2600); }
 
-function api(action, body) {
+function api(action, body, ep) {
   body = Object.assign({ action: action }, body || {});
-  return fetch(API, { method: 'POST', headers: { 'content-type': 'application/json', authorization: 'Bearer ' + TOK }, body: JSON.stringify(body) })
+  return fetch(ep || API, { method: 'POST', headers: { 'content-type': 'application/json', authorization: 'Bearer ' + TOK }, body: JSON.stringify(body) })
     .then(function (r) { return r.json().then(function (d) { return { s: r.status, d: d }; }); })
     .then(function (x) {
       if (x.s === 401 && action !== 'verify') { TOK = ''; try { localStorage.removeItem('crm_token'); } catch (e) {} login(); throw new Error('Signed out'); }
@@ -46,7 +46,7 @@ function login(sent) {
 }
 
 /* ---------------- shell + routing ---------------- */
-var NAV = [['dashboard', 'Dashboard', '▦'], ['contacts', 'Contacts', '☺'], ['fields', 'Fields', '≡'], ['pipelines', 'Pipelines', '▤'], ['sequences', 'Sequences', '↻']];
+var NAV = [['dashboard', 'Dashboard', '▦'], ['apps', 'Apps', '◫'], ['contacts', 'Contacts', '☺'], ['fields', 'Fields', '≡'], ['pipelines', 'Pipelines', '▤'], ['sequences', 'Sequences', '↻']];
 function shell() {
   $('#app').innerHTML = '<div class="shell"><aside class="side"><div class="brand">DIJAE · <span>CRM</span></div>' +
     NAV.map(function (n) { return '<a class="nav" href="#/' + n[0] + '" data-r="' + n[0] + '"><span aria-hidden="true">' + n[2] + '</span>' + n[1] + (n[0] === 'sequences' ? '<small>next</small>' : '') + '</a>'; }).join('') +
@@ -60,6 +60,7 @@ function route() {
   if (r === 'contacts') return contacts();
   if (r === 'fields') return fieldsView();
   if (r === 'pipelines') return pipelines();
+  if (r === 'apps') return appsView();
   if (r === 'sequences') return soon('Email sequences and flows', ['Steps like email → wait 2 days → email, started by a tag, a form or a pipeline stage', 'Per-step stats: sent, failed, unsubscribed', 'Takes over the welcome series and the weekly digest and story emails']);
   return dashboard();
 }
@@ -78,7 +79,7 @@ function dashboard() {
     var total = s.total || 0;
     var src = (s.sources || []), tags = (s.tags || []), bc = (s.broadcasts || []);
     var srcMax = Math.max.apply(null, src.map(function (x) { return x.n; }).concat([1]));
-    $('#dash').innerHTML =
+    $('#dash').innerHTML = '<div id="appstrip"></div>' +
       '<div class="kpis">' +
       kpi('Contacts', s.total, num(s.new7) + ' new this week') +
       kpi('Subscribed', s.subscribed, total ? Math.round(s.subscribed / total * 100) + '% of contacts' : '') +
@@ -91,6 +92,7 @@ function dashboard() {
       '<div class="card"><h2>Top sources</h2><div class="rows">' + (src.length ? src.map(function (x) { return '<div class="r" style="display:block"><div style="display:flex;justify-content:space-between"><span>' + esc(x.source) + '</span><b>' + num(x.n) + '</b></div><div class="meter"><i style="width:' + Math.round(x.n / srcMax * 100) + '%"></i></div></div>'; }).join('') : '<p class="note">No contacts yet.</p>') + '</div></div></div>' +
       '<div class="dash2"><div class="card"><h2>Recent newsletter sends</h2>' + (bc.length ? '<div class="rows">' + bc.map(function (b) { return '<div class="r"><span><span class="pill">' + esc(b.kind) + '</span>' + esc(b.subject) + '</span><span><b>' + num(b.sent) + '</b> sent' + (b.failed ? ' · ' + b.failed + ' failed' : '') + ' · ' + esc(b.status) + ' · ' + esc(fmtD(b.sent_at || b.send_at)) + '</span></div>'; }).join('') + '</div>' : '<p class="note">No newsletter sends yet. The Friday digest and Tuesday story emails will show here.</p>') + '</div>' +
       '<div class="card"><h2>Tags</h2>' + (tags.length ? tags.map(function (t) { return '<a class="pill" href="#/contacts" data-tag="' + esc(t.tag) + '">' + esc(t.tag) + ' · ' + num(t.n) + '</a>'; }).join('') : '<p class="note">No tags yet.</p>') + '</div></div>';
+    appStrip();
     $$('#dash [data-tag]').forEach(function (a) { a.onclick = function () { L.tag = a.dataset.tag; L.page = 0; }; });
   }).catch(function (e) { $('#dash').innerHTML = '<p class="err">' + esc(e.message) + '</p>'; });
 }
@@ -459,6 +461,112 @@ function pipeDlg(p) {
   $$('[data-close]', dl).forEach(function (b) { b.onclick = closeLayer; });
   $('#p_sv').onclick = function () { api('pipelines.save', { pipeline: { id: p && p.id, name: $('#p_n').value, stages: stages, position: p ? p.position : PIPES.length } }).then(function (r) { PIPE = r.id; try { localStorage.setItem('crm_pipe', PIPE); } catch (e) {} closeLayer(); toast('Pipeline saved'); pipelines(); }).catch(function (e) { $('#p_e').textContent = e.message; }); };
   if (p) $('#p_del').onclick = function () { api('pipelines.delete', { id: p.id }).then(function () { PIPE = null; closeLayer(); toast('Pipeline deleted'); pipelines(); }).catch(function (e) { $('#p_e').textContent = e.message; }); };
+}
+
+/* ---------------- apps gallery ---------------- */
+var APPS_API = 'https://qbubwemdvwflxvxwesrl.supabase.co/functions/v1/crm-apps';
+var APPS = [], ASTATS = {}, AF = { q: '', status: '', platform: '' };
+var STATUS_TXT = { live: 'Live', private: 'Private', 'in progress': 'In progress', paused: 'Paused', archived: 'Archived', lost: 'Lost', unchecked: 'To check' };
+function loadApps() { return api('apps.list', {}, APPS_API).then(function (d) { APPS = d.apps || []; ASTATS = d.stats || {}; }); }
+function initials(n) { return String(n || '?').replace(/[^A-Za-z0-9 ]/g, ' ').trim().split(/\s+/).slice(0, 2).map(function (w) { return w[0]; }).join('').toUpperCase(); }
+function hue(s) { var h = 0; for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) % 360; return h; }
+function thumbHTML(a) {
+  if (a.thumb) return '<img src="' + esc(a.thumb) + '" alt="" loading="lazy">';
+  return '<div class="mono" style="--h:' + hue(a.slug) + '"><span>' + esc(initials(a.name)) + '</span><small>' + esc(a.platform || '') + '</small></div>';
+}
+function spark(arr) {
+  arr = arr || []; var max = Math.max.apply(null, arr.concat([1]));
+  return '<span class="spark">' + arr.map(function (n) { return '<i style="height:' + Math.max(8, Math.round(n / max * 100)) + '%"' + (n ? '' : ' class="z"') + '></i>'; }).join('') + '</span>';
+}
+function appCard(a) {
+  var st = ASTATS[a.slug] || {};
+  return '<article class="app" data-app="' + esc(a.slug) + '"><div class="thumb">' + thumbHTML(a) + '<span class="pill st-app st-' + esc(a.status.replace(' ', '-')) + '">' + esc(STATUS_TXT[a.status] || a.status) + '</span></div>' +
+    '<div class="ab"><b>' + esc(a.name) + '</b><span class="as">' + esc(a.summary || '') + '</span>' +
+    '<div class="am">' + (a.tracked ? '<span><b>' + num(st.d7) + '</b> visits · 7d</span>' + spark(st.daily) : '<span class="note">' + esc(a.platform || '') + '</span>') + '</div></div></article>';
+}
+function appStrip() {
+  var el = $('#appstrip'); if (!el) return;
+  loadApps().then(function () {
+    var top = APPS.filter(function (a) { return ['live', 'private'].indexOf(a.status) >= 0 && a.url; }).sort(function (a, b) { return ((ASTATS[b.slug] || {}).d7 || 0) - ((ASTATS[a.slug] || {}).d7 || 0) || a.position - b.position; }).slice(0, 6);
+    var tracked = APPS.filter(function (a) { return a.tracked; }), v7 = tracked.reduce(function (t, a) { return t + ((ASTATS[a.slug] || {}).d7 || 0); }, 0), today = tracked.reduce(function (t, a) { return t + ((ASTATS[a.slug] || {}).today || 0); }, 0);
+    el.innerHTML = '<div class="card" style="margin-bottom:12px"><div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><h2 style="margin:0">Your apps</h2><span class="note">' + APPS.length + ' apps · ' + num(today) + ' visits today · ' + num(v7) + ' in 7 days</span><a href="#/apps" class="btn sm" style="margin-left:auto;text-decoration:none">See all</a></div><div class="apps mini">' + top.map(appCard).join('') + '</div></div>';
+    $$('#appstrip [data-app]').forEach(function (c) { c.onclick = function () { appDrawer(c.dataset.app); }; });
+  }).catch(function () { el.innerHTML = ''; });
+}
+function appsView() {
+  var m = $('#main');
+  m.innerHTML = '<div class="head"><h1>Apps</h1><button class="btn pri" id="na">Add app</button></div>' +
+    '<div class="bar"><input class="in search" id="aq" type="search" placeholder="Search apps" value="' + esc(AF.q) + '">' +
+    '<select class="in" id="as"><option value="">All statuses</option>' + Object.keys(STATUS_TXT).map(function (k) { return '<option value="' + k + '"' + (AF.status === k ? ' selected' : '') + '>' + STATUS_TXT[k] + '</option>'; }).join('') + '</select>' +
+    '<select class="in" id="ap"><option value="">All platforms</option></select></div><div id="akpi"></div><div id="agrid"><p class="note">Loading…</p></div>';
+  $('#na').onclick = function () { appEdit(null); };
+  $('#aq').oninput = function (e) { AF.q = e.target.value; drawApps(); };
+  $('#as').onchange = function (e) { AF.status = e.target.value; drawApps(); };
+  $('#ap').onchange = function (e) { AF.platform = e.target.value; drawApps(); };
+  loadApps().then(function () {
+    var plats = {}; APPS.forEach(function (a) { (a.platform || '').split(/\s*\+\s*/).forEach(function (p) { if (p) plats[p] = 1; }); });
+    $('#ap').innerHTML = '<option value="">All platforms</option>' + Object.keys(plats).sort().map(function (p) { return '<option' + (AF.platform === p ? ' selected' : '') + '>' + esc(p) + '</option>'; }).join('');
+    drawApps();
+  }).catch(function (e) { $('#agrid').innerHTML = '<p class="err">' + esc(e.message) + '</p>'; });
+}
+function drawApps() {
+  var q = AF.q.toLowerCase();
+  var list = APPS.filter(function (a) {
+    if (AF.status && a.status !== AF.status) return false;
+    if (AF.platform && (a.platform || '').indexOf(AF.platform) < 0) return false;
+    return !q || (a.name + ' ' + (a.summary || '') + ' ' + (a.functions || []).join(' ') + ' ' + a.platform + ' ' + a.category).toLowerCase().indexOf(q) >= 0;
+  });
+  var tracked = APPS.filter(function (a) { return a.tracked; });
+  var sum = function (k) { return tracked.reduce(function (t, a) { return t + ((ASTATS[a.slug] || {})[k] || 0); }, 0); };
+  $('#akpi').innerHTML = '<div class="kpis">' + kpi('Apps', APPS.length, APPS.filter(function (a) { return a.status === 'live' || a.status === 'private'; }).length + ' live or private') + kpi('Visits today', sum('today'), tracked.length + ' apps tracked') + kpi('Visits, 7 days', sum('d7'), num(sum('u7')) + ' unique visitor-days') + kpi('Visits, 30 days', sum('d30'), 'Bots are skipped; your own visits count') + '</div>';
+  var groups = [['Live and private', ['live', 'private']], ['In progress', ['in progress', 'unchecked']], ['Paused, archived or lost', ['paused', 'archived', 'lost']]];
+  $('#agrid').innerHTML = list.length ? groups.map(function (g) {
+    var xs = list.filter(function (a) { return g[1].indexOf(a.status) >= 0; });
+    return xs.length ? '<h2 class="ah">' + g[0] + ' <span>' + xs.length + '</span></h2><div class="apps">' + xs.map(appCard).join('') + '</div>' : '';
+  }).join('') : '<div class="card empty">No apps match.</div>';
+  $$('#agrid [data-app]').forEach(function (c) { c.onclick = function () { appDrawer(c.dataset.app); }; });
+}
+function appDrawer(slug) {
+  var a = APPS.filter(function (x) { return x.slug === slug; })[0]; if (!a) return;
+  var st = ASTATS[slug] || {};
+  var links = [[a.url, 'Open app'], [a.admin_url, 'Admin'], [a.repo ? 'https://github.com/' + a.repo.split(' ')[0] : null, 'GitHub']].filter(function (l) { return l[0]; });
+  var d = layer('<div class="dh"><h2>' + esc(a.name) + '</h2><span class="pill st-app st-' + esc(a.status.replace(' ', '-')) + '">' + esc(STATUS_TXT[a.status] || a.status) + '</span><button class="x" data-close aria-label="Close">×</button></div>' +
+    '<div class="db"><div class="bigthumb">' + thumbHTML(a) + '</div>' +
+    '<div style="display:flex;gap:8px;flex-wrap:wrap">' + links.map(function (l, i) { return '<a class="btn' + (i ? '' : ' pri') + '" href="' + esc(l[0]) + '" target="_blank" rel="noopener" style="text-decoration:none">' + l[1] + ' ↗</a>'; }).join('') + '</div>' +
+    '<p>' + esc(a.summary || '') + '</p>' +
+    ((a.functions || []).length ? '<div><label class="lb">What it does</label><ul class="fl">' + a.functions.map(function (f) { return '<li>' + esc(f) + '</li>'; }).join('') + '</ul></div>' : '') +
+    '<div class="grid2 meta2"><div><label class="lb">Platform</label>' + esc(a.platform || '—') + '</div><div><label class="lb">Type</label>' + esc(a.category || '—') + '</div>' + (a.repo ? '<div><label class="lb">Repo</label>' + esc(a.repo) + '</div>' : '') + (a.url ? '<div><label class="lb">Address</label><span style="word-break:break-all">' + esc(a.url.replace(/^https?:\/\//, '')) + '</span></div>' : '') + '</div>' +
+    (a.notes ? '<div class="warn" style="background:var(--grey-l);color:#333">' + esc(a.notes) + '</div>' : '') +
+    '<div><label class="lb">Visits</label>' + (a.tracked ? '<div class="kpis k3">' + kpi('Today', st.today, '') + kpi('7 days', st.d7, num(st.u7) + ' unique') + kpi('30 days', st.d30, st.last ? 'Last ' + fmtDT(st.last) : 'No visits yet') + '</div><div id="adet"><p class="note">Loading…</p></div>' : '<p class="note">Not tracked. Visit counting works on apps I host on Vercel; turn it on in Edit after the tracking snippet is added to the app.</p>') + '</div></div>' +
+    '<div class="df"><button class="btn danger" id="adel" style="margin-right:auto">Remove</button><button class="btn" data-close>Close</button><button class="btn pri" id="aed">Edit</button></div>', 'drawer');
+  $$('[data-close]', d).forEach(function (b) { b.onclick = closeLayer; });
+  $('#aed').onclick = function () { appEdit(a); };
+  $('#adel').onclick = function () { confirmBox('Remove ' + a.name + ' from the gallery?', 'This only removes the card and its settings here. The app itself and its visit history stay untouched.', 'Remove card', function () { api('apps.delete', { id: a.id }, APPS_API).then(function () { toast('Removed'); if (location.hash.indexOf('apps') >= 0) appsView(); else dashboard(); }).catch(function (e) { toast(e.message); }); }); };
+  if (a.tracked) api('apps.get', { slug: slug }, APPS_API).then(function (x) {
+    var daily = x.daily || [], max = Math.max.apply(null, daily.map(function (r) { return r.n; }).concat([1]));
+    $('#adet').innerHTML = '<div class="chart" style="height:110px">' + daily.map(function (r) { return '<div class="b" style="height:' + Math.max(2, Math.round(r.n / max * 100)) + '%" title="' + esc(r.d) + ': ' + r.n + ' visits, ' + r.u + ' unique"></div>'; }).join('') + '</div><div class="axis"><span>30 days ago</span><span>Today</span></div>' +
+      '<div class="grid2" style="margin-top:14px"><div><label class="lb">Top pages (30 days)</label><div class="rows">' + ((x.pages || []).map(function (r) { return '<div class="r"><span style="word-break:break-all">' + esc(r.path) + '</span><b>' + num(r.n) + '</b></div>'; }).join('') || '<p class="note">None yet.</p>') + '</div></div>' +
+      '<div><label class="lb">Where visitors came from</label><div class="rows">' + ((x.refs || []).map(function (r) { return '<div class="r"><span>' + esc(r.ref) + '</span><b>' + num(r.n) + '</b></div>'; }).join('') || '<p class="note">None yet.</p>') + '</div></div></div>';
+  }).catch(function (e) { $('#adet').innerHTML = '<p class="err">' + esc(e.message) + '</p>'; });
+}
+function appEdit(a) {
+  var n = !a; a = a || { status: 'live', category: 'Web app', platform: 'Vercel', functions: [], position: 100 };
+  var d = layer('<div class="dh"><h2>' + (n ? 'Add app' : 'Edit ' + esc(a.name)) + '</h2><button class="x" data-close aria-label="Close">×</button></div><div class="db">' +
+    '<div class="grid2"><div><label class="lb" for="e_n">Name</label><input class="in" id="e_n" value="' + esc(a.name || '') + '"></div><div><label class="lb" for="e_s">Status</label><select class="in" id="e_s">' + Object.keys(STATUS_TXT).map(function (k) { return '<option value="' + k + '"' + (a.status === k ? ' selected' : '') + '>' + STATUS_TXT[k] + '</option>'; }).join('') + '</select></div></div>' +
+    '<div><label class="lb" for="e_sum">One-line summary</label><input class="in" id="e_sum" value="' + esc(a.summary || '') + '"></div>' +
+    '<div><label class="lb" for="e_f">What it does (one per line)</label><textarea class="in" id="e_f">' + esc((a.functions || []).join('\n')) + '</textarea></div>' +
+    '<div class="grid2"><div><label class="lb" for="e_c">Type</label><input class="in" id="e_c" value="' + esc(a.category || '') + '" placeholder="Web app, Website, Automation…"></div><div><label class="lb" for="e_p">Platform</label><input class="in" id="e_p" value="' + esc(a.platform || '') + '" placeholder="Vercel + Supabase"></div></div>' +
+    '<div><label class="lb" for="e_u">App address</label><input class="in" id="e_u" type="url" value="' + esc(a.url || '') + '" placeholder="https://…"></div>' +
+    '<div class="grid2"><div><label class="lb" for="e_a">Admin link</label><input class="in" id="e_a" type="url" value="' + esc(a.admin_url || '') + '"></div><div><label class="lb" for="e_r">GitHub repo</label><input class="in" id="e_r" value="' + esc(a.repo || '') + '" placeholder="metalearnhub/…"></div></div>' +
+    '<div class="grid2"><div><label class="lb" for="e_t">Thumbnail image link</label><input class="in" id="e_t" value="' + esc(a.thumb || '') + '" placeholder="https://… (square works best)"></div><div><label class="lb" for="e_o">Order</label><input class="in" id="e_o" type="number" value="' + esc(a.position) + '"></div></div>' +
+    '<label class="check"><input type="checkbox" id="e_tr"' + (a.tracked ? ' checked' : '') + '><span>Count visits for this app. The app needs the tracking snippet with the name <code>' + esc(a.slug || 'its-slug') + '</code>.</span></label>' +
+    '<div><label class="lb" for="e_no">Notes</label><textarea class="in" id="e_no">' + esc(a.notes || '') + '</textarea></div><div class="err" id="e_e"></div></div>' +
+    '<div class="df"><button class="btn" data-close>Cancel</button><button class="btn pri" id="e_sv">Save</button></div>', 'drawer');
+  $$('[data-close]', d).forEach(function (b) { b.onclick = closeLayer; });
+  $('#e_sv').onclick = function () {
+    var body = { id: a.id, slug: a.slug, name: $('#e_n').value, status: $('#e_s').value, summary: $('#e_sum').value, functions: $('#e_f').value.split('\n'), category: $('#e_c').value, platform: $('#e_p').value, url: $('#e_u').value, admin_url: $('#e_a').value, repo: $('#e_r').value, thumb: $('#e_t').value, position: $('#e_o').value, tracked: $('#e_tr').checked, notes: $('#e_no').value };
+    api('apps.save', { app: body }, APPS_API).then(function () { closeLayer(); toast('Saved'); if (location.hash.indexOf('apps') >= 0) appsView(); else dashboard(); }).catch(function (e) { $('#e_e').textContent = e.message; });
+  };
 }
 
 /* ---------------- boot ---------------- */
