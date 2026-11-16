@@ -4,7 +4,8 @@
 'use strict';
 var API = 'https://qbubwemdvwflxvxwesrl.supabase.co/functions/v1/crm';
 var TOK = ''; try { TOK = localStorage.getItem('crm_token') || ''; } catch (e) {}
-var FIELDS = [], STATS = null;
+var FIELDS = [], STATS = null, PIPES = [], PIPE = null, DEALS = [];
+try { PIPE = +localStorage.getItem('crm_pipe') || null; } catch (e) {}
 var L = { q: '', status: '', tag: '', sort: 'created_at', page: 0, size: 50, rows: [], total: 0, sel: {} };
 var STD = [['email', 'Email'], ['first_name', 'First name'], ['last_name', 'Last name'], ['phone', 'Phone'], ['company', 'Company'], ['tags', 'Tags']];
 
@@ -48,7 +49,7 @@ function login(sent) {
 var NAV = [['dashboard', 'Dashboard', '▦'], ['contacts', 'Contacts', '☺'], ['fields', 'Fields', '≡'], ['pipelines', 'Pipelines', '▤'], ['sequences', 'Sequences', '↻']];
 function shell() {
   $('#app').innerHTML = '<div class="shell"><aside class="side"><div class="brand">DIJAE · <span>CRM</span></div>' +
-    NAV.map(function (n) { return '<a class="nav" href="#/' + n[0] + '" data-r="' + n[0] + '"><span aria-hidden="true">' + n[2] + '</span>' + n[1] + (n[0] === 'pipelines' || n[0] === 'sequences' ? '<small>next</small>' : '') + '</a>'; }).join('') +
+    NAV.map(function (n) { return '<a class="nav" href="#/' + n[0] + '" data-r="' + n[0] + '"><span aria-hidden="true">' + n[2] + '</span>' + n[1] + (n[0] === 'sequences' ? '<small>next</small>' : '') + '</a>'; }).join('') +
     '<div class="foot">Signed in<br><button id="so">Sign out</button></div></aside><main id="main"></main></div>';
   $('#so').onclick = function () { api('signout').catch(function () {}).then(function () { TOK = ''; try { localStorage.removeItem('crm_token'); } catch (e) {} login(); }); };
 }
@@ -58,7 +59,7 @@ function route() {
   var m = $('#main'); if (!m) return;
   if (r === 'contacts') return contacts();
   if (r === 'fields') return fieldsView();
-  if (r === 'pipelines') return soon('Pipelines', ['Boards with your own stages (for example Lead → Call booked → Proposal → Won / Lost)', 'Deals linked to contacts, with value, owner and next follow-up date', 'Drag and drop between stages; pipeline value and win rate on the dashboard']);
+  if (r === 'pipelines') return pipelines();
   if (r === 'sequences') return soon('Email sequences and flows', ['Steps like email → wait 2 days → email, started by a tag, a form or a pipeline stage', 'Per-step stats: sent, failed, unsubscribed', 'Takes over the welcome series and the weekly digest and story emails']);
   return dashboard();
 }
@@ -71,7 +72,7 @@ function dashboard() {
   var m = $('#main');
   m.innerHTML = '<div class="head"><h1>Dashboard</h1><button class="btn" id="rf">Refresh</button></div><div id="dash"><p class="note">Loading…</p></div>';
   $('#rf').onclick = dashboard;
-  api('stats').then(function (s) {
+  loadPipes().catch(function () {}).then(function () { return api('stats'); }).then(function (s) {
     STATS = s;
     var daily = s.daily || [], max = Math.max.apply(null, daily.map(function (d) { return d.n; }).concat([1]));
     var total = s.total || 0;
@@ -83,7 +84,7 @@ function dashboard() {
       kpi('Subscribed', s.subscribed, total ? Math.round(s.subscribed / total * 100) + '% of contacts' : '') +
       kpi('Leads', s.leads, 'Not on the newsletter') +
       kpi('Emails sent (30 days)', s.sent30, num(s.failed30) + ' failed · ' + num(s.unsubscribed) + ' unsubscribed total') +
-      '</div>' +
+      '</div>' + dealsDash(s.deals) +
       '<div class="dash2"><div class="card"><h2>New contacts, last 30 days</h2><div class="chart">' +
       daily.map(function (d) { return '<div class="b" style="height:' + Math.max(2, Math.round(d.n / max * 100)) + '%" title="' + esc(d.d) + ': ' + d.n + '"></div>'; }).join('') +
       '</div><div class="axis"><span>' + esc(daily[0] ? fmtD(daily[0].d) : '') + '</span><span>' + num(s.new30) + ' in 30 days</span><span>Today</span></div></div>' +
@@ -179,7 +180,7 @@ function drawContact(data, tab) {
   var c = data.contact, d = $('.drawer'); if (!d) return;
   var name = [c.first_name, c.last_name].filter(Boolean).join(' ') || c.email;
   d.innerHTML = '<div class="dh"><h2>' + esc(name) + '</h2><span class="pill st-' + esc(c.status) + '">' + esc(c.status) + '</span><button class="x" data-close aria-label="Close">×</button></div>' +
-    '<div class="db"><div class="tabs"><button data-t="details" class="' + (tab === 'details' ? 'on' : '') + '">Details</button><button data-t="activity" class="' + (tab === 'activity' ? 'on' : '') + '">Activity</button><button data-t="emails" class="' + (tab === 'emails' ? 'on' : '') + '">Emails (' + data.sends.length + ')</button></div><div id="tb"></div></div>' +
+    '<div class="db"><div class="tabs"><button data-t="details" class="' + (tab === 'details' ? 'on' : '') + '">Details</button><button data-t="activity" class="' + (tab === 'activity' ? 'on' : '') + '">Activity</button><button data-t="emails" class="' + (tab === 'emails' ? 'on' : '') + '">Emails (' + data.sends.length + ')</button><button data-t="deals" class="' + (tab === 'deals' ? 'on' : '') + '">Deals</button></div><div id="tb"></div></div>' +
     '<div class="df" id="df"></div>';
   $$('[data-close]', d).forEach(function (b) { b.onclick = closeLayer; });
   $$('.tabs button', d).forEach(function (b) { b.onclick = function () { drawContact(data, b.dataset.t); }; });
@@ -191,6 +192,16 @@ function drawContact(data, tab) {
       '<div class="e"><time>' + esc(fmtDT(c.created_at)) + '</time><div><span class="k">Joined</span> · source ' + esc(c.source || '—') + (c.consent_text ? ' · ' + esc(c.consent_text) : '') + '</div></div></div>';
     df.innerHTML = '<button class="btn" data-close>Close</button>'; $('[data-close]', df).onclick = closeLayer;
     $('#an').onclick = function () { var t = $('#nt').value.trim(); if (!t) return; api('contacts.note', { id: c.id, text: t }).then(function () { return api('contacts.get', { id: c.id }); }).then(function (x) { drawContact(x, 'activity'); toast('Note added'); }).catch(function (e) { toast(e.message); }); };
+  }
+  if (tab === 'deals') {
+    tb.innerHTML = '<p class="note">Loading…</p>';
+    df.innerHTML = '<button class="btn" data-close>Close</button><button class="btn pri" id="nd">New deal</button>'; $('[data-close]', df).onclick = closeLayer;
+    $('#nd').onclick = function () { loadPipes().then(function () { dealDlg({ contact_id: c.id, contact: c, pipeline_id: (PIPES[0] || {}).id }); }); };
+    Promise.all([api('deals.list', { contact_id: c.id }), loadPipes()]).then(function (r) {
+      var ds = r[0].deals || [];
+      tb.innerHTML = ds.length ? '<div class="tl">' + ds.map(function (d) { var p = pipeOf(d.pipeline_id), st = stageOf(p, d.stage); return '<div class="e" data-deal="' + d.id + '" style="cursor:pointer"><time>' + esc(p ? p.name : '') + '</time><div><b>' + esc(d.title) + '</b> · ' + money(d.value, d.currency) + ' <span class="pill ' + kindCls(st && st.kind) + '">' + esc(st ? st.name : d.stage) + '</span></div></div>'; }).join('') + '</div>' : '<p class="note">No deals with this contact yet.</p>';
+      $$('[data-deal]', tb).forEach(function (e) { e.onclick = function () { dealDlg(ds.filter(function (x) { return x.id === +e.dataset.deal; })[0]); }; });
+    }).catch(function (e) { tb.innerHTML = '<p class="err">' + esc(e.message) + '</p>'; });
   }
   if (tab === 'emails') {
     tb.innerHTML = '<div class="tl">' + (data.sends.length ? data.sends.map(function (s) { return '<div class="e"><time>' + esc(fmtDT(s.created_at)) + '</time><div><span class="pill ' + (s.status === 'sent' ? 'st-subscribed' : 'st-unsubscribed') + '">' + esc(s.status) + '</span> <b>' + esc(s.kind) + '</b> · ' + esc(s.subject || '') + (s.error ? '<div class="note">' + esc(s.error) + '</div>' : '') + '</div></div>'; }).join('') : '<p class="note">No emails sent to this contact yet.</p>') + '</div>';
@@ -337,6 +348,117 @@ function fieldDlg(f) {
     api('fields.save', { field: { key: $('#fl_k').value, label: $('#fl_l').value, type: $('#fl_t').value, options: $('#fl_o').value.split(',').map(function (s) { return s.trim(); }).filter(Boolean), position: f ? f.position : FIELDS.length } })
       .then(function () { closeLayer(); toast('Field saved'); fieldsView(); }).catch(function (e) { $('#fle').textContent = e.message; });
   };
+}
+
+/* ---------------- pipelines & deals ---------------- */
+function money(v, cur) { v = Number(v) || 0; var c = cur || 'PHP'; try { return v.toLocaleString('en-PH', { style: 'currency', currency: c, maximumFractionDigits: 0 }); } catch (e) { return c + ' ' + num(Math.round(v)); } }
+function kindCls(k) { return k === 'won' ? 'st-subscribed' : k === 'lost' ? 'st-unsubscribed' : 'st-lead'; }
+function pipeOf(id) { return PIPES.filter(function (p) { return p.id === id; })[0]; }
+function stageOf(p, id) { return p ? (p.stages || []).filter(function (s) { return s.id === id; })[0] : null; }
+function loadPipes() { return api('pipelines.list').then(function (d) { PIPES = d.pipelines || []; if (!pipeOf(PIPE) && PIPES[0]) PIPE = PIPES[0].id; }); }
+function today() { var d = new Date(Date.now() + 8 * 3600e3); return d.toISOString().slice(0, 10); }
+function dealsDash(d) {
+  if (!d) return '';
+  var by = d.by_stage || [], max = Math.max.apply(null, by.map(function (x) { return +x.value || 0; }).concat([1]));
+  return '<div class="kpis">' + kpi('Open deals', d.open, money(d.open_value) + ' in the pipeline') + kpi('Won (30 days)', d.won30, money(d.won30_value)) + kpi('Lost (30 days)', d.lost30, d.won30 + d.lost30 ? Math.round(d.won30 / (d.won30 + d.lost30) * 100) + '% win rate' : 'No closed deals yet') + kpi('Follow-ups due', d.due, 'Next step date is today or earlier') + '</div>' +
+    (by.length ? '<div class="card" style="margin-bottom:12px"><h2>Open pipeline by stage</h2><div class="rows">' + by.map(function (x) { return '<div class="r" style="display:block"><div style="display:flex;justify-content:space-between;gap:10px"><span>' + (PIPES.length > 1 || by.some(function (y) { return y.pipeline !== by[0].pipeline; }) ? esc(x.pipeline) + ' · ' : '') + esc(x.stage) + '</span><span><b>' + num(x.n) + '</b> · ' + money(x.value) + '</span></div><div class="meter"><i style="width:' + Math.round((+x.value || 0) / max * 100) + '%"></i></div></div>'; }).join('') + '</div></div>' : '');
+}
+function pipelines() {
+  var m = $('#main');
+  m.innerHTML = '<div class="head"><h1>Pipelines</h1><select class="in" id="pp" style="width:auto"></select><button class="btn" id="pe">Edit stages</button><button class="btn" id="pn">New pipeline</button><button class="btn pri" id="dn">New deal</button></div><div id="board"><p class="note">Loading…</p></div>';
+  loadPipes().then(function () {
+    var sel = $('#pp');
+    sel.innerHTML = PIPES.map(function (p) { return '<option value="' + p.id + '"' + (p.id === PIPE ? ' selected' : '') + '>' + esc(p.name) + '</option>'; }).join('');
+    sel.onchange = function () { PIPE = +sel.value; try { localStorage.setItem('crm_pipe', PIPE); } catch (e) {} loadBoard(); };
+    $('#pe').onclick = function () { pipeDlg(pipeOf(PIPE)); };
+    $('#pn').onclick = function () { pipeDlg(null); };
+    $('#dn').onclick = function () { dealDlg({ pipeline_id: PIPE }); };
+    loadBoard();
+  }).catch(function (e) { $('#board').innerHTML = '<p class="err">' + esc(e.message) + '</p>'; });
+}
+function loadBoard() {
+  if (!PIPE) { $('#board').innerHTML = '<div class="card empty">No pipeline yet. Click New pipeline.</div>'; return; }
+  api('deals.list', { pipeline_id: PIPE }).then(function (d) { DEALS = d.deals || []; drawBoard(); }).catch(function (e) { $('#board').innerHTML = '<p class="err">' + esc(e.message) + '</p>'; });
+}
+function drawBoard() {
+  var p = pipeOf(PIPE), el = $('#board'); if (!p || !el) return;
+  var t = today();
+  el.innerHTML = '<div class="board">' + p.stages.map(function (st) {
+    var ds = DEALS.filter(function (d) { return d.stage === st.id; }).sort(function (a, b) { return a.position - b.position; });
+    var sums = {}; ds.forEach(function (d) { var c = d.currency || 'PHP'; sums[c] = (sums[c] || 0) + (+d.value || 0); });
+    var sumTxt = Object.keys(sums).length ? Object.keys(sums).map(function (c) { return money(sums[c], c); }).join(' + ') : money(0);
+    return '<section class="col k-' + st.kind + '" data-stage="' + esc(st.id) + '"><header><b>' + esc(st.name) + '</b><span>' + ds.length + ' · ' + sumTxt + '</span></header><div class="cards">' +
+      ds.map(function (d) {
+        var who = d.contact ? ([d.contact.first_name, d.contact.last_name].filter(Boolean).join(' ') || d.contact.email) : '';
+        var due = d.status === 'open' && d.next_date && d.next_date <= t;
+        return '<article class="deal" draggable="true" data-id="' + d.id + '"><b>' + esc(d.title) + '</b>' + (who ? '<span class="who2">' + esc(who) + (d.contact && d.contact.company ? ' · ' + esc(d.contact.company) : '') + '</span>' : '') +
+          '<div class="dm"><span>' + money(d.value, d.currency) + '</span>' + (d.next_date ? '<span class="' + (due ? 'due' : '') + '">' + (due ? '⚑ ' : '') + esc(fmtD(d.next_date)) + '</span>' : '') + '</div>' + (d.next_step ? '<span class="ns">' + esc(d.next_step) + '</span>' : '') + '</article>';
+      }).join('') + '</div><button class="addd" data-add="' + esc(st.id) + '">+ Add deal</button></section>';
+  }).join('') + '</div>';
+  $$('.deal', el).forEach(function (c) {
+    c.onclick = function () { dealDlg(DEALS.filter(function (d) { return d.id === +c.dataset.id; })[0]); };
+    c.ondragstart = function (e) { e.dataTransfer.setData('text/plain', c.dataset.id); c.classList.add('drag'); };
+    c.ondragend = function () { c.classList.remove('drag'); };
+  });
+  $$('.col', el).forEach(function (col) {
+    col.ondragover = function (e) { e.preventDefault(); col.classList.add('over'); };
+    col.ondragleave = function () { col.classList.remove('over'); };
+    col.ondrop = function (e) {
+      e.preventDefault(); col.classList.remove('over');
+      var id = +e.dataTransfer.getData('text/plain'), d = DEALS.filter(function (x) { return x.id === id; })[0]; if (!d) return;
+      var stage = col.dataset.stage, cards = $$('.deal', col).filter(function (c) { return +c.dataset.id !== id; });
+      var after = null; cards.forEach(function (c) { var r = c.getBoundingClientRect(); if (e.clientY > r.top + r.height / 2) after = c; });
+      var list = DEALS.filter(function (x) { return x.stage === stage && x.id !== id; }).sort(function (a, b) { return a.position - b.position; });
+      var idx = after ? list.findIndex(function (x) { return x.id === +after.dataset.id; }) + 1 : 0;
+      var prev = list[idx - 1], next = list[idx];
+      var pos = prev && next ? (prev.position + next.position) / 2 : prev ? prev.position + 1 : next ? next.position - 1 : Date.now() / 1000;
+      var st = stageOf(pipeOf(PIPE), stage);
+      d.stage = stage; d.position = pos; d.status = st ? st.kind : d.status; drawBoard();
+      api('deals.move', { id: id, stage: stage, position: pos }).then(function () { toast('Moved to ' + (st ? st.name : stage)); }).catch(function (er) { toast(er.message); loadBoard(); });
+    };
+  });
+  $$('[data-add]', el).forEach(function (b) { b.onclick = function () { dealDlg({ pipeline_id: PIPE, stage: b.dataset.add }); }; });
+}
+function dealDlg(d) {
+  d = d || {};
+  var p = pipeOf(d.pipeline_id) || pipeOf(PIPE) || PIPES[0];
+  if (!p) { toast('Create a pipeline first'); return; }
+  var who = d.contact ? ([d.contact.first_name, d.contact.last_name].filter(Boolean).join(' ') || d.contact.email) : '';
+  var dl = layer('<div class="dh"><h2>' + (d.id ? esc(d.title) : 'New deal') + '</h2><button class="x" data-close aria-label="Close">×</button></div><div class="db">' +
+    '<div><label class="lb" for="d_t">Deal title</label><input class="in" id="d_t" value="' + esc(d.title || '') + '" placeholder="e.g. Chatbot build for a clinic"></div>' +
+    '<div class="grid2"><div><label class="lb" for="d_v">Value</label><input class="in" id="d_v" type="number" min="0" step="1" value="' + esc(d.value || '') + '"></div><div><label class="lb" for="d_c">Currency</label><select class="in" id="d_c">' + ['PHP', 'USD', 'CAD', 'AUD', 'SGD', 'EUR', 'GBP'].map(function (c) { return '<option' + ((d.currency || 'PHP') === c ? ' selected' : '') + '>' + c + '</option>'; }).join('') + '</select></div></div>' +
+    '<div class="grid2"><div><label class="lb" for="d_p">Pipeline</label><select class="in" id="d_p">' + PIPES.map(function (x) { return '<option value="' + x.id + '"' + (x.id === p.id ? ' selected' : '') + '>' + esc(x.name) + '</option>'; }).join('') + '</select></div><div><label class="lb" for="d_s">Stage</label><select class="in" id="d_s"></select></div></div>' +
+    '<div><label class="lb" for="d_q">Contact</label><div class="picked" id="d_who"' + (d.contact_id ? '' : ' hidden') + '><span id="d_whot">' + esc(who) + '</span><button class="btn sm" id="d_clr" type="button">Change</button></div><div id="d_pick"' + (d.contact_id ? ' hidden' : '') + '><input class="in" id="d_q" placeholder="Search a contact by name, email or company"><div class="picklist" id="d_res"></div></div></div>' +
+    '<div class="grid2"><div><label class="lb" for="d_nd">Next follow-up</label><input class="in" id="d_nd" type="date" value="' + esc(d.next_date || '') + '"></div><div><label class="lb" for="d_ns">Next step</label><input class="in" id="d_ns" value="' + esc(d.next_step || '') + '" placeholder="e.g. Send proposal"></div></div>' +
+    '<div><label class="lb" for="d_n">Notes</label><textarea class="in" id="d_n">' + esc(d.notes || '') + '</textarea></div><div class="err" id="d_e"></div></div>' +
+    '<div class="df">' + (d.id ? '<button class="btn danger" id="d_del" style="margin-right:auto">Delete</button>' : '') + '<button class="btn" data-close>Cancel</button><button class="btn pri" id="d_sv">' + (d.id ? 'Save' : 'Add deal') + '</button></div>', 'drawer');
+  var contactId = d.contact_id || null;
+  var fillStages = function () { var pp = pipeOf(+$('#d_p').value); $('#d_s').innerHTML = pp.stages.map(function (s) { return '<option value="' + esc(s.id) + '"' + (s.id === d.stage ? ' selected' : '') + '>' + esc(s.name) + '</option>'; }).join(''); };
+  $('#d_p').onchange = fillStages; fillStages();
+  var qt; $('#d_q').oninput = function (e) { clearTimeout(qt); qt = setTimeout(function () { api('contacts.pick', { q: e.target.value }).then(function (r) { $('#d_res').innerHTML = r.rows.map(function (c) { return '<button type="button" data-c="' + c.id + '" data-n="' + esc([c.first_name, c.last_name].filter(Boolean).join(' ') || c.email) + '"><b>' + esc([c.first_name, c.last_name].filter(Boolean).join(' ') || c.email) + '</b> <span>' + esc(c.email) + (c.company ? ' · ' + esc(c.company) : '') + '</span></button>'; }).join('') || '<p class="note">No match. Add the contact first under Contacts.</p>'; $$('#d_res [data-c]').forEach(function (b) { b.onclick = function () { contactId = +b.dataset.c; $('#d_whot').textContent = b.dataset.n; $('#d_who').hidden = false; $('#d_pick').hidden = true; }; }); }); }, 250); };
+  $('#d_clr').onclick = function () { contactId = null; $('#d_who').hidden = true; $('#d_pick').hidden = false; $('#d_q').focus(); };
+  $$('[data-close]', dl).forEach(function (b) { b.onclick = closeLayer; });
+  $('#d_sv').onclick = function () {
+    var body = { id: d.id, title: $('#d_t').value, value: $('#d_v').value, currency: $('#d_c').value, pipeline_id: +$('#d_p').value, stage: $('#d_s').value, contact_id: contactId, next_date: $('#d_nd').value, next_step: $('#d_ns').value, notes: $('#d_n').value };
+    api('deals.save', { deal: body }).then(function () { closeLayer(); toast(d.id ? 'Deal saved' : 'Deal added'); if (location.hash.indexOf('pipelines') >= 0) { PIPE = body.pipeline_id; pipelines(); } }).catch(function (e) { $('#d_e').textContent = e.message; });
+  };
+  if (d.id) $('#d_del').onclick = function () { confirmBox('Delete the deal "' + d.title + '"?', 'This removes the deal permanently. It cannot be undone. To keep a record, move it to Lost instead.', 'Delete deal', function () { api('deals.delete', { id: d.id }).then(function () { toast('Deal deleted'); if (location.hash.indexOf('pipelines') >= 0) loadBoard(); }).catch(function (e) { toast(e.message); }); }); };
+}
+function pipeDlg(p) {
+  var stages = p ? p.stages.map(function (s) { return Object.assign({}, s); }) : [{ id: 'lead', name: 'New lead', kind: 'open' }, { id: 'won', name: 'Won', kind: 'won' }, { id: 'lost', name: 'Lost', kind: 'lost' }];
+  var dl = layer('<div class="dh" style="display:flex;padding:16px 20px;border-bottom:1px solid var(--line)"><h2 style="font-size:17px;margin-right:auto">' + (p ? 'Edit pipeline' : 'New pipeline') + '</h2><button class="x" data-close aria-label="Close">×</button></div><div class="db"><div><label class="lb" for="p_n">Pipeline name</label><input class="in" id="p_n" value="' + esc(p ? p.name : '') + '" placeholder="e.g. Done-for-you builds"></div><div><label class="lb">Stages, in order</label><div id="p_st"></div><button class="btn sm" id="p_add" type="button" style="margin-top:8px">+ Add stage</button></div><p class="note">Won and Lost stages close the deal and count toward win rate. You can only remove a stage once it has no deals.</p><div class="err" id="p_e"></div><div style="display:flex;gap:8px;justify-content:flex-end">' + (p ? '<button class="btn danger" id="p_del" style="margin-right:auto">Delete pipeline</button>' : '') + '<button class="btn" data-close>Cancel</button><button class="btn pri" id="p_sv">Save</button></div></div>', 'modal');
+  var draw = function () {
+    $('#p_st').innerHTML = stages.map(function (s, i) { return '<div class="strow"><input class="in" data-i="' + i + '" value="' + esc(s.name) + '"><select class="in" data-k="' + i + '" style="width:110px"><option value="open"' + (s.kind === 'open' ? ' selected' : '') + '>Open</option><option value="won"' + (s.kind === 'won' ? ' selected' : '') + '>Won</option><option value="lost"' + (s.kind === 'lost' ? ' selected' : '') + '>Lost</option></select><button class="btn sm" data-up="' + i + '" type="button" aria-label="Move up">↑</button><button class="btn sm danger" data-rm="' + i + '" type="button" aria-label="Remove">×</button></div>'; }).join('');
+    $$('#p_st [data-i]').forEach(function (x) { x.oninput = function () { stages[+x.dataset.i].name = x.value; }; });
+    $$('#p_st [data-k]').forEach(function (x) { x.onchange = function () { stages[+x.dataset.k].kind = x.value; }; });
+    $$('#p_st [data-up]').forEach(function (x) { x.onclick = function () { var i = +x.dataset.up; if (i > 0) { var t = stages[i - 1]; stages[i - 1] = stages[i]; stages[i] = t; draw(); } }; });
+    $$('#p_st [data-rm]').forEach(function (x) { x.onclick = function () { stages.splice(+x.dataset.rm, 1); draw(); }; });
+  };
+  draw();
+  $('#p_add').onclick = function () { var won = stages.findIndex(function (s) { return s.kind !== 'open'; }); var ns = { id: '', name: 'New stage', kind: 'open' }; if (won < 0) stages.push(ns); else stages.splice(won, 0, ns); draw(); };
+  $$('[data-close]', dl).forEach(function (b) { b.onclick = closeLayer; });
+  $('#p_sv').onclick = function () { api('pipelines.save', { pipeline: { id: p && p.id, name: $('#p_n').value, stages: stages, position: p ? p.position : PIPES.length } }).then(function (r) { PIPE = r.id; try { localStorage.setItem('crm_pipe', PIPE); } catch (e) {} closeLayer(); toast('Pipeline saved'); pipelines(); }).catch(function (e) { $('#p_e').textContent = e.message; }); };
+  if (p) $('#p_del').onclick = function () { api('pipelines.delete', { id: p.id }).then(function () { PIPE = null; closeLayer(); toast('Pipeline deleted'); pipelines(); }).catch(function (e) { $('#p_e').textContent = e.message; }); };
 }
 
 /* ---------------- boot ---------------- */

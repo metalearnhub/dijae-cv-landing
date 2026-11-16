@@ -108,3 +108,26 @@ label.lb{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-
 [hidden]{display:none!important}
 #tb{display:flex;flex-direction:column;gap:12px}
 #tb .grid2{display:grid}
+/* pipelines */
+.board{display:flex;gap:12px;overflow-x:auto;padding-bottom:12px;align-items:flex-start}
+.col{flex:0 0 270px;background:#eef0f3;border-radius:14px;padding:10px;display:flex;flex-direction:column;gap:8px;min-height:120px;border:2px solid transparent}
+.col.over{border-color:var(--teal);background:var(--teal-l)}
+.col header{display:flex;flex-direction:column;gap:2px;padding:2px 4px 4px}
+.col header b{font-size:13px}.col header span{font-size:12px;color:var(--muted)}
+.col.k-won header b{color:var(--teal-d)}.col.k-lost header b{color:var(--red)}
+.cards{display:flex;flex-direction:column;gap:8px;min-height:20px}
+.deal{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 11px;cursor:grab;display:flex;flex-direction:column;gap:4px}
+.deal:hover{border-color:#c9ced4}.deal.drag{opacity:.4}
+.deal b{font-size:13.5px}.who2{font-size:12.5px;color:var(--muted)}
+.dm{display:flex;justify-content:space-between;font-size:12.5px;font-weight:600}.dm .due{color:var(--red)}
+.ns{font-size:12px;color:#444;background:var(--grey-l);border-radius:6px;padding:3px 6px}
+.addd{background:none;border:1px dashed #c9ced4;border-radius:9px;padding:7px;color:var(--muted);font-weight:600;cursor:pointer}
+.addd:hover{border-color:var(--teal);color:var(--teal)}
+.picked{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:9px;padding:6px 6px 6px 12px;font-weight:600}
+.picked span{margin-right:auto}
+.picklist{display:flex;flex-direction:column;margin-top:6px;border-radius:9px;overflow:hidden}
+.picklist button{text-align:left;background:#fff;border:1px solid var(--line);border-top:0;padding:8px 11px;cursor:pointer}
+.picklist button:first-child{border-top:1px solid var(--line);border-radius:9px 9px 0 0}.picklist button:last-child{border-radius:0 0 9px 9px}
+.picklist button:hover{background:var(--teal-l)}.picklist span{color:var(--muted);font-size:12.5px}
+.strow{display:flex;gap:6px;margin-bottom:6px}
+@media (max-width:860px){.col{flex-basis:78vw}}
