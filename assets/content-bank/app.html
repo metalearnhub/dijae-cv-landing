@@ -138,8 +138,37 @@ main{padding:12px 0 40px}
 .fbl{font-size:13.5px;margin-top:8px}.fbl a{color:var(--teal);font-weight:700}
 @media(max-width:820px){.fbc{grid-template-columns:1fr}.fbc img{max-width:360px;margin:0 auto}}
 </style>
+<script>/* Passcode gate: the device key is stored after a correct passcode. */
+(function(){var k="";try{k=localStorage.getItem("cb_sync_key")||"";}catch(e){}if(!k)document.documentElement.className+=" locked";})();</script>
+<style>
+#gate{display:none}
+html.locked body>*:not(#gate){display:none!important}
+html.locked #gate{display:flex;min-height:100vh;align-items:center;justify-content:center;padding:16px;background:#f7f8fa}
+#gate form{background:#fff;border:1px solid #e3e6ea;border-radius:16px;padding:28px 24px;width:100%;max-width:360px;display:flex;flex-direction:column;gap:12px;font-family:Inter,system-ui,sans-serif}
+#gate h1{font-size:15px;letter-spacing:3px;font-weight:800}#gate h1 span{color:#007a66}
+#gate p{font-size:13px;color:#666}
+#gate input{border:1px solid #e3e6ea;border-radius:10px;padding:12px 14px;font-size:18px;letter-spacing:4px;text-align:center;font-family:inherit}
+#gate button{background:#007a66;color:#fff;border:0;border-radius:10px;padding:12px;font-weight:700;font-size:15px;cursor:pointer;font-family:inherit}
+#gate button[disabled]{opacity:.6}
+#gate .err{color:#b42318;font-size:13px;min-height:18px}
+</style>
 </head>
 <body>
+<div id="gate"><form id="gateForm" autocomplete="off">
+<h1>DIJAE DADULA · <span>CONTENT BANK</span></h1>
+<p>Enter the passcode to open the content bank. This device stays unlocked after that.</p>
+<input id="gatePass" type="password" inputmode="numeric" placeholder="Passcode" aria-label="Passcode" autofocus>
+<div class="err" id="gateErr"></div>
+<button type="submit" id="gateBtn">Unlock</button>
+</form></div>
+<script>
+document.getElementById("gateForm").addEventListener("submit",function(e){e.preventDefault();
+var b=document.getElementById("gateBtn"),er=document.getElementById("gateErr"),v=document.getElementById("gatePass").value.trim();if(!v){er.textContent="Enter the passcode.";return;}
+b.disabled=true;er.textContent="";
+fetch("https://qbubwemdvwflxvxwesrl.supabase.co/functions/v1/content-bank",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({action:"unlock",passcode:v})}).then(function(r){return r.json().then(function(d){return{s:r.status,d:d};});}).then(function(x){
+if(x.d.key){try{localStorage.setItem("cb_sync_key",x.d.key);}catch(e){}location.reload();return;}
+b.disabled=false;er.textContent=x.s===429?"Too many tries. Wait an hour and try again.":"Wrong passcode.";}).catch(function(){b.disabled=false;er.textContent="Couldn't reach the server. Check your connection.";});});
+</script>
 <header>
   <div class="wrap">
     <div class="top">
@@ -203,10 +232,10 @@ try{rec=JSON.parse(localStorage.getItem(KEY)||"{}")||{};}catch(e){rec={};}
 var DEFAULT_ME="dijaedadula";me=DEFAULT_ME;
 try{me=localStorage.getItem(MEKEY)||DEFAULT_ME;}catch(e){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(rec));}catch(e){}}
-/* ---- Cross-device sync: verifications and profile live in Supabase (edge function content-bank). The key is injected by the PayMeGPT shell behind the passcode gate. ---- */
+/* ---- Cross-device sync: verifications and profile live in Supabase (edge function content-bank). The key is issued by the passcode gate at the top of this page and kept on this device. ---- */
 var SYNC="https://qbubwemdvwflxvxwesrl.supabase.co/functions/v1/content-bank",SKEY=window.CB_SYNC_KEY||"",syncOk=false,syncBusy=0;
 try{if(SKEY)localStorage.setItem("cb_sync_key",SKEY);else SKEY=localStorage.getItem("cb_sync_key")||"";}catch(e){}
-function api(body){if(!SKEY)return Promise.reject("nokey");syncBusy++;return fetch(SYNC,{method:"POST",headers:{"content-type":"application/json","x-cb-key":SKEY},body:JSON.stringify(body)}).then(function(r){if(!r.ok)throw r.status;return r.json();}).then(function(d){syncBusy--;syncOk=true;syncBadge();return d;},function(e){syncBusy--;syncOk=false;syncBadge();throw e;});}
+function api(body){if(!SKEY)return Promise.reject("nokey");syncBusy++;return fetch(SYNC,{method:"POST",headers:{"content-type":"application/json","x-cb-key":SKEY},body:JSON.stringify(body)}).then(function(r){if(r.status===401){try{localStorage.removeItem("cb_sync_key");}catch(e){}location.reload();}if(!r.ok)throw r.status;return r.json();}).then(function(d){syncBusy--;syncOk=true;syncBadge();return d;},function(e){syncBusy--;syncOk=false;syncBadge();throw e;});}
 function applyRemote(d){if(!d||!d.rec)return;var a=JSON.stringify(rec);rec=d.rec;save();if(d.me&&d.me!==me){me=d.me;try{localStorage.setItem(MEKEY,me);}catch(e){}var mi=document.getElementById("me");if(mi&&document.activeElement!==mi)mi.value=me;}if(JSON.stringify(rec)!==a&&POSTS.length)render();}
 function syncBadge(){var b=document.getElementById("syncb");if(!b)return;if(!SKEY){b.textContent="Sync off: saved in this browser only";b.className="syncb off";return;}b.textContent=syncOk?"Synced across your devices":"Offline: changes saved here, will sync when back online";b.className="syncb "+(syncOk?"on":"off");}
 var firstPull=true;
