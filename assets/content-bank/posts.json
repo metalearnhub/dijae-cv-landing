@@ -16,7 +16,7 @@
    "post": "An AI agent is software. Ship it like software.\n\nMany teams take an agent from a working demo straight to customers, then hope it holds up.\n\nOrdinary software practice already solves most of this:\n\n→ Keep prompts, tool definitions and config in version control\n→ Test changes in staging, away from real customers\n→ Release one known version at a time\n→ Monitor real behavior, and keep rollback one step away\n\nWhen an agent does something strange, the first question is \"which version ran?\" If you can't answer that, you can't fix it.\n\nThis matters more every quarter. In McKinsey's 2026 State of AI survey, about two in ten respondents say their organization has reached the scaling phase with AI agents.\n\nHow does your team track changes to its agents today?\n\n#AIAgents #AIEngineering #Automation",
    "comment": "Source: McKinsey, The State of AI 2026 → https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai",
    "image": "https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/assets/content-bank/01-development.png",
-   "art": "https://paymegpt.com/objects/generated-images/814/1792057264537-f9db1a92e5cb26eb.png",
+   "art": "https://statics.pancake.vn/web-media-264/42/12/ce/12/1ab70f6a0f468690e11fb267ba66db1f33194f34277f44df591ab0a1.png",
    "artTitle": "An AI agent is software.\nShip it like software.",
    "artAlt": "Illustration of a friendly robot on an assembly line passing through version, test and launch gates, with a rewind arrow back to the start.",
    "artFile": "01-development-creative.png",
@@ -38,7 +38,7 @@
    "post": "Change one thing. Then measure.\n\nTuning an AI agent usually means balancing three numbers: cost per task, response time and accuracy.\n\nThe common mistake is to swap the model, rewrite the prompt and add a tool in the same release. Results improve, or get worse, and nobody can say why.\n\nA slower method gives you answers you can trust:\n\n1. Pick one variable\n2. Run it against the same test set\n3. Record cost, latency and accuracy\n4. Keep the change only if the numbers say so\n\nIt's boring work, but it's how teams get gains that last.\n\nWhich number do you check first when you tune an agent?\n\n#AIAgents #Optimization #WorkflowAutomation",
    "comment": "The full testing method, step by step → https://www.dijaedadula.com/how-to-test-an-ai-chatbot",
    "image": "https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/assets/content-bank/02-optimization.png",
-   "art": "https://paymegpt.com/objects/generated-images/814/1792057337047-91a24b1174549111.png",
+   "art": "https://statics.pancake.vn/web-media-264/01/40/aa/22/f8c1b5f442d41c43d6a83263b78c93648227c715e45d2efbffd9e7e5.png",
    "artTitle": "Change one thing.\nThen measure.",
    "artAlt": "Illustration of a robot turning one highlighted dial while speed, cost and accuracy gauges respond.",
    "artFile": "02-optimization-creative.png",
@@ -60,7 +60,7 @@
    "post": "If an agent acted, you should be able to see why.\n\nFor any agent that touches customers, money or data, log five things on every action:\n\n✓ Input: what it was asked\n✓ Tool calls: every system it touched\n✓ Output: what it said or did\n✓ Approver: who signed off, if anyone\n✓ Timestamp: when it happened\n\nWith those five, \"the AI did something weird\" becomes a question you can answer in minutes, not a guessing game. Compliance reviews get easier too.\n\nNIST's AI Risk Management Framework puts this kind of work under four functions: Govern, Map, Measure and Manage. Logging sits squarely in Measure and Manage.\n\nWhat does your audit trail look like today?\n\n#AIGovernance #AIAgents #RiskManagement",
    "comment": "Reference: NIST AI Risk Management Framework 1.0 (NIST AI 100-1, January 2023) → https://www.nist.gov/itl/ai-risk-management-framework\nWhat an AI agent is, and what it can touch → https://www.dijaedadula.com/what-is-an-ai-agent",
    "image": "https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/assets/content-bank/03-audit.png",
-   "art": "https://paymegpt.com/objects/generated-images/814/1792057349673-516864ef5a625487.png",
+   "art": "https://statics.pancake.vn/web-media-264/c5/ca/11/a0/e9a0f5061d8d396109a54b6579d6be4912d7df1ce0a65d5f312f2a4a.png",
    "artTitle": "If an agent acted,\nyou should see why.",
    "artAlt": "Illustration of a magnifying glass revealing the gears inside a transparent robot, with a trail of log cards behind it.",
    "artFile": "03-audit-creative.png",
@@ -79,7 +79,7 @@
    "post": "\"Training an AI\" rarely means building a model from scratch.\n\nIn published research, much of the human work is feedback. A person looks at two answers from a model and judges which is better, against clear guidelines. The model learns from many of those judgments.\n\nTwo papers show how far this goes:\n\n→ 2017: Christiano et al. trained agents on human preferences while giving feedback on less than 1% of the agent's interactions.\n→ 2022: In OpenAI's InstructGPT study, people preferred answers from a 1.3-billion-parameter model trained this way over answers from the 175-billion-parameter GPT-3.\n\nThe lesson is that a smaller model can win when the feedback is good. The hard part isn't the math. It's agreeing on what \"a good answer\" means, consistently.\n\nHow would you define a good answer in your field?\n\n#AI #MachineLearning #HumanInTheLoop",
    "comment": "Christiano et al., 2017 → https://arxiv.org/abs/1706.03741\nOuyang et al., 2022 → https://arxiv.org/abs/2203.02155",
    "image": "https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/assets/content-bank/04-ai-training.png",
-   "art": "https://paymegpt.com/objects/generated-images/814/1792057362548-07501345b7d3f448.png",
+   "art": "https://statics.pancake.vn/web-media-264/4e/87/d9/80/5f25c04ea9fc33e582d1663dedcc2105adfc936c7f61d68f774d4d89.png",
    "artTitle": "People judge.\nModels learn.",
    "artAlt": "Illustration of a hand placing a checkmark on one of two answer cards on a scale while a robot takes notes.",
    "artFile": "04-ai-training-creative.png",
@@ -101,7 +101,7 @@
    "post": "The first reply wins more deals than the best reply.\n\nWhen someone messages your business, they're rarely asking only you. They asked two or three others at the same time.\n\nHarvard Business Review's research on online sales leads reached a simple conclusion: most companies don't respond nearly fast enough.\n\nThe fix isn't a bigger team. It's a system:\n\n→ Every lead lands in one place, not five inboxes\n→ The first reply goes out in under a minute, day or night\n→ Follow-up keeps going until the person decides\n→ The moment they reply or book, automation stops and a person takes over\n\nSpeed gets you the conversation. A person still closes it.\n\nHow long does your business take to answer a new inquiry today?\n\n#LeadGeneration #AIAgents #SalesAutomation",
    "comment": "The full follow-up system → https://www.dijaedadula.com/automate-lead-follow-up\nSource: Oldroyd, McElheran & Elkington, \"The Short Life of Online Sales Leads,\" Harvard Business Review (March 2011) → https://hbr.org/2011/03/the-short-life-of-online-sales-leads",
    "image": "https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/assets/content-bank/05-speed.png",
-   "art": "https://paymegpt.com/objects/generated-images/814/1792057375811-10761fc43b55bb21.png",
+   "art": "https://statics.pancake.vn/web-media-264/5c/c2/65/2a/026721d993310371bd0b6233723af48515ee29dd2cae3dea96f122a3.png",
    "artTitle": "The first reply wins\nmore deals.",
    "artAlt": "Illustration of a message paper plane breaking the finish line ahead of slower chat bubbles, with a stopwatch.",
    "artFile": "05-speed-creative.png",
@@ -123,7 +123,7 @@
    "post": "Don't ask what your AI costs per month. Ask what it costs per resolved conversation.\n\nMonthly fees hide the real picture. A cheap bot that resolves nothing is expensive. A pricier one that closes sales can pay for itself.\n\nFive numbers tell you whether an AI agent is earning its keep:\n\n1. Speed to first reply\n2. Containment rate: conversations resolved without a person\n3. Conversion rate\n4. Cost per conversation\n5. Handoff quality: does the person who takes over see the full context?\n\nSet a baseline before launch, or you'll have nothing to compare against.\n\nMy rule: measure the AI the way you'd review a new team member, on outcomes, not activity. Message counts are activity. Closed sales and saved hours are outcomes.\n\nWhich of these five do you track today?\n\n#AIAgents #CustomerExperience #ROI",
    "comment": "The five metrics, one ROI formula and a worked example → https://www.dijaedadula.com/chatbot-roi-metrics",
    "image": "https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/assets/content-bank/06-cost.png",
-   "art": "https://paymegpt.com/objects/generated-images/814/1792057392280-eb03e04922ad82bc.png",
+   "art": "https://statics.pancake.vn/web-media-264/e0/9e/22/5f/23cba0a1792b70aca57714adb0259297dffcbc6b083c32f2bd8e33ed.png",
    "artTitle": "Cost per resolved\nconversation.",
    "artAlt": "Illustration of a coin dropping into a chat bubble that becomes a checkmark, beside a balanced scale.",
    "artFile": "06-cost-creative.png",
@@ -145,7 +145,7 @@
    "post": "64% of customers would prefer companies didn't use AI for customer service.\n\nThat's from a Gartner survey of 5,728 customers. Their top worry wasn't wrong answers. It was that reaching a person would get harder.\n\nSo the answer isn't \"no AI.\" It's AI with a clear exit.\n\nA good handoff plan answers four questions:\n\n→ When does the AI step aside? Complaints, refunds, big orders, or any time someone asks for a person\n→ Who picks it up, and how fast?\n→ Does that person see the full conversation, or start from zero?\n→ How is it measured? Track handoff rate and time to a human reply\n\nCustomers don't hate AI. They hate being trapped by it.\n\nWhere does your AI hand off to a person today?\n\n#CustomerService #AIAgents #CustomerExperience",
    "comment": "Source: Gartner press release, July 9, 2024 → https://www.gartner.com/en/newsroom/press-releases/2024-07-09-gartner-survey-finds-64-percent-of-customers-would-prefer-that-companies-didnt-use-ai-for-customer-service\nHow to hand off at the right moment (Step 5) → https://www.dijaedadula.com/qualify-leads-messenger-automatically",
    "image": "https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/assets/content-bank/07-handoff.png",
-   "art": "https://paymegpt.com/objects/generated-images/814/1792057407401-2501e060dec8e9c8.png",
+   "art": "https://statics.pancake.vn/web-media-264/31/cd/8a/77/3eaee21a34c67a48c6797403cd43a224c0819e483e137e96325cab68.png",
    "artTitle": "Customers don't hate AI.\nThey hate being trapped.",
    "artAlt": "Illustration of a robot handing a glowing chat bubble to a smiling support agent at an open door.",
    "artFile": "07-handoff-creative.png",
@@ -167,7 +167,7 @@
    "post": "Your AI agent is only as good as the instructions you give it.\n\nMost weak chatbots aren't a model problem. They're a briefing problem. The agent was never told who it serves, what it may promise, or when to stop.\n\nA strong instruction covers what you'd tell a new hire: the role, the audience, the offers, the tone, the rules, what it must never say, and when to pass the conversation to a person.\n\nMy rule: if you can't explain a situation clearly enough for a new staff member to handle it on day one, don't give it to the AI yet. Write it down for the person first. When the written version works for people, it's ready for the agent.\n\nWhat's the one rule your AI agent keeps breaking?\n\n#AIAgents #PromptEngineering #Automation",
    "comment": "The 9-part instruction structure and five copy-ready templates → https://www.dijaedadula.com/ai-agent-instructions-template",
    "image": "https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/assets/content-bank/08-instructions.png",
-   "art": "https://paymegpt.com/objects/generated-images/814/1792057421292-865448d25a07b944.png",
+   "art": "https://statics.pancake.vn/web-media-264/7d/df/ca/f0/8acde59f748824381ef2af35641717293ef08dcafff5e523f09be6d2.png",
    "artTitle": "Brief your AI agent\nlike a new hire.",
    "artAlt": "Illustration of a robot on its first day at work reading an onboarding binder at a tidy desk.",
    "artFile": "08-instructions-creative.png",
@@ -189,7 +189,7 @@
    "post": "A chatbot answers. An agent acts. MCP is how it acts.\n\nThe Model Context Protocol is an open standard for connecting AI assistants to the systems where your data lives: your CRM, calendar, files and databases.\n\nAnthropic introduced it in November 2024. In December 2025, it was donated to the new Agentic AI Foundation under the Linux Foundation, co-founded by Anthropic, Block and OpenAI. Anthropic counted more than 10,000 active public MCP servers at the time.\n\nFor a business, that means connecting AI to your tools is becoming a standard, not a custom project.\n\nIt also means new risk. An agent that can update your CRM can also update it wrongly. Start read-only, add write access one tool at a time, and log every action.\n\nWhich system would you connect to an AI agent first?\n\n#MCP #AIAgents #Integration",
    "comment": "MCP in plain English, with risks and where to start → https://www.dijaedadula.com/what-is-mcp\nSources: Anthropic, Introducing the Model Context Protocol (Nov 25, 2024) → https://www.anthropic.com/news/model-context-protocol\nAnthropic, Donating MCP and establishing the Agentic AI Foundation (Dec 9, 2025) → https://www.anthropic.com/news/donating-the-model-context-protocol-and-establishing-of-the-agentic-ai-foundation",
    "image": "https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/assets/content-bank/09-mcp.png",
-   "art": "https://paymegpt.com/objects/generated-images/814/1792057434308-b5606e429fb8dfd5.png",
+   "art": "https://statics.pancake.vn/web-media-264/5c/cd/2a/7f/c030ef639837159755fa349d405567896c38739c8a49f4b7a1604587.png",
    "artTitle": "A chatbot answers.\nAn agent acts.",
    "artAlt": "Illustration of a robot plugging one connector into a hub linked to a calendar, folder, database and contact card.",
    "artFile": "09-mcp-creative.png",
@@ -197,7 +197,7 @@
    "theme": "light",
    "image3": "https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/assets/content-bank/09-mcp-dark.png",
    "file3": "09-mcp-dark.png",
-   "art2": "https://paymegpt.com/objects/generated-images/814/1794355925124-81dd4e8c2dac8398.png",
+   "art2": "https://statics.pancake.vn/web-media-264/e8/89/8b/5c/3de28d9d60a1edda60204fe205ec91bde9aff453bbf9b0b85f622905.png",
    "art2File": "09-mcp-dark-creative.png"
   },
   {
@@ -215,7 +215,7 @@
    "post": "AI doesn't fix a broken process. It runs it faster.\n\nMcKinsey's 2026 State of AI survey found that nearly three-quarters of AI high performers redesign their workflows around AI. Among everyone else, it's about one in four.\n\nThe difference isn't the model. It's the order of operations.\n\nBefore building anything, I work through eight questions:\n\n1. Objective\n2. Current process\n3. Bottleneck\n4. System design\n5. Automation\n6. AI\n7. Measurement\n8. Optimization\n\nNotice where the tools come in: almost last.\n\nWhat process in your business would you fix before automating it?\n\n#AIStrategy #WorkflowAutomation #AIAgents",
    "comment": "The 8-step method, explained → https://www.dijaedadula.com/dont-automate-chaos\nSource: McKinsey, The State of AI 2026 → https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai",
    "image": "https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/assets/content-bank/10-process.png",
-   "art": "https://paymegpt.com/objects/generated-images/814/1792057446318-36df13c9c62dad99.png",
+   "art": "https://statics.pancake.vn/web-media-264/5d/87/c6/12/a493d01022145ec1238cca5b3d4107db928169b6e390bec7676b4899.png",
    "artTitle": "AI runs a broken\nprocess faster.",
    "artAlt": "Illustration of tangled pipes straightened into one clean line, with a robot waiting to attach a motor.",
    "artFile": "10-process-creative.png",
@@ -223,7 +223,7 @@
    "theme": "light",
    "image3": "https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/assets/content-bank/10-process-dark.png",
    "file3": "10-process-dark.png",
-   "art2": "https://paymegpt.com/objects/generated-images/814/1794355933804-f5bf242213199152.png",
+   "art2": "https://statics.pancake.vn/web-media-264/94/23/7d/6d/576f0dc8d40723876a7001c66c9cfe641e9c94e0646382afc2fbe503.png",
    "art2File": "10-process-dark-creative.png"
   },
   {
@@ -241,7 +241,7 @@
    "post": "Your chatbot speaks for your business. Legally, too.\n\nIn February 2024, a Canadian tribunal decided Moffatt v. Air Canada. The airline's website chatbot gave a customer wrong information about bereavement fares. Air Canada argued the chatbot was responsible for its own actions.\n\nThe tribunal disagreed. The company is responsible for all the information on its website, whether it comes from a static page or a chatbot.\n\nThe lesson for any business using AI: test it before it talks to customers.\n\n→ Build a test set from real customer questions\n→ Define what a correct answer looks like\n→ Run the tests, name each failure, fix the root cause\n→ Re-test after every change\n\nIf you can't test it, don't ship it.\n\nHow do you check your AI's answers before customers see them?\n\n#AIGovernance #Chatbots #RiskManagement",
    "comment": "Case summary: American Bar Association, Business Law Today (Feb 2024) → https://www.americanbar.org/groups/business_law/resources/business-law-today/2024-february/bc-tribunal-confirms-companies-remain-liable-information-provided-ai-chatbot/\nThe full testing method → https://www.dijaedadula.com/how-to-test-an-ai-chatbot",
    "image": "https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/assets/content-bank/11-accountability.png",
-   "art": "https://paymegpt.com/objects/generated-images/814/1792057459701-ce1c7600e869696b.png",
+   "art": "https://statics.pancake.vn/web-media-264/ef/39/f3/e7/42c9a33f6841f30d0598d1dd734536006858f469e60bf8765e141cae.png",
    "artTitle": "Your chatbot speaks\nfor your business.",
    "artAlt": "Illustration of a chat bubble balanced on scales of justice against a company building with a checkmark shield.",
    "artFile": "11-accountability-creative.png",
@@ -249,7 +249,7 @@
    "theme": "light",
    "image3": "https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/assets/content-bank/11-accountability-dark.png",
    "file3": "11-accountability-dark.png",
-   "art2": "https://paymegpt.com/objects/generated-images/814/1794355942134-33c0bd6122ba0e77.png",
+   "art2": "https://statics.pancake.vn/web-media-264/e2/cc/8e/6f/6c7b659e052d0866fc4fe11c1f67446aef4b556a13831967235c0f02.png",
    "art2File": "11-accountability-dark-creative.png"
   },
   {
@@ -267,7 +267,7 @@
    "post": "Clients don't buy a chatbot. They buy what changes after it's live.\n\nThat's why pricing automation work by the hour hurts both sides. The client watches the clock. You get paid less for working faster.\n\nA better structure:\n\n→ Sell the outcome: faster replies, more bookings, fewer manual hours\n→ Offer a package ladder, not one price\n→ Run the numbers with the client: what does the problem cost today?\n→ Add a monthly retainer for monitoring and improvement\n→ Protect your scope in writing\n\nMy rule: never quote on the first call. Use it to understand the problem and the numbers behind it, then come back with a written proposal tied to those numbers. A quote given before you understand the problem is a guess, and clients can tell.\n\nHow do you price your automation work today?\n\n#Freelancing #Consulting #AIAutomation",
    "comment": "Package ladder, pricing models, value math and a scope checklist → https://www.dijaedadula.com/price-ai-automation-services",
    "image": "https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/assets/content-bank/12-pricing.png",
-   "art": "https://paymegpt.com/objects/generated-images/814/1792057471010-98baa4053178044e.png",
+   "art": "https://statics.pancake.vn/web-media-264/31/e2/1b/e7/757854a8ea5507294448ea13cb6b92a0f6ab1db6eed5b658925ddfe3.png",
    "artTitle": "Sell the outcome,\nnot the hours.",
    "artAlt": "Illustration of a scale where a growth chart outweighs an hourglass, next to steps with a flag on top.",
    "artFile": "12-pricing-creative.png",
@@ -275,7 +275,7 @@
    "theme": "light",
    "image3": "https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/assets/content-bank/12-pricing-dark.png",
    "file3": "12-pricing-dark.png",
-   "art2": "https://paymegpt.com/objects/generated-images/814/1794355959574-a7a56a119bd4f090.png",
+   "art2": "https://statics.pancake.vn/web-media-264/2d/bc/0a/aa/d404979a08a524aa270d6915784f11f6113676c6e88e339d73fef47b.png",
    "art2File": "12-pricing-dark-creative.png"
   },
   {
@@ -293,7 +293,7 @@
    "post": "You don't need to live on social media to get clients. You need a system that keeps working when you log off.\n\nFor consultants, coaches and freelancers, it has seven parts:\n\n1. Be specific about who you help and what changes for them\n2. Publish content that gets found, not just seen\n3. Give people a useful first step\n4. Answer every inquiry instantly\n5. Make booking effortless\n6. Follow up until they decide\n7. Turn clients into proof\n\nAI helps most with 4 and 6: instant answers and patient follow-up. The rest is clarity and consistency.\n\nAn hour a day is enough when the system does the remembering.\n\nWhich of the seven is the weakest link in yours?\n\n#Consulting #Coaching #AIAutomation",
    "comment": "The seven-part client system, with the tools behind it → https://www.dijaedadula.com/get-more-clients-with-ai",
    "image": "https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/assets/content-bank/13-clients.png",
-   "art": "https://paymegpt.com/objects/generated-images/814/1792057485702-96bd4745a7288c1f.png",
+   "art": "https://statics.pancake.vn/web-media-264/eb/32/40/c3/143b407ccef7cae4fc72a2be29ba4197c8e500cf65f3db308b14931c.png",
    "artTitle": "Get clients without\nliving on social media.",
    "artAlt": "Illustration of a lighthouse guiding small boats to a dock with a calendar sign.",
    "artFile": "13-clients-creative.png",
@@ -301,7 +301,7 @@
    "theme": "light",
    "image3": "https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/assets/content-bank/13-clients-dark.png",
    "file3": "13-clients-dark.png",
-   "art2": "https://paymegpt.com/objects/generated-images/814/1794355968165-3c27523b8c8ca490.png",
+   "art2": "https://statics.pancake.vn/web-media-264/b7/89/9d/e3/90990d946dd7fe101a70c62d72d57ae6eb113daa6cf662a11823034e.png",
    "art2File": "13-clients-dark-creative.png"
   },
   {
@@ -319,7 +319,7 @@
    "post": "Assist first. Automate second.\n\nFull automation is tempting: let the AI handle every conversation and walk away. Sometimes that works. But you give up control, and you learn less.\n\nAssistive AI works differently. It drafts the reply, flags intent and suggests the next step. A person approves, edits or takes over.\n\nThree things happen when teams start this way:\n\n→ Answers become consistent across staff, VAs and freelancers\n→ The team sees exactly where the AI is reliable and where it isn't\n→ You learn what's safe to automate fully, based on evidence\n\nThen you automate the parts that have earned it.\n\nWhere would assistive AI help your team most?\n\n#AIAgents #HumanInTheLoop #CustomerExperience",
    "comment": "When you need an agent, and when a simpler setup is enough → https://www.dijaedadula.com/what-is-an-ai-agent",
    "image": "https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/assets/content-bank/14-assist.png",
-   "art": "https://paymegpt.com/objects/generated-images/814/1792057499841-f3e41b0a26878e7c.png",
+   "art": "https://statics.pancake.vn/web-media-264/fa/23/28/d9/5db8e9b4163c1eb847f2cc8fc249e69c429e49756a8a8f806c8cc840.png",
    "artTitle": "Assist first.\nAutomate second.",
    "artAlt": "Illustration of a person driving while a robot co-pilot points at a map.",
    "artFile": "14-assist-creative.png",
@@ -327,7 +327,7 @@
    "theme": "light",
    "image3": "https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/assets/content-bank/14-assist-dark.png",
    "file3": "14-assist-dark.png",
-   "art2": "https://paymegpt.com/objects/generated-images/814/1794355978787-46df4207ab27b672.png",
+   "art2": "https://statics.pancake.vn/web-media-264/5c/65/09/a5/fa12be01e91d289ae9cfd79691d61f5425301955f5244bd592e2064d.png",
    "art2File": "14-assist-dark-creative.png"
   }
  ],
@@ -373,7 +373,7 @@
    "blogTitle": "Philippine Data Privacy Act for Chatbots",
    "blogUrl": "https://www.dijaedadula.com/data-privacy-act-chatbots-philippines",
    "message": "Every field you collect is a field you have to protect.\n\nUnder the Philippine Data Privacy Act, chatbot leads are personal information. Ask only what the next step needs, and keep marketing consent separate.\n\nThe practical guide:\nhttps://www.dijaedadula.com/data-privacy-act-chatbots-philippines",
-   "image": "https://paymegpt.com/objects/generated-images/814/1793242747703-b3abdd4c8b25f862.png",
+   "image": "https://statics.pancake.vn/web-media-264/28/dd/29/01/0ffc1336e0dabd81cf52e0421ed914475ce550abbc2bafc8bfb39145.png",
    "alt": "Creative: Ask only for what the next step needs, with a smartphone chat form, a shield and a padlock.",
    "when": "2026-10-29T11:05:00+08:00",
    "fbUrl": "https://www.facebook.com/1579937777474981/posts/1798584785610278"
@@ -383,7 +383,7 @@
    "blogTitle": "How to Automate Lead Follow-Up With AI",
    "blogUrl": "https://www.dijaedadula.com/automate-lead-follow-up",
    "message": "The first reply wins more deals than the best reply.\n\nMost leads ask two or three businesses at once. Reply in minutes, keep following up until they decide, and hand real buyers to a person.\n\nThe follow-up system:\nhttps://www.dijaedadula.com/automate-lead-follow-up",
-   "image": "https://paymegpt.com/objects/generated-images/814/1793242865449-faf2b87fd707d02a.png",
+   "image": "https://statics.pancake.vn/web-media-264/a9/53/3a/a8/be50a8f3483caa13e21c8b1b6369710fd9351c3e542564f51e79fe10.png",
    "alt": "Creative: The first reply wins more deals, with a paper plane breaking a finish line ahead of slower chat bubbles.",
    "when": "2026-10-29T18:00:00+08:00",
    "fbUrl": "https://www.facebook.com/1579937777474981/posts/1798954358906654"
@@ -402,7 +402,7 @@
    "blogTitle": "How Consultants, Coaches and Freelancers Can Get More Clients With AI",
    "blogUrl": "https://www.dijaedadula.com/get-more-clients-with-ai",
    "message": "Posting every day is not a client strategy.\n\nConsultants, coaches and freelancers grow on a calmer system: content that gets found, instant replies, easy booking and patient follow-up.\n\nGet the system:\nhttps://www.dijaedadula.com/get-more-clients-with-ai",
-   "image": "https://paymegpt.com/objects/generated-images/814/1793320415135-45d1db98f68e3f52.png",
+   "image": "https://statics.pancake.vn/web-media-264/4a/eb/94/7f/0302cd904c2c2b0780ec64c144cf3a48f26f7004499c1437798dd56f.png",
    "alt": "Illustration of a lighthouse guiding small boats to a dock with a calendar sign, with the headline Get clients without living on social media.",
    "when": "2026-10-30T08:35:00+08:00",
    "fbUrl": "https://www.facebook.com/1579937777474981/posts/1799813168820773"
@@ -412,7 +412,7 @@
    "blogTitle": "What Does an AI Trainer Do? The Job, the Skills, and How to Get Started",
    "blogUrl": "https://www.dijaedadula.com/what-does-an-ai-trainer-do",
    "message": "AI gets better when experts check its answers.\n\nProfessionals in many fields now review and improve AI responses. This general career guide covers what the work involves, the skills that matter and how to get started.\n\nRead the guide:\nhttps://www.dijaedadula.com/what-does-an-ai-trainer-do",
-   "image": "https://paymegpt.com/objects/generated-images/814/1793406735654-3322eb3061d70897.png",
+   "image": "https://statics.pancake.vn/web-media-264/5f/4d/c1/d9/7589fb11e0c515c73196eac45940c8393cb40871dc7184079388eda6.png",
    "alt": "Illustration of a professional at a desk comparing two AI chat answers on a screen, with a friendly robot beside it, under the headline Your expertise can teach AI.",
    "when": "2026-10-31T08:40:00+08:00",
    "fbUrl": "https://www.facebook.com/1579937777474981/posts/1801091825359574"
@@ -422,7 +422,7 @@
    "blogTitle": "Case Study: How EasyPC Qualified Leads From 40,000+ Monthly Messenger Conversations",
    "blogUrl": "https://www.dijaedadula.com/easypc-ai-lead-qualification-case-study",
    "message": "Replying to everyone is not the hard part. Knowing who is ready to buy is.\n\nThis case study shows how a multi-branch retailer qualified Messenger leads at scale and handed real buyers to the right team.\n\nRead the case study:\nhttps://www.dijaedadula.com/easypc-ai-lead-qualification-case-study",
-   "image": "https://paymegpt.com/objects/generated-images/814/1793492994075-91f47a370a24825c.png",
+   "image": "https://statics.pancake.vn/web-media-264/6a/f1/95/2c/1a42c7752699f7bf64f94c31baa4df865bc29de2faab915a7cdafcb4.png",
    "alt": "Illustration of chat bubbles pouring into a funnel, with a few star-marked contact cards coming out to a smiling salesperson at a shop counter, under the headline Every message answered. Real buyers first.",
    "when": "2026-11-01T08:45:00+08:00",
    "fbUrl": "https://www.facebook.com/1579937777474981/posts/1802326348569455"
@@ -432,7 +432,7 @@
    "blogTitle": "Pancake vs Botcake vs ManyChat: Which One Fits Your Business?",
    "blogUrl": "https://www.dijaedadula.com/pancake-vs-botcake-vs-manychat",
    "message": "Pick the tool for the job, not the hype.\n\nPancake runs the team inbox. Botcake automates Messenger. ManyChat is strongest on Instagram. Choose the one that fits where your customers already talk.\n\nThe plain-English comparison:\nhttps://www.dijaedadula.com/pancake-vs-botcake-vs-manychat",
-   "image": "https://paymegpt.com/objects/generated-images/814/1793579291911-a8de58a58fefddf3.png",
+   "image": "https://statics.pancake.vn/web-media-264/8c/c1/4f/a6/cce170c796f699cb8aa4a86c80a01656bba8cb91e592de3886f7c5f8.png",
    "alt": "Illustration of three app cards, a team inbox, a chat bubble with a gear and a camera app with hearts, with a hand choosing one, under the headline Pick the tool for the job, not the hype.",
    "when": "2026-11-02T18:00:00+08:00",
    "fbUrl": "https://www.facebook.com/1579937777474981/posts/1803974588404631"
@@ -442,7 +442,7 @@
    "blogTitle": "How to Test an AI Chatbot Before It Talks to Your Customers",
    "blogUrl": "https://www.dijaedadula.com/how-to-test-an-ai-chatbot",
    "message": "Find the failures before your customers do.\n\nA chatbot that answers fast but wrong costs more than no chatbot. Test it with real questions, tricky cases and an upset customer before it goes live.\n\nThe testing method:\nhttps://www.dijaedadula.com/how-to-test-an-ai-chatbot",
-   "image": "https://paymegpt.com/objects/generated-images/814/1793666092565-ec29eb3053993c66.png",
+   "image": "https://statics.pancake.vn/web-media-264/22/4d/6c/6a/c660eb2c8ed8bd15055213bdfd0d2246a66145c2aa6b1af76a85d4d0.png",
    "alt": "Illustration of a chat window with a magnifying glass over a message marked with a warning sign and a checklist beside it, under the headline Find the failures before your customers do.",
    "when": "2026-11-03T08:44:00+08:00",
    "fbUrl": "https://www.facebook.com/1579937777474981/posts/1804762258325864"
@@ -452,7 +452,7 @@
    "blogTitle": "What Is MCP (Model Context Protocol)? A Plain-English Guide for Business Owners",
    "blogUrl": "https://www.dijaedadula.com/what-is-mcp",
    "message": "Your AI is only as useful as what it can reach.\n\nMCP is the open standard that lets AI assistants connect to your CRM, calendar and business tools, with permissions you control. Here is what it means for your business.\n\nThe plain-English guide:\nhttps://www.dijaedadula.com/what-is-mcp",
-   "image": "https://paymegpt.com/objects/generated-images/814/1793752326413-0981dfb7fe7d15aa.png",
+   "image": "https://statics.pancake.vn/web-media-264/46/ee/93/81/ac6320f72467752782702be9cd9ab294c6f94e95df0548a8874d4b75.png",
    "alt": "Illustration of a friendly AI chip connected by cables to a calendar, a contact card, a chat bubble and a spreadsheet, with a padlock on one cable, under the headline Your AI is only as useful as what it can reach.",
    "when": "2026-11-04T08:52:00+08:00",
    "fbUrl": "https://www.facebook.com/1579937777474981/posts/1805991984869558"
@@ -462,7 +462,7 @@
    "blogTitle": "Best AI Chatbot and Automation Platforms for Philippine and Southeast Asian Businesses (2026)",
    "blogUrl": "https://www.dijaedadula.com/ai-chatbot-platforms-philippines",
    "message": "The best platform is the one your customers already use.\n\nYour buyers live in Messenger, Instagram and WhatsApp. Choose the tool for that channel and your team, then add AI where it saves real time.\n\nThe 2026 comparison:\nhttps://www.dijaedadula.com/ai-chatbot-platforms-philippines",
-   "image": "https://paymegpt.com/objects/generated-images/814/1793838768119-339f85a90b3a1422.png",
+   "image": "https://statics.pancake.vn/web-media-264/1a/f3/2a/26/d4c81821e0c8ede5de232b0b1440c41b3dd2ff23dd75f96f23ba795b.png",
    "alt": "Cream graphic with the headline Choose the platform your customers already use, and a teal map of Southeast Asia with app icons linked to one orange chat bubble",
    "when": "2026-11-05",
    "fbUrl": "https://www.facebook.com/1579937777474981/posts/1807279064740850"
@@ -472,7 +472,7 @@
    "blogTitle": "AI Chatbot for Resorts and Hotels in the Philippines: Answer Every Inquiry Without Losing Bookings",
    "blogUrl": "https://www.dijaedadula.com/ai-chatbot-for-resorts-hotels-philippines",
    "message": "Guests book whoever answers first.\n\nRates, availability and directions come in at all hours. Let an AI chatbot answer them instantly, and keep a person in charge of every booking and special request.\n\nThe practical guide:\nhttps://www.dijaedadula.com/ai-chatbot-for-resorts-hotels-philippines",
-   "image": "https://paymegpt.com/objects/generated-images/814/1793925098391-f33bc6410b7eac1f.png",
+   "image": "https://statics.pancake.vn/web-media-264/3b/ea/ff/8e/93962badfbe9c572be7d891dd94555fb4ae8125a7b189534164cad6f.png",
    "alt": "Cream graphic with the headline Every inquiry answered, every booking kept, and a teal and orange resort with palm trees, a pool, a phone with chat bubbles and a calendar with a check mark",
    "when": "2026-11-06",
    "fbUrl": "https://www.facebook.com/1579937777474981/posts/1808623037939786"
@@ -482,7 +482,7 @@
    "blogTitle": "How to Qualify Leads in Messenger Automatically (Without Annoying Your Customers)",
    "blogUrl": "https://www.dijaedadula.com/qualify-leads-messenger-automatically",
    "message": "Ask less. Learn who is ready to buy.\n\nA few well-chosen questions in Messenger sort real buyers from browsers, without a long form. Tag the intent and hand serious buyers to sales at the right moment.\n\nThe practical guide:\nhttps://www.dijaedadula.com/qualify-leads-messenger-automatically",
-   "image": "https://paymegpt.com/objects/generated-images/814/1794011423001-ab8e7143a35270ce.png",
+   "image": "https://statics.pancake.vn/web-media-264/f2/45/50/43/62180a76d7b7d7ed9013ec2e06f97a163f841fc36afde113333e5cc5.png",
    "alt": "Cream graphic with the headline Ask less. Learn who is ready to buy., a phone with chat bubbles and tap buttons, and a funnel passing one orange dot to a person at a laptop",
    "when": "2026-11-07",
    "fbUrl": "https://www.facebook.com/1579937777474981/posts/1809989457803144"
@@ -492,7 +492,7 @@
    "blogTitle": "Live Selling Automation: From Comment to Order to Repeat Buyer",
    "blogUrl": "https://www.dijaedadula.com/live-selling-automation-philippines",
    "message": "Every comment can become an order.\n\nDuring a live sell, buyers comment faster than any team can reply. Automation turns each \"mine\" into an order, a payment link and a follow-up, so no buyer is left waiting.\n\nThe full method:\nhttps://www.dijaedadula.com/live-selling-automation-philippines",
-   "image": "https://paymegpt.com/objects/generated-images/814/1794287493865-5bee0716ee22bfff.png",
+   "image": "https://statics.pancake.vn/web-media-264/65/95/60/e7/b1f7db8bd2a055d187a0cc02f7e2d9f93bb12fb44f1fb5ea4848d4a4.png",
    "alt": "Cream graphic with the headline Every comment can become an order, a phone showing a live seller with comments, and an orange comment bubble leading to a shopping bag and a checked receipt",
    "when": "2026-11-10",
    "fbUrl": "https://www.facebook.com/1579937777474981/posts/1814340457368044"
@@ -502,7 +502,7 @@
    "blogTitle": "How to Become an AI Trainer: Skills, Assessments and How to Prepare",
    "blogUrl": "https://www.dijaedadula.com/how-to-become-an-ai-trainer",
    "message": "Experts now help AI get it right.\n\nCompanies hire professionals to review and improve AI answers in their own field. This guide covers the skills, assessments and preparation that help you start.\n\nRead the guide: https://www.dijaedadula.com/how-to-become-an-ai-trainer",
-   "image": "https://paymegpt.com/objects/generated-images/814/1794355262516-f6cb8f1473ea3ce1.png",
+   "image": "https://statics.pancake.vn/web-media-264/ab/4b/11/4a/e3efa841d6936a74ae80e4faa1868d7d6f846b1c5cdc18d1231ddb20.png",
    "alt": "Dark graphic with the headline Experts now help AI get it right, and a person at a desk reviewing an AI chat window with green checkmarks",
    "when": "2026-11-11",
    "fbUrl": "https://www.facebook.com/1579937777474981/posts/1815430490592374"
@@ -512,7 +512,7 @@
    "blogTitle": "How Filipino Freelancers Can Get AI and Automation Clients Abroad",
    "blogUrl": "https://www.dijaedadula.com/filipino-freelancers-ai-clients-abroad",
    "message": "Clients abroad buy proof, not promises.\n\nFilipino freelancers win AI and automation clients overseas with clear positioning, visible proof, focused outreach and confident pricing.\n\nThe full method: https://www.dijaedadula.com/filipino-freelancers-ai-clients-abroad",
-   "image": "https://paymegpt.com/objects/generated-images/814/1794442900114-7663edee66dc5abe.png",
+   "image": "https://statics.pancake.vn/web-media-264/86/51/6e/74/34d6e26e0506d75b63957599c11510b334e8d9ed20f01a676088377a.png",
    "alt": "Dark graphic with the headline Clients abroad buy proof, not promises, and a laptop showing a case-study chart with a paper plane flying toward a globe",
    "when": "2026-11-12",
    "fbUrl": "https://www.facebook.com/1579937777474981/posts/1816861180449305"
@@ -522,7 +522,7 @@
    "blogTitle": "How to Package and Price AI Automation Services (Freelancer and Agency Guide)",
    "blogUrl": "https://www.dijaedadula.com/price-ai-automation-services",
    "message": "Sell the outcome, not the hours.\n\nHourly pricing punishes you for getting faster. Package AI automation work around what changes for the client, with a clear scope and a simple package ladder.\n\nThe full guide: https://www.dijaedadula.com/price-ai-automation-services",
-   "image": "https://paymegpt.com/objects/generated-images/814/1794529655974-c59311bf200c9708.png",
+   "image": "https://statics.pancake.vn/web-media-264/9c/27/3e/ee/726cc435f6820fa76653dcadc2616e1435997de4b585a4ebcd5c250a.png",
    "alt": "Dark graphic with the headline Sell the outcome, not the hours, and three ascending steps with a green flag on top beside an hourglass",
    "when": "2026-11-13",
    "fbUrl": "https://www.facebook.com/1579937777474981/posts/1818196893649067"
@@ -532,7 +532,7 @@
    "blogTitle": "How Much Does an AI Agent Save? The 5 Chatbot ROI Metrics That Matter",
    "blogUrl": "https://www.dijaedadula.com/chatbot-roi-metrics",
    "message": "Is your AI earning its keep?\n\nFive metrics answer it: speed to first reply, containment rate, conversion rate, cost per conversation and handoff quality. One simple formula turns them into ROI you can defend.\n\nThe full guide: https://www.dijaedadula.com/chatbot-roi-metrics",
-   "image": "https://paymegpt.com/objects/generated-images/814/1794616245039-412da472f7efe5b2.png",
+   "image": "https://statics.pancake.vn/web-media-264/16/2b/8b/e7/982e2f358432db0e06fd2b81d0a24485ce70b9c33604afd321aa514b.png",
    "alt": "Dark graphic with the headline Is your AI earning its keep?, a dashboard with five gauges and a rising bar chart, and a robot holding a clipboard",
    "when": "2026-11-14",
    "fbUrl": "https://www.facebook.com/1579937777474981/posts/1819561116845978"
@@ -542,7 +542,7 @@
    "blogTitle": "How to Write AI Agent Instructions for Any Business (Templates Inside)",
    "blogUrl": "https://www.dijaedadula.com/ai-agent-instructions-template",
    "message": "Your AI agent is only as good as its instructions.\n\nMost \"the bot got it wrong\" moments trace back to a vague instruction, not a weak model. The guide gives a 9-part instruction structure, six writing rules, five templates you can adapt and a test to run before launch.\n\nThe full guide:\nhttps://www.dijaedadula.com/ai-agent-instructions-template",
-   "image": "https://paymegpt.com/objects/generated-images/814/1794702963441-a6f80b875a93f16c.png",
+   "image": "https://statics.pancake.vn/web-media-264/6b/73/7a/41/1447f703073a2f8f59295134f4207f11568ad9d9dad90fd7a19fd26a.png",
    "alt": "Dark graphic with the headline Your AI agent is only as good as its instructions, a friendly robot reading a nine-line instruction sheet and a stack of template cards",
    "when": "2026-11-15",
    "fbUrl": "https://www.facebook.com/1579937777474981/posts/1820974060038017"
