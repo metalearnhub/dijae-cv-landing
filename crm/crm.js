@@ -463,6 +463,18 @@ function pipeDlg(p) {
   if (p) $('#p_del').onclick = function () { api('pipelines.delete', { id: p.id }).then(function () { PIPE = null; closeLayer(); toast('Pipeline deleted'); pipelines(); }).catch(function (e) { $('#p_e').textContent = e.message; }); };
 }
 
+/* ---------------- single sign-on to private apps ---------------- */
+var SSO_API = 'https://qbubwemdvwflxvxwesrl.supabase.co/functions/v1/sso', SSO_APPS = { tasker: 'tasker' };
+function openApp(a, ev) {
+  var key = SSO_APPS[a.slug]; if (!key || !a.url) return false;
+  if (ev) ev.preventDefault();
+  var w = window.open('about:blank', '_blank'); // opened first so the popup blocker allows it
+  fetch(SSO_API, { method: 'POST', headers: { 'content-type': 'application/json', authorization: 'Bearer ' + TOK }, body: JSON.stringify({ action: 'issue', app: key }) })
+    .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+    .then(function (x) { var u = a.url + (x.ok && x.d.pass ? '#sso=' + x.d.pass : ''); if (w) w.location.href = u; else location.href = u; })
+    .catch(function () { if (w) w.location.href = a.url; else location.href = a.url; });
+  return true;
+}
 /* ---------------- apps gallery ---------------- */
 var APPS_API = 'https://qbubwemdvwflxvxwesrl.supabase.co/functions/v1/crm-apps';
 var APPS = [], ASTATS = {}, AF = { q: '', status: '', platform: '' };
@@ -532,7 +544,7 @@ function appDrawer(slug) {
   var links = [[a.url, 'Open app'], [a.admin_url, 'Admin'], [a.repo ? 'https://github.com/' + a.repo.split(' ')[0] : null, 'GitHub']].filter(function (l) { return l[0]; });
   var d = layer('<div class="dh"><h2>' + esc(a.name) + '</h2><span class="pill st-app st-' + esc(a.status.replace(' ', '-')) + '">' + esc(STATUS_TXT[a.status] || a.status) + '</span><button class="x" data-close aria-label="Close">×</button></div>' +
     '<div class="db"><div class="bigthumb">' + thumbHTML(a) + '</div>' +
-    '<div style="display:flex;gap:8px;flex-wrap:wrap">' + links.map(function (l, i) { return '<a class="btn' + (i ? '' : ' pri') + '" href="' + esc(l[0]) + '" target="_blank" rel="noopener" style="text-decoration:none">' + l[1] + ' ↗</a>'; }).join('') + '</div>' +
+    '<div style="display:flex;gap:8px;flex-wrap:wrap">' + links.map(function (l, i) { return '<a class="btn' + (i ? '' : ' pri') + '"' + (i === 0 && SSO_APPS[a.slug] ? ' data-sso="1"' : '') + ' href="' + esc(l[0]) + '" target="_blank" rel="noopener" style="text-decoration:none">' + l[1] + ' ↗</a>'; }).join('') + '</div>' +
     '<p>' + esc(a.summary || '') + '</p>' +
     ((a.functions || []).length ? '<div><label class="lb">What it does</label><ul class="fl">' + a.functions.map(function (f) { return '<li>' + esc(f) + '</li>'; }).join('') + '</ul></div>' : '') +
     '<div class="grid2 meta2"><div><label class="lb">Platform</label>' + esc(a.platform || '—') + '</div><div><label class="lb">Type</label>' + esc(a.category || '—') + '</div>' + (a.repo ? '<div><label class="lb">Repo</label>' + esc(a.repo) + '</div>' : '') + (a.url ? '<div><label class="lb">Address</label><span style="word-break:break-all">' + esc(a.url.replace(/^https?:\/\//, '')) + '</span></div>' : '') + '</div>' +
@@ -541,6 +553,7 @@ function appDrawer(slug) {
     '<div class="df"><button class="btn danger" id="adel" style="margin-right:auto">Remove</button><button class="btn" data-close>Close</button><button class="btn pri" id="aed">Edit</button></div>', 'drawer');
   $$('[data-close]', d).forEach(function (b) { b.onclick = closeLayer; });
   $('#aed').onclick = function () { appEdit(a); };
+  $$('[data-sso]', d).forEach(function (l) { l.onclick = function (ev) { openApp(a, ev); }; });
   $('#adel').onclick = function () { confirmBox('Remove ' + a.name + ' from the gallery?', 'This only removes the card and its settings here. The app itself and its visit history stay untouched.', 'Remove card', function () { api('apps.delete', { id: a.id }, APPS_API).then(function () { toast('Removed'); if (location.hash.indexOf('apps') >= 0) appsView(); else dashboard(); }).catch(function (e) { toast(e.message); }); }); };
   if (a.tracked) api('apps.get', { slug: slug }, APPS_API).then(function (x) {
     var daily = x.daily || [], max = Math.max.apply(null, daily.map(function (r) { return r.n; }).concat([1]));
