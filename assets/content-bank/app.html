@@ -291,7 +291,7 @@ function copyText(text,btn,label){
 
 function downloadImage(url,name,btn){
   var o=btn.innerHTML;btn.innerHTML="Downloading…";
-  fetch(url,{mode:"cors"}).then(function(r){if(!r.ok)throw 0;return r.blob();}).then(function(b){
+  fetch(sameOrigin(url)).then(function(r){if(!r.ok)throw 0;return r.blob();}).then(function(b){
     var u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();
     setTimeout(function(){URL.revokeObjectURL(u);},4000);btn.innerHTML=o;toast("Image downloaded");
   }).catch(function(){btn.innerHTML=o;window.open(url,"_blank");toast("Opened image: long-press or right-click to save");});
@@ -311,7 +311,9 @@ function verifyBlock(p,i){
     '<button class="btn primary" data-a="verify" data-i="'+i+'">Verify</button></div><div class="vmsg" id="m_'+p.id+'"></div></div>';
 }
 
-function loadImg(src){return new Promise(function(res,rej){var im=new Image();im.onload=function(){res(im);};im.onerror=rej;im.src=src;});}
+// Serve images from this site's own address so the canvas can be exported (Webcake's CDN blocks cross-site reads).
+function sameOrigin(u){u=String(u||'');if(u.indexOf('https://statics.pancake.vn/')===0)return '/px/'+u.slice(27);var g='https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/';if(u.indexOf(g)===0)return '/'+u.slice(g.length);return u;}
+function loadImg(src){return new Promise(function(res,rej){var im=new Image();im.crossOrigin='anonymous';im.onload=function(){res(im);};im.onerror=rej;im.src=sameOrigin(src);});}
 function wrapLines(ctx,text,maxW){var out=[];text.split("\n").forEach(function(par){var w=par.split(" "),line="";w.forEach(function(word){var t=line?line+" "+word:word;if(ctx.measureText(t).width>maxW&&line){out.push(line);line=word;}else line=t;});out.push(line);});return out;}
 function composeArt(p,dark){
   if(dark)p=Object.assign({},p,{id:p.id+"_d",art:p.art2,theme:"dark"});
