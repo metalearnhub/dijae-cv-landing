@@ -464,9 +464,12 @@ function pipeDlg(p) {
 }
 
 /* ---------------- single sign-on to private apps ---------------- */
-var SSO_API = 'https://qbubwemdvwflxvxwesrl.supabase.co/functions/v1/sso', SSO_APPS = { tasker: 'tasker' };
+// which link signs in: the Tasker's main address, the jobs board's admin page
+var SSO_API = 'https://qbubwemdvwflxvxwesrl.supabase.co/functions/v1/sso', SSO_APPS = { tasker: { key: 'tasker', on: 'url' }, 'remote-ai-jobs': { key: 'jobs', on: 'admin_url' } };
+function ssoField(a) { var s = SSO_APPS[a.slug]; return s ? s.on : null; }
 function openApp(a, ev) {
-  var key = SSO_APPS[a.slug]; if (!key || !a.url) return false;
+  var s = SSO_APPS[a.slug], url = s && a[s.on], key = s && s.key; if (!key || !url) return false;
+  a = { url: url };
   if (ev) ev.preventDefault();
   var w = window.open('about:blank', '_blank'); // opened first so the popup blocker allows it
   fetch(SSO_API, { method: 'POST', headers: { 'content-type': 'application/json', authorization: 'Bearer ' + TOK }, body: JSON.stringify({ action: 'issue', app: key }) })
@@ -544,7 +547,7 @@ function appDrawer(slug) {
   var links = [[a.url, 'Open app'], [a.admin_url, 'Admin'], [a.repo ? 'https://github.com/' + a.repo.split(' ')[0] : null, 'GitHub']].filter(function (l) { return l[0]; });
   var d = layer('<div class="dh"><h2>' + esc(a.name) + '</h2><span class="pill st-app st-' + esc(a.status.replace(' ', '-')) + '">' + esc(STATUS_TXT[a.status] || a.status) + '</span><button class="x" data-close aria-label="Close">×</button></div>' +
     '<div class="db"><div class="bigthumb">' + thumbHTML(a) + '</div>' +
-    '<div style="display:flex;gap:8px;flex-wrap:wrap">' + links.map(function (l, i) { return '<a class="btn' + (i ? '' : ' pri') + '"' + (i === 0 && SSO_APPS[a.slug] ? ' data-sso="1"' : '') + ' href="' + esc(l[0]) + '" target="_blank" rel="noopener" style="text-decoration:none">' + l[1] + ' ↗</a>'; }).join('') + '</div>' +
+    '<div style="display:flex;gap:8px;flex-wrap:wrap">' + links.map(function (l, i) { return '<a class="btn' + (i ? '' : ' pri') + '"' + (ssoField(a) && l[0] === a[ssoField(a)] ? ' data-sso="1"' : '') + ' href="' + esc(l[0]) + '" target="_blank" rel="noopener" style="text-decoration:none">' + l[1] + ' ↗</a>'; }).join('') + '</div>' +
     '<p>' + esc(a.summary || '') + '</p>' +
     ((a.functions || []).length ? '<div><label class="lb">What it does</label><ul class="fl">' + a.functions.map(function (f) { return '<li>' + esc(f) + '</li>'; }).join('') + '</ul></div>' : '') +
     '<div class="grid2 meta2"><div><label class="lb">Platform</label>' + esc(a.platform || '—') + '</div><div><label class="lb">Type</label>' + esc(a.category || '—') + '</div>' + (a.repo ? '<div><label class="lb">Repo</label>' + esc(a.repo) + '</div>' : '') + (a.url ? '<div><label class="lb">Address</label><span style="word-break:break-all">' + esc(a.url.replace(/^https?:\/\//, '')) + '</span></div>' : '') + '</div>' +
