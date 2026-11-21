@@ -46,16 +46,42 @@ function login(sent) {
 }
 
 /* ---------------- shell + routing ---------------- */
-var NAV = [['dashboard', 'Dashboard', '▦'], ['apps', 'Apps', '◫'], ['contacts', 'Contacts', '☺'], ['fields', 'Fields', '≡'], ['pipelines', 'Pipelines', '▤'], ['sequences', 'Sequences', '↻']];
+// [route, desktop label, mobile label, icon, on mobile tab bar]
+var ICON = {
+  dashboard: '<path d="M3 13h8V3H3zM13 21h8V11h-8zM3 21h8v-6H3zM13 3v6h8V3z"/>',
+  apps: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+  contacts: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.4 3.3-5.5 6.5-5.5s5.9 2.1 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.8c1.7.8 2.8 2.6 3 5.2"/>',
+  pipelines: '<rect x="3" y="4" width="5" height="16" rx="1.5"/><rect x="10" y="4" width="5" height="11" rx="1.5"/><rect x="17" y="4" width="4" height="7" rx="1.5"/>',
+  fields: '<path d="M4 6h16M4 12h16M4 18h10"/>',
+  sequences: '<path d="M4 12a8 8 0 0 1 13.7-5.6L20 9M20 4v5h-5M20 12a8 8 0 0 1-13.7 5.6L4 15M4 20v-5h5"/>',
+  more: '<circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/>',
+  out: '<path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 17l5-5-5-5M15 12H4"/>'
+};
+function ico(k) { return '<svg class="ic" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ICON[k] + '</svg>'; }
+var NAV = [['dashboard', 'Dashboard', 'Home', 1], ['contacts', 'Contacts', 'Contacts', 1], ['pipelines', 'Pipelines', 'Deals', 1], ['apps', 'Apps', 'Apps', 1], ['fields', 'Fields', 'Fields', 0], ['sequences', 'Sequences', 'Sequences', 0]];
+function signOut() { api('signout').catch(function () {}).then(function () { TOK = ''; try { localStorage.removeItem('crm_token'); } catch (e) {} closeLayer(); login(); }); }
 function shell() {
   $('#app').innerHTML = '<div class="shell"><aside class="side"><div class="brand">DIJAE · <span>CRM</span></div>' +
-    NAV.map(function (n) { return '<a class="nav" href="#/' + n[0] + '" data-r="' + n[0] + '"><span aria-hidden="true">' + n[2] + '</span>' + n[1] + (n[0] === 'sequences' ? '<small>next</small>' : '') + '</a>'; }).join('') +
-    '<div class="foot">Signed in<br><button id="so">Sign out</button></div></aside><main id="main"></main></div>';
-  $('#so').onclick = function () { api('signout').catch(function () {}).then(function () { TOK = ''; try { localStorage.removeItem('crm_token'); } catch (e) {} login(); }); };
+    NAV.map(function (n) { return '<a class="nav" href="#/' + n[0] + '" data-r="' + n[0] + '">' + ico(n[0]) + '<span>' + n[1] + '</span>' + (n[0] === 'sequences' ? '<small>next</small>' : '') + '</a>'; }).join('') +
+    '<div class="foot">Signed in<br><button id="so">Sign out</button></div></aside>' +
+    '<header class="mbar"><span class="brand">DIJAE · <span>CRM</span></span></header>' +
+    '<main id="main"></main>' +
+    '<nav class="tabbar" aria-label="Main">' +
+    NAV.filter(function (n) { return n[3]; }).map(function (n) { return '<a class="tab" href="#/' + n[0] + '" data-r="' + n[0] + '"><span class="tb-i">' + ico(n[0]) + '</span><span class="tb-l">' + n[2] + '</span></a>'; }).join('') +
+    '<button class="tab" type="button" id="more" data-r="more" aria-haspopup="dialog"><span class="tb-i">' + ico('more') + '</span><span class="tb-l">More</span></button></nav></div>';
+  $('#so').onclick = signOut;
+  $('#more').onclick = moreSheet;
+}
+function moreSheet() {
+  var d = layer('<div class="sheet-grip" aria-hidden="true"></div><div class="dh"><h2>More</h2><button class="x" data-close aria-label="Close">×</button></div><div class="db sheet-list">' +
+    NAV.filter(function (n) { return !n[3]; }).map(function (n) { return '<a class="srow" href="#/' + n[0] + '">' + ico(n[0]) + '<span>' + n[1] + '</span>' + (n[0] === 'sequences' ? '<small>next</small>' : '') + '</a>'; }).join('') +
+    '<button class="srow danger" type="button" id="so2m">' + ico('out') + '<span>Sign out</span></button></div>', 'modal sheet');
+  $('#so2m', d).onclick = signOut;
 }
 function route() {
   var r = (location.hash.replace(/^#\/?/, '') || 'dashboard').split('/')[0];
-  $$('.nav').forEach(function (a) { a.classList.toggle('on', a.dataset.r === r); });
+  $$('.nav,.tab').forEach(function (a) { a.classList.toggle('on', a.dataset.r === r || (a.dataset.r === 'more' && (r === 'fields' || r === 'sequences'))); });
+  window.scrollTo(0, 0);
   var m = $('#main'); if (!m) return;
   if (r === 'contacts') return contacts();
   if (r === 'fields') return fieldsView();
@@ -161,12 +187,13 @@ function drawBulk() {
 }
 
 /* contact drawer */
-function closeLayer() { $$('.scrim,.drawer,.modal').forEach(function (x) { x.remove(); }); }
+function closeLayer() { $$('.scrim,.drawer,.modal').forEach(function (x) { x.remove(); }); document.body.classList.remove('locked'); }
 function layer(html, cls) {
   closeLayer();
   var s = document.createElement('div'); s.className = 'scrim'; s.onclick = closeLayer; document.body.appendChild(s);
   var d = document.createElement('div'); d.className = cls; d.innerHTML = html; document.body.appendChild(d);
-  $$('[data-close]', d).forEach(function (b) { b.onclick = closeLayer; });
+  document.body.classList.add('locked');
+  $$('[data-close], a.srow', d).forEach(function (b) { b.addEventListener('click', closeLayer); });
   return d;
 }
 document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeLayer(); });
