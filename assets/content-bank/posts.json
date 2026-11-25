@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-04",
+ "updated": "2026-11-25",
  "posts": [
   {
    "id": "p01",
@@ -596,6 +596,16 @@
    "alt": "Dark poster: Chatbot voice. Sound human. Never pretend to be human.",
    "when": "2026-11-24 13:55 Manila",
    "fbUrl": "https://www.facebook.com/chatbotauthority/posts/1599841325492537"
+  },
+  {
+   "slug": "ai-chatbot-human-handoff",
+   "blogTitle": "When Should an AI Chatbot Hand Off to a Human? A Handoff Playbook",
+   "blogUrl": "https://www.dijaedadula.com/ai-chatbot-human-handoff",
+   "message": "The best chatbots know when to step aside.\n\nAn upset customer, a refund request, a question the bot can't answer: some moments should always reach a person. Set the triggers, pause the AI and pass the full conversation to your team.\n\nSeven handoff triggers and the setup:\nhttps://www.dijaedadula.com/ai-chatbot-human-handoff",
+   "image": "https://dijae-cv-landing.vercel.app/assets/content-bank/fb-ai-chatbot-human-handoff.png",
+   "alt": "Dark poster: Human handoff. The best chatbots know when to step aside.",
+   "when": "2026-11-25 09:12 Manila",
+   "fbUrl": "https://www.facebook.com/chatbotauthority/posts/1600775868732416"
   }
  ]
 }
