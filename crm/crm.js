@@ -492,7 +492,7 @@ function pipeDlg(p) {
 
 /* ---------------- single sign-on to private apps ---------------- */
 // which link signs in: the Tasker's main address, the jobs board's admin page
-var SSO_API = 'https://qbubwemdvwflxvxwesrl.supabase.co/functions/v1/sso', SSO_APPS = { tasker: { key: 'tasker', on: 'url' }, 'remote-ai-jobs': { key: 'jobs', on: 'admin_url' } };
+var SSO_API = 'https://qbubwemdvwflxvxwesrl.supabase.co/functions/v1/sso', SSO_APPS = { tasker: { key: 'tasker', on: 'url' }, 'remote-ai-jobs': { key: 'jobs', on: 'admin_url' }, 'micro1-funnel': { key: 'jobs', on: 'url' } };
 function ssoField(a) { var s = SSO_APPS[a.slug]; return s ? s.on : null; }
 function openApp(a, ev) {
   var s = SSO_APPS[a.slug], url = s && a[s.on], key = s && s.key; if (!key || !url) return false;
@@ -504,6 +504,12 @@ function openApp(a, ev) {
     .then(function (x) { var u = a.url + (x.ok && x.d.pass ? '#sso=' + x.d.pass : ''); if (w) w.location.href = u; else location.href = u; })
     .catch(function () { if (w) w.location.href = a.url; else location.href = a.url; });
   return true;
+}
+// One-tap launchers for apps that sign you in from the CRM (no code needed).
+var QUICK = [['micro1-funnel', 'micro1 funnel'], ['remote-ai-jobs', 'Jobs admin'], ['tasker', 'Tasker']];
+function quick() {
+  var xs = QUICK.filter(function (q) { var a = APPS.filter(function (y) { return y.slug === q[0]; })[0]; return a && a[ssoField(a)]; });
+  return xs.length ? '<div class="quick">' + xs.map(function (q) { return '<button type="button" class="btn sm" data-qo="' + q[0] + '">' + esc(q[1]) + ' ↗</button>'; }).join('') + '</div>' : '';
 }
 /* ---------------- apps gallery ---------------- */
 var APPS_API = 'https://qbubwemdvwflxvxwesrl.supabase.co/functions/v1/crm-apps';
@@ -531,8 +537,9 @@ function appStrip() {
   loadApps().then(function () {
     var top = APPS.filter(function (a) { return ['live', 'private'].indexOf(a.status) >= 0 && a.url; }).sort(function (a, b) { return ((ASTATS[b.slug] || {}).d7 || 0) - ((ASTATS[a.slug] || {}).d7 || 0) || a.position - b.position; }).slice(0, 6);
     var tracked = APPS.filter(function (a) { return a.tracked; }), v7 = tracked.reduce(function (t, a) { return t + ((ASTATS[a.slug] || {}).d7 || 0); }, 0), today = tracked.reduce(function (t, a) { return t + ((ASTATS[a.slug] || {}).today || 0); }, 0);
-    el.innerHTML = '<div class="card" style="margin-bottom:12px"><div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><h2 style="margin:0">Your apps</h2><span class="note">' + APPS.length + ' apps · ' + num(today) + ' visits today · ' + num(v7) + ' in 7 days</span><a href="#/apps" class="btn sm" style="margin-left:auto;text-decoration:none">See all</a></div><div class="apps mini">' + top.map(appCard).join('') + '</div></div>';
+    el.innerHTML = '<div class="card" style="margin-bottom:12px"><div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><h2 style="margin:0">Your apps</h2><span class="note">' + APPS.length + ' apps · ' + num(today) + ' visits today · ' + num(v7) + ' in 7 days</span><a href="#/apps" class="btn sm" style="margin-left:auto;text-decoration:none">See all</a></div>' + quick() + '<div class="apps mini">' + top.map(appCard).join('') + '</div></div>';
     $$('#appstrip [data-app]').forEach(function (c) { c.onclick = function () { appDrawer(c.dataset.app); }; });
+    $$('#appstrip [data-qo]').forEach(function (c) { c.onclick = function (ev) { var x = APPS.filter(function (y) { return y.slug === c.dataset.qo; })[0]; if (x) openApp(x, ev); }; });
   }).catch(function () { el.innerHTML = ''; });
 }
 function appsView() {
