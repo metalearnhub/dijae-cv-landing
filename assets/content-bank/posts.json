@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-25",
+ "updated": "2026-11-26",
  "posts": [
   {
    "id": "p01",
@@ -606,6 +606,16 @@
    "alt": "Dark poster: Human handoff. The best chatbots know when to step aside.",
    "when": "2026-11-25 09:12 Manila",
    "fbUrl": "https://www.facebook.com/chatbotauthority/posts/1600775868732416"
+  },
+  {
+   "slug": "blog-traffic-to-chat-leads",
+   "blogTitle": "How to Turn Blog and Search Traffic Into Automated Chat Leads",
+   "blogUrl": "https://www.dijaedadula.com/blog-traffic-to-chat-leads",
+   "message": "Your blog gets readers. Your chat turns them into leads.\n\nPut chat buttons where intent is highest, use m.me links with a ref so the chat knows which post they read, and open with a first message that fits that post.\n\nThe six-step path from search to booked call:\nhttps://www.dijaedadula.com/blog-traffic-to-chat-leads",
+   "image": "https://dijae-cv-landing.vercel.app/assets/content-bank/fb-blog-traffic-to-chat-leads.png",
+   "alt": "Dark poster: Traffic to leads. Your blog gets readers. Your chat turns them into leads.",
+   "when": "2026-11-26 Manila",
+   "fbUrl": "https://www.facebook.com/chatbotauthority/posts/1601941735282496"
   }
  ]
 }
