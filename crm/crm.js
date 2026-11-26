@@ -511,6 +511,12 @@ function quick() {
   var xs = QUICK.filter(function (q) { var a = APPS.filter(function (y) { return y.slug === q[0]; })[0]; return a && a[ssoField(a)]; });
   return xs.length ? '<div class="quick">' + xs.map(function (q) { return '<button type="button" class="btn sm" data-qo="' + q[0] + '">' + esc(q[1]) + ' ↗</button>'; }).join('') + '</div>' : '';
 }
+// Most viewed and most active first: 7-day visits, then 30-day, then latest visit, then most recently updated.
+function byActivity(a, b) {
+  var x = ASTATS[a.slug] || {}, y = ASTATS[b.slug] || {};
+  var t = function (v) { return v ? Date.parse(v) || 0 : 0; };
+  return (y.d7 || 0) - (x.d7 || 0) || (y.d30 || 0) - (x.d30 || 0) || (y.today || 0) - (x.today || 0) || t(y.last) - t(x.last) || t(b.updated_at) - t(a.updated_at) || a.position - b.position;
+}
 /* ---------------- apps gallery ---------------- */
 var APPS_API = 'https://qbubwemdvwflxvxwesrl.supabase.co/functions/v1/crm-apps';
 var APPS = [], ASTATS = {}, AF = { q: '', status: '', platform: '' };
@@ -535,7 +541,7 @@ function appCard(a) {
 function appStrip() {
   var el = $('#appstrip'); if (!el) return;
   loadApps().then(function () {
-    var top = APPS.filter(function (a) { return ['live', 'private'].indexOf(a.status) >= 0 && a.url; }).sort(function (a, b) { return ((ASTATS[b.slug] || {}).d7 || 0) - ((ASTATS[a.slug] || {}).d7 || 0) || a.position - b.position; }).slice(0, 6);
+    var top = APPS.filter(function (a) { return ['live', 'private'].indexOf(a.status) >= 0 && a.url; }).sort(byActivity).slice(0, 6);
     var tracked = APPS.filter(function (a) { return a.tracked; }), v7 = tracked.reduce(function (t, a) { return t + ((ASTATS[a.slug] || {}).d7 || 0); }, 0), today = tracked.reduce(function (t, a) { return t + ((ASTATS[a.slug] || {}).today || 0); }, 0);
     el.innerHTML = '<div class="card" style="margin-bottom:12px"><div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><h2 style="margin:0">Your apps</h2><span class="note">' + APPS.length + ' apps · ' + num(today) + ' visits today · ' + num(v7) + ' in 7 days</span><a href="#/apps" class="btn sm" style="margin-left:auto;text-decoration:none">See all</a></div>' + quick() + '<div class="apps mini">' + top.map(appCard).join('') + '</div></div>';
     $$('#appstrip [data-app]').forEach(function (c) { c.onclick = function () { appDrawer(c.dataset.app); }; });
@@ -568,7 +574,8 @@ function drawApps() {
   var tracked = APPS.filter(function (a) { return a.tracked; });
   var sum = function (k) { return tracked.reduce(function (t, a) { return t + ((ASTATS[a.slug] || {})[k] || 0); }, 0); };
   $('#akpi').innerHTML = '<div class="kpis">' + kpi('Apps', APPS.length, APPS.filter(function (a) { return a.status === 'live' || a.status === 'private'; }).length + ' live or private') + kpi('Visits today', sum('today'), tracked.length + ' apps tracked') + kpi('Visits, 7 days', sum('d7'), num(sum('u7')) + ' unique visitor-days') + kpi('Visits, 30 days', sum('d30'), 'Bots are skipped; your own visits count') + '</div>';
-  var groups = [['Live and private', ['live', 'private']], ['In progress', ['in progress', 'unchecked']], ['Paused, archived or lost', ['paused', 'archived', 'lost']]];
+  list.sort(byActivity);
+  var groups = [['Most viewed and most active', ['live', 'private', 'in progress', 'unchecked']], ['Paused, archived or lost', ['paused', 'archived', 'lost']]];
   $('#agrid').innerHTML = list.length ? groups.map(function (g) {
     var xs = list.filter(function (a) { return g[1].indexOf(a.status) >= 0; });
     return xs.length ? '<h2 class="ah">' + g[0] + ' <span>' + xs.length + '</span></h2><div class="apps">' + xs.map(appCard).join('') + '</div>' : '';
