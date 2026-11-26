@@ -12,6 +12,11 @@
    ],
    "destination": "/crm",
    "permanent": false
+  },
+  {
+   "source": "/assets/content-bank/:path*",
+   "destination": "/crm/content-bank/:path*",
+   "permanent": true
   }
  ],
  "rewrites": [
