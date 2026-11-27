@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26",
+ "updated": "2026-11-27",
  "posts": [
   {
    "id": "p01",
@@ -339,13 +339,12 @@
    "file": "15-answer-first.png",
    "alt": "AI search diagram: Write the answer first. Then the explanation. 1. Question as the heading; 2. Short answer first; 3. Proof and detail; 4. FAQ at the end.",
    "blog": {
-    "title": "What Is Generative Engine Optimization (GEO)?",
-    "url": "https://www.dijaedadula.com/what-is-generative-engine-optimization"
+    "title": "How to Write Content for AI Search That Gets Quoted",
+    "url": "https://www.dijaedadula.com/write-content-for-ai-search"
    },
    "post": "Write the answer first. Then the explanation.\n\nMost business pages make readers dig. Three paragraphs of background before the one sentence they came for.\n\nPeople skim. AI assistants skim too. When ChatGPT or Google's AI answers a question, it needs a clear, self-contained answer it can quote.\n\nA simple page structure that helps both:\n\n→ Use the customer's question as the heading\n→ Answer it in one or two sentences right under it\n→ Then add the detail: steps, dates, sources, examples\n→ Close with the follow-up questions people ask\n\nIt's not a trick. It's good writing that machines can read.\n\nWhich page on your site makes visitors dig the hardest?\n\n#GEO #ContentStrategy #AISearch",
    "post2": "If an AI assistant read your service page today, could it quote one clear answer?\n\nMost pages bury the answer under background and sales copy.\n\nFlip the order:\n\n→ The question as the heading\n→ A short answer that stands on its own\n→ The proof and detail underneath\n→ An FAQ for the next questions\n\nCustomers find the answer faster. AI assistants find something worth citing.\n\nWhat's the one question every customer asks you first?\n\n#GEO #AISearch #SmallBusiness",
-   "comment": "How AI assistants find and cite businesses → https://www.dijaedadula.com/what-is-generative-engine-optimization",
-   "upcomingBlog": 53,
+   "comment": "How to write pages AI search can quote → https://www.dijaedadula.com/write-content-for-ai-search",
    "image": "https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/crm/content-bank/15-answer-first.png",
    "image3": "https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/crm/content-bank/15-answer-first-dark.png",
    "file3": "15-answer-first-dark.png",
@@ -1389,6 +1388,17 @@
   },
   {
    "tab": "Website Blog Plan",
+   "num": 53,
+   "title": "How to Write Content That AI Search Quotes: Answer-First Pages, FAQs and Clear Facts",
+   "stage": "Solution-aware",
+   "keyword": "write content for AI search, AI citations content",
+   "series": "GEO",
+   "status": "published",
+   "date": "2026-11-27",
+   "url": "https://www.dijaedadula.com/write-content-for-ai-search"
+  },
+  {
+   "tab": "Website Blog Plan",
    "num": 62,
    "title": "Why AI Companies Now Pay Domain Experts to Teach Their Models",
    "stage": "Problem-aware",
@@ -1518,16 +1528,6 @@
    "status": "published",
    "date": "2026-10-24",
    "url": "https://www.dijaedadula.com/blog-traffic-to-chat-leads"
-  },
-  {
-   "tab": "Website Blog Plan",
-   "num": 53,
-   "title": "How to Write Content That AI Search Quotes: Answer-First Pages, FAQs and Clear Facts",
-   "stage": "Solution-aware",
-   "keyword": "write content for AI search, AI citations content",
-   "series": "GEO",
-   "status": "planned",
-   "date": "2026-11-27"
   },
   {
    "tab": "Website Blog Plan",
