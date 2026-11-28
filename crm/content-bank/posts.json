@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-27",
+ "updated": "2026-11-28",
  "posts": [
   {
    "id": "p01",
@@ -365,13 +365,12 @@
    "file": "16-inquiry-flow.png",
    "alt": "Lead response diagram: Every inquiry deserves a next step. 1. Reply in minutes; 2. Three qualifying questions; 3. Offer a booking link; 4. Reminder before the call.",
    "blog": {
-    "title": "Lead Response Time",
-    "url": "https://www.dijaedadula.com/lead-response-time"
+    "title": "Automation for Coaches and Consultants: From Inquiry to Booked Call",
+    "url": "https://www.dijaedadula.com/automation-for-coaches-consultants"
    },
    "post": "Every inquiry deserves a next step.\n\nCoaches and consultants rarely lose clients to a better offer. They lose them in the gap between \"I'm interested\" and a booked call.\n\nA simple flow closes that gap:\n\n→ Reply within minutes, even outside office hours\n→ Ask three questions: goal, timing, budget range\n→ Send the booking link only to people who fit\n→ Remind them before the call\n\nThe AI handles the first steps. You show up to calls with people who are ready to talk.\n\nWhere do your inquiries go quiet: before the reply, or before the booking?\n\n#AIAutomation #Coaching #LeadGeneration",
    "post2": "\"Let me check my calendar and get back to you.\"\n\nThat sentence costs consultants more clients than any competitor.\n\nReplace the back-and-forth with one clear path:\n\n→ An instant, friendly reply\n→ Three short qualifying questions\n→ A booking link for the right people\n→ A reminder so they show up\n\nYour time goes to the calls, not the scheduling.\n\nHow many messages does it take to book a call with you today?\n\n#AIAutomation #Consulting #SalesProcess",
-   "comment": "Why the first five minutes decide who wins the customer → https://www.dijaedadula.com/lead-response-time",
-   "upcomingBlog": 31,
+   "comment": "The full inquiry-to-booked-call system → https://www.dijaedadula.com/automation-for-coaches-consultants",
    "image": "https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/crm/content-bank/16-inquiry-flow.png",
    "image3": "https://raw.githubusercontent.com/metalearnhub/dijae-cv-landing/main/crm/content-bank/16-inquiry-flow-dark.png",
    "file3": "16-inquiry-flow-dark.png",
@@ -1355,6 +1354,17 @@
   },
   {
    "tab": "Website Blog Plan",
+   "num": 31,
+   "title": "AI Automation for Coaches and Consultants: From Inquiry to Booked Call",
+   "stage": "Problem → Solution",
+   "keyword": "automation for coaches, consultant booking automation",
+   "series": "",
+   "status": "published",
+   "date": "2026-11-28",
+   "url": "https://www.dijaedadula.com/automation-for-coaches-consultants"
+  },
+  {
+   "tab": "Website Blog Plan",
    "num": 50,
    "title": "What Is Generative Engine Optimization (GEO)? How to Get Your Business Recommended by ChatGPT and AI Search",
    "stage": "Problem-aware",
@@ -1528,16 +1538,6 @@
    "status": "published",
    "date": "2026-10-24",
    "url": "https://www.dijaedadula.com/blog-traffic-to-chat-leads"
-  },
-  {
-   "tab": "Website Blog Plan",
-   "num": 31,
-   "title": "AI Automation for Coaches and Consultants: From Inquiry to Booked Call",
-   "stage": "Problem → Solution",
-   "keyword": "automation for coaches, consultant booking automation",
-   "series": "",
-   "status": "planned",
-   "date": "2026-11-28"
   },
   {
    "tab": "Website Blog Plan",
